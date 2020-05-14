@@ -5,7 +5,7 @@
 ### Projects
 
 [Student-DBMS](https://github.com/BruceWayne98/Student-DBMS)
-<
+
 
 ---
 [Movie Recommender](https://github.com/BruceWayne98/Movie-Recommender-System)
