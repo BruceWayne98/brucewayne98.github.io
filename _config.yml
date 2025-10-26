@@ -1,11 +1,10 @@
 # Site settings
 title: "My Developer Blog"
-email: yourname@email.com
+email: maxmod98@email.com
 description: "Personal blog about system design, .NET, and cloud architecture"
-url: "https://yourusername.github.io"
+url: "https://brucewayne98.github.io"
 baseurl: ""
-twitter_username: yourhandle
-github_username: yourusername
+github_username: BruceWayne98
 
 # Build settings
 markdown: kramdown
@@ -24,17 +23,17 @@ paginate: 5
 paginate_path: "/page:num/"
 
 author:
-  name: "Your Name"
-  bio: "Software Developer | .NET & Azure Enthusiast | Cloud Architect"
+  name: "Bharath Kumar"
+  bio: "Software Developer | .NET & Azure Enthusiast"
   avatar: "/assets/images/profile.jpg"
   location: "India"
   links:
     - label: "GitHub"
       icon: "fab fa-github"
-      url: "https://github.com/yourusername"
+      url: "https://github.com/BruceWayne98"
     - label: "LinkedIn"
       icon: "fab fa-linkedin"
-      url: "https://linkedin.com/in/yourprofile"
+      url: "www.linkedin.com/in/bharath-kumar-r98"
 
 # Navigation structure
 defaults:

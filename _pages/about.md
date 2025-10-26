@@ -5,7 +5,7 @@ permalink: /about/
 author_profile: true
 ---
 
-Hi! I'm **Your Name**, a software developer with deep experience in **.NET, Azure, and backend architecture**.  
+Hi! I'm **Bharath Kumar**, a software developer with deep experience in **.NET, Azure, and backend architecture**.  
 
 I write about:
 - API scalability and design patterns  
