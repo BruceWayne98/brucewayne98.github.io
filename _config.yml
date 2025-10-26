@@ -1,20 +1,53 @@
 # Site settings
-title: Your Blog Title
-author:
-  name: Bharath Kumar
-  email: maxmod98@gmail.com
-description: "A description of your blog or website"
+title: "My Developer Blog"
+email: yourname@email.com
+description: "Personal blog about system design, .NET, and cloud architecture"
+url: "https://yourusername.github.io"
+baseurl: ""
+twitter_username: yourhandle
+github_username: yourusername
 
 # Build settings
-remote_theme: jekyll/minima
+markdown: kramdown
+timezone: Asia/Kolkata
 
-# Optional settings
-permalink: /:categories/:year/:month/:day/:title/
-paginate: 5
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "dark"
+
 plugins:
-  - jekyll-feed
+  - jekyll-include-cache
+  - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-feed
 
-# SEO settings
-url: "https://brucewayne98.github.io"
-baseurl: ""
+paginate: 5
+paginate_path: "/page:num/"
+
+author:
+  name: "Your Name"
+  bio: "Software Developer | .NET & Azure Enthusiast | Cloud Architect"
+  avatar: "/assets/images/profile.jpg"
+  location: "India"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/yourusername"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://linkedin.com/in/yourprofile"
+
+# Navigation structure
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "single"
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+
+include:
+  - _pages

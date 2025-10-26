@@ -1,0 +1,10 @@
+# Main navigation links for top bar
+main:
+  - title: "Home"
+    url: /
+  - title: "About"
+    url: /about/
+  - title: "Blog"
+    url: /blog/
+  - title: "Categories"
+    url: /categories/
