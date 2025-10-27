@@ -6,3 +6,5 @@ main:
     url: /about/
   - title: "Papers"
     url: /papers/
+  - title: "Tags"
+    url: /tags/

@@ -2,6 +2,7 @@
 title: "Understanding Bw-Trees in Azure Cosmos DB: The Foundation of High-Performance Indexing"
 date: 2025-10-26T20:15:00+05:30
 last_modified_at: 2025-10-26T20:15:00+05:30
+permalink: /understanding-bw-tree.html
 categories:
   - Database
   - Azure

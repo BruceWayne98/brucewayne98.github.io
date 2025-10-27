@@ -9,6 +9,7 @@ github_username: BruceWayne98
 # Build settings
 markdown: kramdown
 timezone: Asia/Kolkata
+permalink: /:title.html
 
 remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "dark"
@@ -48,6 +49,7 @@ defaults:
       comments: true
       share: true
       related: true
+      show_date: true
   # _pages
   - scope:
       path: "_pages"
@@ -55,6 +57,19 @@ defaults:
     values:
       layout: "single"
       author_profile: true
+  # tag archives
+  - scope:
+      path: ""
+      type: tag
+    values:
+      author_profile: true
+      layout: tag
+      entries_layout: grid
+
+# Archives
+tag_archive:
+  type: liquid
+  path: /tags/
 
 include:
   - _pages
