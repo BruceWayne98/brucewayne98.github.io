@@ -64,12 +64,26 @@ defaults:
     values:
       author_profile: true
       layout: tag
-      entries_layout: grid
+      entries_layout: list
+  # tag pages
+  - scope:
+      path: ""
+      type: tags
+    values:
+      layout: tag
+      entries_layout: list
+      show_excerpts: true
 
 # Archives
 tag_archive:
   type: liquid
   path: /tags/
+  
+# Collection for tag pages
+collections:
+  tags:
+    output: true
+    permalink: /tags/:name/
 
 include:
   - _pages

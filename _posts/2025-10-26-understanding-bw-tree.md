@@ -9,7 +9,6 @@ categories:
   - Distributed Systems
 tags:
   - Cosmos DB
-  - Bw-Tree
   - Indexing
   - Data Structures
   - Performance
