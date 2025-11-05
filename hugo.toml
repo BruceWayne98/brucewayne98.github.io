@@ -1,6 +1,6 @@
-baseURL = "https://example.com/"
+baseURL = "https://brucewayne98.github.io"
 languageCode = "en-us"
-title = "My Hugo Blog"
+title = "Bharath Kumar"
 theme = "hugo-noir"
 
 # Enable multilingual support
@@ -13,19 +13,15 @@ defaultContentLanguageInSubdir = false
     min = "0.92.0"
 
 [params]
-  name = "Your Name"
-  location = "Your Location"
+  name = "Bharath Kumar"
+  location = "Bengaluru"
   description = "A passionate developer and blogger sharing insights on technology, coding, and life."
   profile_image = "/images/profile.jpg"
   
   # Social links
-  github = "https://github.com/yourusername"
-  twitter = "https://twitter.com/yourusername"
-  twitter_username = "yourusername"
-  linkedin = "https://linkedin.com/in/yourusername"
-  linkedin_username = "yourusername"
-  email = "your.email@example.com"
-  discord = "yourusername#1234"  # Optional - remove if you don't use Discord
+  github = "https://github.com/BruceWayne98"
+  linkedin = "https://www.linkedin.com/in/bharath-kumar-r98"
+  email = "maxmod98@gmail.com"
 
 [languages]
   [languages.en]
