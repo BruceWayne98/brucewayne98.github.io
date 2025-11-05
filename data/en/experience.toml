@@ -1,40 +1,30 @@
 [[experience]]
 role = "Senior Software Engineer"
-company = "Tech Innovations Inc."
-company_link = "https://example.com"
-period = "Jan 2022 - Present"
-country = "USA"
+company = "Optum Global Solutions"
+company_link = ""
+period = "Mar 2023 - Present"
+country = "India"
 responsibilities = [
-  "Led development of microservices architecture serving 1M+ users",
-  "Mentored junior developers and conducted code reviews",
-  "Implemented CI/CD pipelines reducing deployment time by 60%",
-  "Collaborated with cross-functional teams on product roadmap"
+  "Led a team of 6 developers to create scalable microservices using C# .Net and Azure for Optum Inbox Assistant, optimizing workflows for 850+ providers.",
+  "Authored and deployed AzureFhirFramework library to streamline CRUD operations on Azure API for FHIR, improving data processing efficiency by 20%.",
+  "Devised MedicationRulesEngine standardizing medication validation in 20+ protocols, reducing discrepancies and improving patient experience.",
+  "Upgraded Azure Functions codebase from .NET 6 to .NET 8, boosting performance, maintainability, and security with seamless service continuity.",
+  "Performed load testing with Apache JMeter on APIs, improving throughput and response times by 37.5%."
 ]
-technologies = ["Go", "Docker", "Kubernetes", "PostgreSQL", "React"]
+technologies = ["C# .Net", "Azure", "Azure API for FHIR", ".NET 6", ".NET 8", "Apache JMeter"]
 
 [[experience]]
 role = "Software Engineer"
-company = "Digital Solutions Co."
-company_link = "https://example.com"
-period = "Jun 2020 - Dec 2021"
-country = "Canada"
+company = "Optum Global Solutions"
+company_link = ""
+period = "Oct 2020 - Feb 2023"
+country = "India"
 responsibilities = [
-  "Developed and maintained full-stack web applications",
-  "Optimized database queries improving response time by 40%",
-  "Participated in agile development sprints",
-  "Contributed to open-source projects"
+  "Designed and developed microservices for SympleNote, improving real-time data processing efficiency for 500,000+ patients annually.",
+  "Implemented web content management using Adobe Experience Manager and content retrieval via GraphQL.",
+  "Generated customized visual reports with Microsoft Power BI to analyze product usage patterns.",
+  "Designed POC for symptom search capabilities using Elasticsearch and C# .Net, streamlining search for 3,000+ daily users.",
+  "Managed Azure infrastructure with Terraform and integrated CI/CD with Azure DevOps.",
+  "Integrated near-real-time error tracking via Splunk, enhancing monitoring of 10+ critical services and improving outage analysis by 15%."
 ]
-technologies = ["Python", "Django", "JavaScript", "PostgreSQL", "Redis"]
-
-[[experience]]
-role = "Junior Developer"
-company = "StartUp Ventures"
-period = "Jan 2019 - May 2020"
-country = "USA"
-responsibilities = [
-  "Built RESTful APIs for mobile and web applications",
-  "Wrote unit tests achieving 85% code coverage",
-  "Assisted in system architecture design",
-  "Collaborated with designers on UI/UX implementation"
-]
-technologies = ["Node.js", "Express", "MongoDB", "React", "Git"]
+technologies = ["C# .Net", "Adobe Experience Manager", "GraphQL", "Microsoft Power BI", "Elasticsearch", "Terraform", "Azure DevOps", "Splunk"]

@@ -1,138 +1,18 @@
 [[papers]]
-title = "Attention Is All You Need"
-paper_link = "https://arxiv.org/abs/1706.03762"
-blog_link = "/blogs/understanding-transformers"
-summary = "The seminal paper introducing the Transformer architecture, which revolutionized natural language processing."
-authors = "Vaswani et al."
-year = "2017"
-
-[[papers]]
-title = "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"
-paper_link = "https://arxiv.org/abs/1810.04805"
+title = "SILK: Preventing Latency Spikes in Log-Structured Merge Key-Value Stores"
+paper_link = "https://www.usenix.org/system/files/atc19-balmau.pdf"
 blog_link = ""
-summary = "Introduction of BERT, a method for pre-training language representations that achieved state-of-the-art results on various NLP tasks."
-authors = "Devlin et al."
-year = "2018"
-
-[[papers]]
-title = "ImageNet Classification with Deep Convolutional Neural Networks"
-paper_link = "https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf"
-blog_link = ""
-summary = "AlexNet - the paper that sparked the deep learning revolution in computer vision."
-authors = "Krizhevsky, Sutskever, Hinton"
-year = "2012"
-
-[[papers]]
-title = "Generative Adversarial Networks"
-paper_link = "https://arxiv.org/abs/1406.2661"
-blog_link = ""
-summary = "Introduction of GANs, a revolutionary framework for generative modeling using adversarial training."
-authors = "Goodfellow et al."
-year = "2014"
-
-[[papers]]
-title = "Deep Residual Learning for Image Recognition"
-paper_link = "https://arxiv.org/abs/1512.03385"
-blog_link = ""
-summary = "ResNet paper that introduced residual connections, enabling training of very deep neural networks."
-authors = "He et al."
-year = "2015"
-
-[[papers]]
-title = "GPT-3: Language Models are Few-Shot Learners"
-paper_link = "https://arxiv.org/abs/2005.14165"
-blog_link = ""
-summary = "Demonstrates that scaling language models leads to few-shot learning capabilities across diverse tasks."
-authors = "Brown et al."
-year = "2020"
-
-[[papers]]
-title = "You Only Look Once: Unified, Real-Time Object Detection"
-paper_link = "https://arxiv.org/abs/1506.02640"
-blog_link = ""
-summary = "YOLO - introduced a novel approach to object detection as a single regression problem."
-authors = "Redmon et al."
-year = "2015"
-
-[[papers]]
-title = "Neural Architecture Search with Reinforcement Learning"
-paper_link = "https://arxiv.org/abs/1611.01578"
-blog_link = ""
-summary = "Pioneering work on using reinforcement learning to automatically design neural network architectures."
-authors = "Zoph, Le"
-year = "2016"
-
-[[papers]]
-title = "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks"
-paper_link = "https://arxiv.org/abs/1905.11946"
-blog_link = ""
-summary = "Proposes a new scaling method that uniformly scales network width, depth, and resolution for improved efficiency."
-authors = "Tan, Le"
+authors = "Balmau et al."
+summary = "The paper presents an I/O scheduler that significantly reduces tail latencies in LSM-based key-value stores by managing interference between client writes, flushes, and compactions, achieving up to 100x lower 99th percentile latencies without compromising overall performance."
 year = "2019"
 
 [[papers]]
-title = "DenseNet: Densely Connected Convolutional Networks"
-paper_link = "https://arxiv.org/abs/1608.06993"
+title = "The Bw-Tree: A B-tree for New Hardware Platforms"
+paper_link = "https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/bw-tree-icde2013-final.pdf"
 blog_link = ""
-summary = "Introduces dense connections between layers to improve feature propagation and reduce parameters."
-authors = "Huang et al."
-year = "2016"
-
-[[papers]]
-title = "Dropout: A Simple Way to Prevent Neural Networks from Overfitting"
-paper_link = "http://jmlr.org/papers/v15/srivastava14a.html"
-blog_link = ""
-summary = "Introduces dropout as an effective regularization technique to prevent overfitting in neural networks."
-authors = "Srivastava et al."
-year = "2014"
-
-[[papers]]
-title = "Batch Normalization: Accelerating Deep Network Training"
-paper_link = "https://arxiv.org/abs/1502.03167"
-blog_link = ""
-summary = "Proposes batch normalization to accelerate training and improve generalization of deep networks."
-authors = "Ioffe, Szegedy"
-year = "2015"
-
-[[papers]]
-title = "Adam: A Method for Stochastic Optimization"
-paper_link = "https://arxiv.org/abs/1412.6980"
-blog_link = ""
-summary = "Introduces the Adam optimizer, which has become one of the most widely used optimization algorithms."
-authors = "Kingma, Ba"
-year = "2014"
-
-[[papers]]
-title = "Semantic Image Segmentation with Deep Convolutional Nets"
-paper_link = "https://arxiv.org/abs/1412.7062"
-blog_link = ""
-summary = "DeepLab - addresses the challenges of semantic image segmentation using atrous convolution."
-authors = "Chen et al."
-year = "2014"
-
-[[papers]]
-title = "Mask R-CNN"
-paper_link = "https://arxiv.org/abs/1703.06870"
-blog_link = ""
-summary = "Extends Faster R-CNN by adding a branch for predicting segmentation masks on each Region of Interest."
-authors = "He et al."
-year = "2017"
-
-[[papers]]
-title = "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters"
-paper_link = "https://arxiv.org/abs/1602.07360"
-blog_link = ""
-summary = "Introduces a small CNN architecture that achieves competitive accuracy with significantly fewer parameters."
-authors = "Iandola et al."
-year = "2016"
-
-[[papers]]
-title = "MobileNets: Efficient Convolutional Neural Networks for Mobile Vision"
-paper_link = "https://arxiv.org/abs/1704.04861"
-blog_link = ""
-summary = "Proposes efficient neural networks for mobile and embedded vision applications using depthwise separable convolutions."
-authors = "Howard et al."
-year = "2017"
+authors = "Levandoski et al."
+summary = "The paper introduces the Bw-tree, a latch-free B-tree design optimized for modern multi-core processors and flash storage, achieving high performance by leveraging processor caches and log structuring for efficient in-memory key-indexed access."
+year = "2013"
 
 # Template for adding new papers:
 # [[papers]]
