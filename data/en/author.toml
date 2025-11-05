@@ -1,3 +1,8 @@
+name = "Bharath Kumar"
+location = "Bengaluru, India"
+description = "A passionate developer, and tech enthusiast. I love building elegant solutions to complex problems and sharing knowledge through my blog."
+profile_image = "/images/profile.jpg"
+
 [author]
 name = "Bharath Kumar"
 location = "Bengaluru, India"
