@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Microservices on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/microservices/</link>
+    <description>Recent content in Microservices on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 28 Oct 2024 14:30:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/microservices/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building Scalable Microservices with Go</title>
+      <link>http://localhost:1313/blogs/microservices-with-go/</link>
+      <pubDate>Mon, 28 Oct 2024 14:30:00 -0800</pubDate>
+      <guid>http://localhost:1313/blogs/microservices-with-go/</guid>
+      <description>&lt;h1 id=&#34;building-scalable-microservices-with-go&#34;&gt;Building Scalable Microservices with Go&lt;/h1&gt;&#xA;&lt;p&gt;Go (Golang) has become increasingly popular for building microservices due to its simplicity, performance, and excellent concurrency support. In this post, we&amp;rsquo;ll explore best practices for building scalable microservices with Go.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-go-for-microservices&#34;&gt;Why Go for Microservices?&lt;/h2&gt;&#xA;&lt;p&gt;Go offers several advantages for microservice architectures:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Concurrency&lt;/strong&gt;: Goroutines make it easy to handle multiple requests efficiently&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Performance&lt;/strong&gt;: Compiled to native code for fast execution&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Simplicity&lt;/strong&gt;: Clean syntax and small language specification&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Standard Library&lt;/strong&gt;: Rich standard library including HTTP server capabilities&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;key-design-principles&#34;&gt;Key Design Principles&lt;/h2&gt;&#xA;&lt;h3 id=&#34;1-single-responsibility&#34;&gt;1. Single Responsibility&lt;/h3&gt;&#xA;&lt;p&gt;Each microservice should have a single, well-defined purpose:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

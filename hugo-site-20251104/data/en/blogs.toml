@@ -1,0 +1,106 @@
+[[blogs]]
+title = "Getting Started with Hugo and the Noir Theme"
+date = "November 1, 2024"
+link = "/blogs/getting-started-with-hugo"
+summary = "A beginner's guide to setting up Hugo with the beautiful Noir theme for your personal blog."
+tags = ["hugo", "web development", "blogging"]
+
+[[blogs]]
+title = "Building Scalable Microservices with Go"
+date = "October 28, 2024"
+link = "/blogs/microservices-with-go"
+summary = "Learn how to design and build scalable microservices using Go, covering best practices and common patterns."
+tags = ["golang", "microservices", "architecture"]
+
+[[blogs]]
+title = "Modern JavaScript: ES6+ Features You Should Know"
+date = "October 15, 2024"
+link = "/blogs/modern-javascript-features"
+summary = "Explore essential ES6+ JavaScript features that every modern developer should master."
+tags = ["javascript", "es6", "web development"]
+
+# Example of Medium blog post (external link) - uncomment and edit to use
+[[blogs]]
+title = "My Article on Medium"
+date = "October 1, 2024"
+link = "https://medium.com/@yourusername/your-article-slug"
+summary = "Description of your Medium article."
+tags = ["topic1", "topic2"]
+
+# Example of another Medium blog - uncomment and edit to use
+[[blogs]]
+title = "Another Medium Article"
+date = "September 15, 2024"
+link = "https://medium.com/@yourusername/another-article"
+summary = "Another article description."
+tags = ["topic1", "topic2"]
+
+[[blogs]]
+title = "Introduction to Docker and Containerization"
+date = "September 10, 2024"
+link = "/blogs/docker-containerization-intro"
+summary = "A comprehensive introduction to Docker, containerization concepts, and how to get started with containers in your development workflow."
+tags = ["docker", "devops", "containers"]
+
+[[blogs]]
+title = "Understanding React Hooks in Depth"
+date = "September 5, 2024"
+link = "/blogs/react-hooks-deep-dive"
+summary = "Deep dive into React Hooks including useState, useEffect, useContext, and custom hooks with practical examples."
+tags = ["react", "javascript", "frontend"]
+
+[[blogs]]
+title = "Building RESTful APIs with Node.js and Express"
+date = "August 28, 2024"
+link = "/blogs/nodejs-express-restful-api"
+summary = "Step-by-step guide to building robust RESTful APIs using Node.js and Express with authentication and validation."
+tags = ["nodejs", "express", "api"]
+
+[[blogs]]
+title = "Python Data Science: Pandas and NumPy Essentials"
+date = "August 20, 2024"
+link = "/blogs/python-pandas-numpy-essentials"
+summary = "Master the essentials of data manipulation with Pandas and NumPy for effective data science workflows."
+tags = ["python", "data science", "pandas"]
+
+[[blogs]]
+title = "GraphQL vs REST: When to Use Which?"
+date = "August 12, 2024"
+link = "/blogs/graphql-vs-rest-comparison"
+summary = "An in-depth comparison of GraphQL and REST APIs, exploring use cases, pros, cons, and when to choose each approach."
+tags = ["graphql", "rest", "api design"]
+
+[[blogs]]
+title = "Kubernetes for Beginners: Getting Started"
+date = "August 5, 2024"
+link = "/blogs/kubernetes-beginners-guide"
+summary = "Learn Kubernetes fundamentals including pods, services, deployments, and how to orchestrate containerized applications."
+tags = ["kubernetes", "devops", "containers"]
+
+[[blogs]]
+title = "TypeScript Best Practices for Large Scale Applications"
+date = "July 28, 2024"
+link = "/blogs/typescript-best-practices"
+summary = "Essential TypeScript patterns and best practices for building and maintaining large-scale enterprise applications."
+tags = ["typescript", "javascript", "best practices"]
+
+[[blogs]]
+title = "PostgreSQL Performance Tuning Tips"
+date = "July 20, 2024"
+link = "/blogs/postgresql-performance-tuning"
+summary = "Advanced techniques for optimizing PostgreSQL database performance including indexing, query optimization, and configuration."
+tags = ["postgresql", "database", "performance"]
+
+[[blogs]]
+title = "CI/CD Pipeline with GitHub Actions"
+date = "July 15, 2024"
+link = "/blogs/cicd-github-actions"
+summary = "Build a complete CI/CD pipeline using GitHub Actions for automated testing, building, and deployment."
+tags = ["ci/cd", "github actions", "devops"]
+
+[[blogs]]
+title = "Securing Web Applications: Best Practices"
+date = "July 8, 2024"
+link = "/blogs/web-security-best-practices"
+summary = "Comprehensive guide to web application security covering OWASP Top 10, authentication, authorization, and common vulnerabilities."
+tags = ["security", "web development", "best practices"]

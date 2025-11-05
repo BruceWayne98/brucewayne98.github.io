@@ -1,0 +1,23 @@
+# Tech Stack Carousel Configuration
+# The 'row1' array populates the top carousel
+# The 'row2' array populates the bottom carousel
+# Icons are from devicon.dev - find more at https://devicon.dev/
+
+row1 = [
+  { icon = "devicon-csharp-plain", name = "C#" },
+  { icon = "devicon-dotnetcore-plain", name = ".Net Core" },
+  { icon = "devicon-java-plain", name = "Java" },
+  { icon = "devicon-python-plain", name = "Python" },
+  { icon = "devicon-azure-plain", name = "Azure" },
+  { icon = "devicon-cosmosdb-plain", name = "Azure CosmosDB" },
+  { icon = "devicon-git-plain", name = "Git" }
+]
+
+row2 = [
+  { icon = "devicon-vscode-plain", name = "VS Code" },
+  { icon = "devicon-terraform-plain", name = "Terraform" },
+  { icon = "devicon-azuredevops-plain", name = "Azure Devops" },
+  { icon = "devicon-splunk-original-wordmark", name = "Splunk" },
+  { icon = "devicon-graphql-plain", name = "GraphQL" },
+  { icon = "devicon-elasticsearch-plain-wordmark", name = "Elasticsearch" }
+]

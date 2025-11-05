@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rest on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/rest/</link>
+    <description>Recent content in Rest on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 20 Sep 2024 11:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/rest/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Best Practices for RESTful API Design</title>
+      <link>http://localhost:1313/blogs/restful-api-design-best-practices/</link>
+      <pubDate>Fri, 20 Sep 2024 11:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/blogs/restful-api-design-best-practices/</guid>
+      <description>&lt;h1 id=&#34;best-practices-for-restful-api-design&#34;&gt;Best Practices for RESTful API Design&lt;/h1&gt;&#xA;&lt;p&gt;Building a well-designed RESTful API is crucial for creating applications that are easy to use and maintain.&lt;/p&gt;&#xA;&lt;h2 id=&#34;core-principles&#34;&gt;Core Principles&lt;/h2&gt;&#xA;&lt;p&gt;RESTful APIs should follow these key principles:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Use HTTP methods correctly (GET, POST, PUT, DELETE)&lt;/li&gt;&#xA;&lt;li&gt;Use meaningful resource names&lt;/li&gt;&#xA;&lt;li&gt;Return appropriate status codes&lt;/li&gt;&#xA;&lt;li&gt;Version your API&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;url-structure&#34;&gt;URL Structure&lt;/h2&gt;&#xA;&lt;p&gt;Design clean, intuitive URLs&amp;hellip;&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;GET    /api/v1/users&#xA;POST   /api/v1/users&#xA;GET    /api/v1/users/:id&#xA;PUT    /api/v1/users/:id&#xA;DELETE /api/v1/users/:id&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;error-handling&#34;&gt;Error Handling&lt;/h2&gt;&#xA;&lt;p&gt;Proper error handling is essential&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

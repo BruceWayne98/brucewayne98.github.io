@@ -1,0 +1,40 @@
+[[experience]]
+role = "Senior Software Engineer"
+company = "Tech Innovations Inc."
+company_link = "https://example.com"
+period = "Jan 2022 - Present"
+country = "USA"
+responsibilities = [
+  "Led development of microservices architecture serving 1M+ users",
+  "Mentored junior developers and conducted code reviews",
+  "Implemented CI/CD pipelines reducing deployment time by 60%",
+  "Collaborated with cross-functional teams on product roadmap"
+]
+technologies = ["Go", "Docker", "Kubernetes", "PostgreSQL", "React"]
+
+[[experience]]
+role = "Software Engineer"
+company = "Digital Solutions Co."
+company_link = "https://example.com"
+period = "Jun 2020 - Dec 2021"
+country = "Canada"
+responsibilities = [
+  "Developed and maintained full-stack web applications",
+  "Optimized database queries improving response time by 40%",
+  "Participated in agile development sprints",
+  "Contributed to open-source projects"
+]
+technologies = ["Python", "Django", "JavaScript", "PostgreSQL", "Redis"]
+
+[[experience]]
+role = "Junior Developer"
+company = "StartUp Ventures"
+period = "Jan 2019 - May 2020"
+country = "USA"
+responsibilities = [
+  "Built RESTful APIs for mobile and web applications",
+  "Wrote unit tests achieving 85% code coverage",
+  "Assisted in system architecture design",
+  "Collaborated with designers on UI/UX implementation"
+]
+technologies = ["Node.js", "Express", "MongoDB", "React", "Git"]

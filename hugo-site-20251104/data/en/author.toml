@@ -1,0 +1,22 @@
+[author]
+name = "Bharath Kumar"
+location = "Bengaluru, India"
+description = "A passionate developer, and tech enthusiast. I love building elegant solutions to complex problems and sharing knowledge through my blog."
+profile_image = "/images/profile.jpg"
+
+# Social links
+github = "https://github.com/BruceWayne98"
+linkedin = "https://www.linkedin.com/in/bharath-kumar-r98"
+email = "maxmod98@gmail.com"
+
+# Honors & Awards
+[[honors]]
+title = "Bravo Award"
+institution = "Optum Global Solutions"
+date = "2024"
+
+# Certifications
+[[certifications]]
+title = "Fundamentals of Database Engineering"
+date = "Udemy | 2024"
+url = "https://www.udemy.com/certificate/UC-b54a971e-d183-4764-91cb-42c1206cc500/"

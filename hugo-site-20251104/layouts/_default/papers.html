@@ -1,0 +1,206 @@
+{{ define "main" }}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-5xl font-bold mb-6 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+    
+    <div class="bg-bg-primary-light dark:bg-bg-secondary-dark p-8 rounded-lg mb-8 border border-border-primary-light dark:border-border-primary-dark">
+        <div class="prose prose-invert prose-lg max-w-none">
+            <div class="text-text-secondary-light dark:text-text-secondary-dark text-lg mb-8">
+                {{ .Content }}
+            </div>
+        </div>
+    </div>
+
+    {{ $papersData := index site.Data .Language.Lang "papers" }}
+    {{ $papers := $papersData.papers }}
+    
+    <!-- JavaScript-based Pagination -->
+    <div id="papers-container" class="space-y-6 mb-8">
+        {{ range $index, $paper := $papers }}
+        <div class="paper-item bg-bg-primary-light dark:bg-bg-secondary-dark p-6 rounded-lg border border-border-primary-light dark:border-border-primary-dark hover:shadow-lg transition-all duration-300" data-index="{{ $index }}">
+            <div class="flex flex-col gap-3">
+                <!-- Paper Title and Links -->
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                    <div class="flex-grow">
+                        <h3 class="text-xl md:text-2xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">
+                            {{ .title }}
+                        </h3>
+                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
+                            {{ .authors }} • {{ .year }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <p class="text-text-secondary-light dark:text-text-secondary-dark prose">
+                    {{ .summary }}
+                </p>
+
+                <!-- Links -->
+                <div class="flex flex-wrap gap-3 mt-2">
+                    <!-- Paper Link -->
+                    <a href="{{ .paper_link }}" 
+                       target="_blank"
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg hover:opacity-90 transition-all duration-200 text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Read Paper
+                    </a>
+
+                    <!-- Blog Link (if exists) -->
+                    {{ if ne .blog_link "" }}
+                    <a href="{{ .blog_link }}" 
+                       {{ if hasPrefix .blog_link "http" }}target="_blank"{{ end }}
+                       class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-secondary-dark transition-all duration-200 text-sm font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        My Notes
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="pagination-controls" class="flex items-center justify-between border-t border-border-primary-light dark:border-border-primary-dark pt-6">
+        <!-- Previous Button -->
+        <div>
+            <button id="prev-btn" 
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+            </button>
+        </div>
+
+        <!-- Page Numbers -->
+        <div class="flex items-center gap-2">
+            <span id="page-info" class="text-text-secondary-light dark:text-text-secondary-dark">
+                Page 1 of 1
+            </span>
+        </div>
+
+        <!-- Next Button -->
+        <div>
+            <button id="next-btn" 
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Page Number List -->
+    <div id="page-numbers" class="flex justify-center gap-2 mt-4"></div>
+</div>
+
+<style>
+    .prose {
+        color: #4b5563;
+    }
+    html.dark .prose {
+        color: #9ca3af;
+    }
+    .prose p {
+        color: #4b5563;
+        line-height: 1.7;
+    }
+    html.dark .prose p {
+        color: #9ca3af;
+    }
+    .paper-item {
+        display: none;
+    }
+    .paper-item.active {
+        display: block;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemsPerPage = 5;
+        const papers = document.querySelectorAll('.paper-item');
+        const totalItems = papers.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        let currentPage = 1;
+
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageInfo = document.getElementById('page-info');
+        const pageNumbers = document.getElementById('page-numbers');
+
+        function showPage(page) {
+            // Hide all papers
+            papers.forEach(paper => paper.classList.remove('active'));
+
+            // Calculate range
+            const start = (page - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, totalItems);
+
+            // Show papers for current page
+            for (let i = start; i < end; i++) {
+                papers[i].classList.add('active');
+            }
+
+            // Update page info
+            pageInfo.textContent = `Page ${page} of ${totalPages}`;
+
+            // Update buttons
+            prevBtn.disabled = page === 1;
+            nextBtn.disabled = page === totalPages;
+
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+
+            currentPage = page;
+            updatePageNumbers();
+        }
+
+        function updatePageNumbers() {
+            if (totalPages <= 3) {
+                pageNumbers.style.display = 'none';
+                return;
+            }
+
+            pageNumbers.style.display = 'flex';
+            pageNumbers.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = i === currentPage
+                    ? 'px-3 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg font-medium'
+                    : 'px-3 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200';
+                
+                pageBtn.addEventListener('click', () => showPage(i));
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        });
+
+        // Initialize
+        if (totalPages === 1) {
+            document.getElementById('pagination-controls').style.display = 'none';
+        }
+        showPage(1);
+    });
+</script>
+
+{{ end }}

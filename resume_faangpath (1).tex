@@ -1,0 +1,89 @@
+\documentclass{resume} % Use the custom resume.cls style
+
+\usepackage[left=0.4 in,top=0.4in,right=0.4 in,bottom=0.4in]{geometry} % Document margins
+\newcommand{\tab}[1]{\hspace{.2667\textwidth}\rlap{#1}} 
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+\name{Bharath Kumar} % Your name
+% You can merge both of these into a single line, if you do not have a website.
+\address{(+91)7358010086 \\ Bengaluru, India} 
+\address{\href{mailto:maxmod98@gmail.com}{maxmod98@gmail.com} \\ \href{www.linkedin.com/in/bharath-kumar-r98}{www.linkedin.com/in/bharath-kumar-r98} \\ \href{https://github.com/BruceWayne98}{github.com/BruceWayne98}}  %
+
+\begin{document}
+
+\begin{rSection}{PROFESSIONAL SUMMARY}
+
+Senior Software Engineer with over \textbf{5+} years of experience designing and developing scalable microservices and cloud solutions primarily using the C\# .Net and Azure platforms. Proven track record in leading development teams, optimizing healthcare and enterprise software workflows, and improving system reliability through automation and efficient integrations. 
+
+\end{rSection}
+
+\begin{rSection}{EXPERIENCE}
+
+\textbf{OPTUM GLOBAL SOLUTIONS} \hfill \textit{Bengaluru, India}\\
+\textbf{Senior Software Engineer} \hfill Mar 2023 - Present\\
+Leading a team of 6 developers on creating scalable microservices using \textbf{C\# .Net} and \textbf{Azure} for \textbf{Optum Inbox Assistant}, optimizing workflows for \textbf{850+} providers across the network.
+ \begin{itemize}
+    \itemsep -3pt {}
+    \item Authored and deployed the \textbf{AzureFhirFramework} library to streamline CRUD operations on \textbf{Azure API for FHIR}, improving data processing efficiency by \textbf{20\%} and collaboration across microservices. 
+    \item Devised \textbf{MedicationRulesEngine}, which standardized medication validation in 20+ protocols, ultimately resulting in a significant reduction in discrepancies and improved overall patient experience.
+    \item Upgraded Azure Functions codebase from \textbf{.NET 6} to\textbf{ .NET 8}, enhancing performance, maintainability, and security, while ensuring seamless service continuity during migration.
+     \item Used \textbf{Apache JMeter} to perform load testing on various APIs and improved their throughput and response times by 37.5\%
+    
+ \end{itemize}
+ 
+\textbf{OPTUM GLOBAL SOLUTIONS} \hfill \textit{Bengaluru, India}\\
+\textbf{Software Engineer} \hfill Oct 2020 - Feb 2023\\
+ Designed and developed microservices for \textbf{SympleNote}, facilitating real-time data processing and improving the overall patient data handling efficiency for \textbf{500,000+} patients annually.
+ \begin{itemize}
+    \itemsep -3pt {}
+     \item Implemented web content management using \textbf{Adobe Experience Manager} and content retrieval via \textbf{GraphQL}.
+    \item Generated customized visual reports with \textbf{Microsoft Power BI} that provided information on the product usage patterns.
+    \item Designed a POC for the symptom search capabilities leveraging \textbf{Elasticsearch} and \textbf{C\# .Net}, streamlining the search process for 3,000+ daily users.
+    \item Managed infrastructure on Azure through \textbf{Terraform} and integrated CI/CD through \textbf{Azure DevOps}
+     \item Spearheaded the integration of near-real-time error tracking within \textbf{Splunk}, optimizing the monitoring of 10+ critical services, leading to a 15\% improvement in service outage analysis. 
+ \end{itemize}
+
+\end{rSection} 
+
+\begin{rSection}{SKILLS}
+
+\begin{tabular}{ @{} >{\bfseries}l @{\hspace{6ex}} l }
+Programming Languages & Java, C\#, Python, SQL
+\\
+Cloud & Azure, Microsoft Entra ID, Key Vault, Cognitive Search, Event Hub, Service Bus \\
+Databases & Azure CosmosDB, OracleDB, Elasticsearch\\
+Frameworks & .Net, FHIR, REST, GraphQL\\
+Unit Testing & xUnit, Moq\\
+Infrastructure and CI/CD & Terraform, Azure DevOps\\
+Other Technologies & Distributed Systems, Adobe Experience Manager, Microsoft Power BI, Splunk \\
+  & Git, Apache JMeter
+\end{tabular}\\
+\end{rSection}
+
+\newpage
+\begin{rSection}{PROJECTS}
+\vspace{-1.25em}
+\item \textbf{Lip-Reader.} {Tool to analyse lip movements of the speaker and convert them into text with aid of combination of CNNs and Bi GRUs and built on top of GRID Corpus. \href{https://github.com/BruceWayne98/Lip-Reader}{(Github Link)}}
+\item \textbf{Movie-Recommender-System.} {A Project built atop 250 movies data from imdb and omdb database and provides top 'k' similar movies. \href{https://github.com/BruceWayne98/Movie-Recommender-System}{(Github Link)}}
+\end{rSection} 
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+
+\begin{rSection}{Education}
+
+{\bf B.E Computer Science and Engineering}, College of Engineering, Guindy \hfill {2016-2020}
+
+
+
+\end{rSection}
+\begin{rSection}{Achievements} 
+\begin{itemize}
+    \item Received multiple Bravo Awards for performance in Optum Global Solutions. 
+\end{itemize}
+
+
+\end{rSection}
+
+
+\end{document}

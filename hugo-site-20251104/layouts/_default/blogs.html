@@ -1,0 +1,162 @@
+{{ define "main" }}
+<div class="w-full md:w-3/4 lg:w-1/2 mx-auto px-4 py-12">
+    <h1 class="text-5xl font-bold mb-12 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+    
+    <div id="blogs-container" class="space-y-12 max-w-3xl mx-auto">
+        {{ $blogsData := index site.Data .Language.Lang "blogs" }}
+        {{ range $index, $blog := $blogsData.blogs }}
+        <div class="blog-item group" data-index="{{ $index }}">
+            <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mb-2">{{ .date }}</p>
+            <a href="{{ .link }}" class="block" target="_blank">
+                <h3 class="inline-flex items-center text-xl font-medium text-accent-light dark:text-accent-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 mb-3">
+                    {{ .title }}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
+                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                    </svg>
+                </h3>
+            </a>
+            <p class="text-text-secondary-light dark:text-text-secondary-dark mb-4 prose">{{ .summary }}</p>
+            <div class="flex flex-wrap gap-2">
+                {{ range .tags }}
+                {{ if ne . "" }}
+                <span class="px-2 py-1 text-xs bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-secondary-light dark:text-text-secondary-dark border border-border-primary-light dark:border-border-primary-dark rounded-md transition-all duration-300">{{ . }}</span>
+                {{ end }}
+                {{ end }}
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <!-- Pagination Controls -->
+    <div id="pagination-controls" class="flex items-center justify-between border-t border-border-primary-light dark:border-border-primary-dark pt-6 mt-12 max-w-3xl mx-auto">
+        <!-- Previous Button -->
+        <div>
+            <button id="prev-btn" 
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+            </button>
+        </div>
+
+        <!-- Page Numbers -->
+        <div class="flex items-center gap-2">
+            <span id="page-info" class="text-text-secondary-light dark:text-text-secondary-dark">
+                Page 1 of 1
+            </span>
+        </div>
+
+        <!-- Next Button -->
+        <div>
+            <button id="next-btn" 
+                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Page Number List -->
+    <div id="page-numbers" class="flex justify-center gap-2 mt-4 max-w-3xl mx-auto"></div>
+</div>
+
+<style>
+    .prose {
+        color: #4b5563; 
+    }
+    html.dark .prose {
+        color: #9ca3af; 
+    }
+    .blog-item {
+        display: none;
+    }
+    .blog-item.active {
+        display: block;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const itemsPerPage = 5;
+        const blogs = document.querySelectorAll('.blog-item');
+        const totalItems = blogs.length;
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        let currentPage = 1;
+
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageInfo = document.getElementById('page-info');
+        const pageNumbers = document.getElementById('page-numbers');
+
+        function showPage(page) {
+            // Hide all blogs
+            blogs.forEach(blog => blog.classList.remove('active'));
+
+            // Calculate range
+            const start = (page - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, totalItems);
+
+            // Show blogs for current page
+            for (let i = start; i < end; i++) {
+                blogs[i].classList.add('active');
+            }
+
+            // Update page info
+            pageInfo.textContent = `Page ${page} of ${totalPages}`;
+
+            // Update buttons
+            prevBtn.disabled = page === 1;
+            nextBtn.disabled = page === totalPages;
+
+            // Scroll to top
+            window.scrollTo({top: 0, behavior: 'smooth'});
+
+            currentPage = page;
+            updatePageNumbers();
+        }
+
+        function updatePageNumbers() {
+            if (totalPages <= 3) {
+                pageNumbers.style.display = 'none';
+                return;
+            }
+
+            pageNumbers.style.display = 'flex';
+            pageNumbers.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = i === currentPage
+                    ? 'px-3 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg font-medium'
+                    : 'px-3 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200';
+                
+                pageBtn.addEventListener('click', () => showPage(i));
+                pageNumbers.appendChild(pageBtn);
+            }
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                showPage(currentPage - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                showPage(currentPage + 1);
+            }
+        });
+
+        // Initialize
+        if (totalPages === 1) {
+            document.getElementById('pagination-controls').style.display = 'none';
+        }
+        showPage(1);
+    });
+</script>
+
+{{ end }}

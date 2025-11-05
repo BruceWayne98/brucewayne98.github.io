@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Containers on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/containers/</link>
+    <description>Recent content in Containers on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 05 Oct 2024 14:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/containers/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Understanding Docker Containers</title>
+      <link>http://localhost:1313/blogs/understanding-docker-containers/</link>
+      <pubDate>Sat, 05 Oct 2024 14:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/blogs/understanding-docker-containers/</guid>
+      <description>&lt;h1 id=&#34;understanding-docker-containers&#34;&gt;Understanding Docker Containers&lt;/h1&gt;&#xA;&lt;p&gt;Docker has revolutionized how we build, ship, and run applications. This guide will walk you through the fundamentals of containerization.&lt;/p&gt;&#xA;&lt;h2 id=&#34;what-are-containers&#34;&gt;What are Containers?&lt;/h2&gt;&#xA;&lt;p&gt;Containers are lightweight, standalone packages that contain everything needed to run an application&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-use-docker&#34;&gt;Why Use Docker?&lt;/h2&gt;&#xA;&lt;p&gt;Docker provides several key benefits:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Consistency&lt;/strong&gt;: Same environment everywhere&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Isolation&lt;/strong&gt;: Applications run independently&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Portability&lt;/strong&gt;: Run anywhere Docker is installed&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Efficiency&lt;/strong&gt;: Lightweight compared to VMs&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;getting-started&#34;&gt;Getting Started&lt;/h2&gt;&#xA;&lt;p&gt;Install Docker and run your first container&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogging on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/blogging/</link>
+    <description>Recent content in Blogging on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 01 Nov 2024 09:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/blogging/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting Started with Hugo and the Noir Theme</title>
+      <link>http://localhost:1313/blogs/getting-started-with-hugo/</link>
+      <pubDate>Fri, 01 Nov 2024 09:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/blogs/getting-started-with-hugo/</guid>
+      <description>&lt;h1 id=&#34;getting-started-with-hugo-and-the-noir-theme&#34;&gt;Getting Started with Hugo and the Noir Theme&lt;/h1&gt;&#xA;&lt;p&gt;Hugo is one of the fastest static site generators available, and paired with the elegant Noir theme, you can have a beautiful blog up and running in minutes.&lt;/p&gt;&#xA;&lt;h2 id=&#34;why-choose-hugo&#34;&gt;Why Choose Hugo?&lt;/h2&gt;&#xA;&lt;p&gt;Hugo stands out for several reasons:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Blazing Fast&lt;/strong&gt;: Hugo builds sites in milliseconds, not seconds&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;No Dependencies&lt;/strong&gt;: It&amp;rsquo;s a single binary with no need for complex installations&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Flexible&lt;/strong&gt;: Works for blogs, portfolios, documentation, and more&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Great Community&lt;/strong&gt;: Active development and plenty of themes&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;the-noir-theme&#34;&gt;The Noir Theme&lt;/h2&gt;&#xA;&lt;p&gt;The Noir theme brings a minimalist, modern aesthetic to your Hugo site with features like:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

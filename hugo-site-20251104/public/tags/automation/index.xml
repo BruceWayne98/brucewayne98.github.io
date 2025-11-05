@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Automation on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/automation/</link>
+    <description>Recent content in Automation on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 20 Jul 2024 09:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/automation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DevOps Automation Toolkit</title>
+      <link>http://localhost:1313/projects/devops-automation-toolkit/</link>
+      <pubDate>Sat, 20 Jul 2024 09:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/projects/devops-automation-toolkit/</guid>
+      <description>&lt;h1 id=&#34;devops-automation-toolkit&#34;&gt;DevOps Automation Toolkit&lt;/h1&gt;&#xA;&lt;p&gt;A collection of automation scripts and tools designed to streamline DevOps workflows and reduce manual intervention.&lt;/p&gt;&#xA;&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Automated CI/CD pipeline setup&lt;/li&gt;&#xA;&lt;li&gt;Infrastructure as Code (IaC) templates&lt;/li&gt;&#xA;&lt;li&gt;Deployment automation scripts&lt;/li&gt;&#xA;&lt;li&gt;Log aggregation and analysis&lt;/li&gt;&#xA;&lt;li&gt;Automated backup and disaster recovery&lt;/li&gt;&#xA;&lt;li&gt;Security scanning integration&lt;/li&gt;&#xA;&lt;li&gt;Cost optimization recommendations&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;tech-stack&#34;&gt;Tech Stack&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Languages&lt;/strong&gt;: Python, Bash, YAML&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;IaC&lt;/strong&gt;: Terraform, Ansible&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;CI/CD&lt;/strong&gt;: Jenkins, GitLab CI&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Monitoring&lt;/strong&gt;: Prometheus, Grafana, ELK Stack&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Cloud Providers&lt;/strong&gt;: AWS, GCP, Azure&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;modules&#34;&gt;Modules&lt;/h2&gt;&#xA;&lt;h3 id=&#34;1-pipeline-generator&#34;&gt;1. Pipeline Generator&lt;/h3&gt;&#xA;&lt;p&gt;Automatically generates CI/CD pipelines based on project type and requirements.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

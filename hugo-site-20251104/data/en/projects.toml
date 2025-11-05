@@ -1,0 +1,97 @@
+[[projects]]
+title = "E-Commerce Platform"
+description = "A full-stack e-commerce platform with user authentication, product management, and payment integration."
+link = "/projects/ecommerce-platform"
+image = "https://images.unsplash.com/photo-1557821552-17105176677c?w=1200&h=675&fit=crop"
+tech = "React, Node.js, MongoDB, Stripe"
+
+[[projects]]
+title = "Task Management API"
+description = "A RESTful API for task management with team collaboration features, built with clean architecture principles."
+link = "/projects/task-management-api"
+image = "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&h=675&fit=crop"
+tech = "Go, PostgreSQL, Redis, JWT"
+
+[[projects]]
+title = "Machine Learning Model Deployment Platform"
+description = "A scalable platform for deploying and managing machine learning models in production with auto-scaling."
+link = "/projects/ml-deployment-platform"
+image = "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&h=675&fit=crop"
+tech = "Python, FastAPI, Kubernetes, TensorFlow"
+
+[[projects]]
+title = "Real-time Chat Application"
+description = "A feature-rich real-time chat application with end-to-end encryption and multimedia support."
+link = "/projects/realtime-chat-application"
+image = "https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=1200&h=675&fit=crop"
+tech = "React, Socket.io, Node.js, MongoDB"
+
+[[projects]]
+title = "DevOps Automation Toolkit"
+description = "A comprehensive toolkit for automating DevOps workflows including CI/CD, infrastructure provisioning, and monitoring."
+link = "/projects/devops-automation-toolkit"
+image = "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=1200&h=675&fit=crop"
+tech = "Python, Terraform, Ansible, Jenkins"
+
+[[projects]]
+title = "Social Media Analytics Dashboard"
+description = "Real-time analytics dashboard for social media metrics with data visualization and trend analysis capabilities."
+link = "/projects/social-media-analytics"
+image = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=675&fit=crop"
+tech = "Vue.js, D3.js, Python, Redis"
+
+[[projects]]
+title = "Blockchain-Based Supply Chain Tracker"
+description = "Decentralized supply chain management system using blockchain for transparency and traceability."
+link = "/projects/blockchain-supply-chain"
+image = "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&h=675&fit=crop"
+tech = "Solidity, Ethereum, React, Node.js"
+
+[[projects]]
+title = "AI-Powered Code Review Assistant"
+description = "Automated code review tool using machine learning to detect bugs, security issues, and suggest improvements."
+link = "/projects/ai-code-review"
+image = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=675&fit=crop"
+tech = "Python, TensorFlow, FastAPI, Docker"
+
+[[projects]]
+title = "IoT Home Automation System"
+description = "Complete home automation solution with IoT devices, mobile app control, and energy monitoring."
+link = "/projects/iot-home-automation"
+image = "https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&h=675&fit=crop"
+tech = "Arduino, MQTT, React Native, Firebase"
+
+[[projects]]
+title = "Video Streaming Platform"
+description = "Netflix-like video streaming platform with adaptive bitrate streaming, content management, and user recommendations."
+link = "/projects/video-streaming-platform"
+image = "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=1200&h=675&fit=crop"
+tech = "React, Node.js, AWS, FFmpeg"
+
+[[projects]]
+title = "Fitness Tracking Mobile App"
+description = "Cross-platform mobile app for fitness tracking with workout plans, nutrition logging, and progress analytics."
+link = "/projects/fitness-tracking-app"
+image = "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&h=675&fit=crop"
+tech = "React Native, Firebase, Redux, Node.js"
+
+[[projects]]
+title = "API Gateway and Rate Limiter"
+description = "High-performance API gateway with rate limiting, authentication, and monitoring for microservices architecture."
+link = "/projects/api-gateway-rate-limiter"
+image = "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=675&fit=crop"
+tech = "Go, Redis, Nginx, Prometheus"
+
+[[projects]]
+title = "Document Management System"
+description = "Enterprise document management system with version control, collaboration features, and full-text search."
+link = "/projects/document-management-system"
+image = "https://images.unsplash.com/photo-1568667256549-094345857637?w=1200&h=675&fit=crop"
+tech = "React, Elasticsearch, MongoDB, Express"
+
+[[projects]]
+title = "Weather Forecasting Service"
+description = "Real-time weather forecasting service with data aggregation from multiple sources and predictive analytics."
+link = "/projects/weather-forecasting-service"
+image = "https://images.unsplash.com/photo-1561553543-fceea8372860?w=1200&h=675&fit=crop"
+tech = "Python, Django, PostgreSQL, Celery"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mongodb on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/mongodb/</link>
+    <description>Recent content in Mongodb on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 20 Oct 2024 10:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/mongodb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>E-Commerce Platform</title>
+      <link>http://localhost:1313/projects/ecommerce-platform/</link>
+      <pubDate>Sun, 20 Oct 2024 10:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/projects/ecommerce-platform/</guid>
+      <description>&lt;h1 id=&#34;e-commerce-platform&#34;&gt;E-Commerce Platform&lt;/h1&gt;&#xA;&lt;p&gt;A comprehensive e-commerce solution built with modern web technologies, featuring a React frontend and Node.js backend.&lt;/p&gt;&#xA;&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;User authentication and authorization&lt;/li&gt;&#xA;&lt;li&gt;Product catalog with search and filtering&lt;/li&gt;&#xA;&lt;li&gt;Shopping cart functionality&lt;/li&gt;&#xA;&lt;li&gt;Stripe payment integration&lt;/li&gt;&#xA;&lt;li&gt;Admin dashboard for product management&lt;/li&gt;&#xA;&lt;li&gt;Order tracking and history&lt;/li&gt;&#xA;&lt;li&gt;Responsive design for all devices&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;tech-stack&#34;&gt;Tech Stack&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Frontend&lt;/strong&gt;: React, Redux, Tailwind CSS&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Backend&lt;/strong&gt;: Node.js, Express&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Database&lt;/strong&gt;: MongoDB&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Payment&lt;/strong&gt;: Stripe API&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hosting&lt;/strong&gt;: AWS (EC2, S3)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;key-achievements&#34;&gt;Key Achievements&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Processed over 10,000 transactions&lt;/li&gt;&#xA;&lt;li&gt;99.9% uptime&lt;/li&gt;&#xA;&lt;li&gt;Reduced page load time by 40%&lt;/li&gt;&#xA;&lt;li&gt;Implemented secure payment processing&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;challenges--solutions&#34;&gt;Challenges &amp;amp; Solutions&lt;/h2&gt;&#xA;&lt;p&gt;The main challenge was implementing real-time inventory updates across multiple users. We solved this using WebSocket connections for live updates and optimistic UI updates for better user experience.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

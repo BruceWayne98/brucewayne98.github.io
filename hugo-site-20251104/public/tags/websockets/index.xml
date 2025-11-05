@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Websockets on My Hugo Blog</title>
+    <link>http://localhost:1313/tags/websockets/</link>
+    <description>Recent content in Websockets on My Hugo Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 15 Aug 2024 14:00:00 -0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/websockets/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Real-time Chat Application</title>
+      <link>http://localhost:1313/projects/realtime-chat-application/</link>
+      <pubDate>Thu, 15 Aug 2024 14:00:00 -0800</pubDate>
+      <guid>http://localhost:1313/projects/realtime-chat-application/</guid>
+      <description>&lt;h1 id=&#34;real-time-chat-application&#34;&gt;Real-time Chat Application&lt;/h1&gt;&#xA;&lt;p&gt;A modern, secure chat application built with WebSockets, featuring real-time messaging, file sharing, and end-to-end encryption.&lt;/p&gt;&#xA;&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Real-time messaging with WebSockets&lt;/li&gt;&#xA;&lt;li&gt;End-to-end encryption for secure communication&lt;/li&gt;&#xA;&lt;li&gt;File and image sharing&lt;/li&gt;&#xA;&lt;li&gt;Group chat support&lt;/li&gt;&#xA;&lt;li&gt;User presence indicators (online/offline)&lt;/li&gt;&#xA;&lt;li&gt;Message read receipts&lt;/li&gt;&#xA;&lt;li&gt;Emoji reactions&lt;/li&gt;&#xA;&lt;li&gt;Dark/Light mode&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;tech-stack&#34;&gt;Tech Stack&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Frontend&lt;/strong&gt;: React, TypeScript, Socket.io-client&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Backend&lt;/strong&gt;: Node.js, Express, Socket.io&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Database&lt;/strong&gt;: MongoDB&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Authentication&lt;/strong&gt;: JWT&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Hosting&lt;/strong&gt;: AWS (EC2, S3)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;technical-highlights&#34;&gt;Technical Highlights&lt;/h2&gt;&#xA;&lt;p&gt;Implemented efficient message queuing and delivery confirmation system to ensure no messages are lost, even during network interruptions.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
