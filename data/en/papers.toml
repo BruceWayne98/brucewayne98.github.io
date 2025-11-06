@@ -38,6 +38,22 @@ authors = "Yang et al."
 summary = "The paper proposes a data placement algorithm that maximizes query parallelism by distributing data shards across servers, reducing tail latency in data-parallel workloads and achieving significant latency improvements and scalability."
 year = "2023"
 
+[[papers]]
+title = "The Bloom Paradox: When not to Use a Bloom Filter"
+paper_link = "https://webee.technion.ac.il/~isaac/p/infocom12_paradox.pdf"
+blog_link = ""
+authors = "Rottenstreich et al."
+summary = "The paper reveals counterintuitive scenarios where using Bloom filters increases overall system costs due to false positive penalties and advises when alternative data structures should be considered."
+year = "2012"
+
+[[papers]]
+title = "Amazon DynamoDB: A Scalable, Predictably Performant, and Fully Managed NoSQL Database Service"
+paper_link = "https://www.usenix.org/system/files/atc22-elhemali.pdf"
+blog_link = ""
+authors = "Elhemali et al."
+summary = "This paper presents Amazon DynamoDB as a fully managed NoSQL cloud database service that delivers consistent performance, availability, durability, and scalability for modern cloud applications."
+year = "2022"
+
 # Template for adding new papers:
 # [[papers]]
 # title = "Paper Title"
