@@ -14,6 +14,30 @@ authors = "Levandoski et al."
 summary = "The paper introduces the Bw-tree, a latch-free B-tree design optimized for modern multi-core processors and flash storage, achieving high performance by leveraging processor caches and log structuring for efficient in-memory key-indexed access."
 year = "2013"
 
+[[papers]]
+title = "The Impact of Thread-Per-Core Architecture on Application Tail Latency"
+paper_link = "https://drive.google.com/file/d/1EJHkuxRJMxK_yFQpUftKW8LaFr2SQDSC/view"
+blog_link = ""
+authors = "Enberg et al."
+summary = "This paper analyzes how thread-per-core CPU architectures influence application tail latency, revealing architectural bottlenecks and proposing optimizations to reduce 99th percentile latency in latency-sensitive systems."
+year = "2019"
+
+[[papers]]
+title = "Scalable OLTP in the Cloud: What’s the BIG DEAL?"
+paper_link = "https://www.vldb.org/cidrdb/papers/2024/p63-helland.pdf"
+blog_link = ""
+authors = "Helland"
+summary = "This paper discusses the critical role of isolation semantics as the foundational contract between OLTP databases and applications, explaining how it impacts scalability and highlights the need for both database and application evolution for scalable OLTP in cloud environments."
+year = "2024"
+
+[[papers]]
+title = "Parallelism-Optimizing Data Placement for Faster Data-Parallel Computations"
+paper_link = "https://people.eecs.berkeley.edu/~matei/papers/2023/vldb_podp.pdf"
+blog_link = ""
+authors = "Yang et al."
+summary = "The paper proposes a data placement algorithm that maximizes query parallelism by distributing data shards across servers, reducing tail latency in data-parallel workloads and achieving significant latency improvements and scalability."
+year = "2023"
+
 # Template for adding new papers:
 # [[papers]]
 # title = "Paper Title"
