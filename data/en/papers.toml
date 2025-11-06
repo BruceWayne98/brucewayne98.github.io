@@ -54,6 +54,22 @@ authors = "Elhemali et al."
 summary = "This paper presents Amazon DynamoDB as a fully managed NoSQL cloud database service that delivers consistent performance, availability, durability, and scalability for modern cloud applications."
 year = "2022"
 
+[[papers]]
+title = "Implementing Decentralized Per-Partition Automatic Failover in Azure Cosmos DB"
+paper_link = "https://arxiv.org/abs/2505.14900"
+blog_link = ""
+authors = "Microsoft Azure Cosmos DB Team"
+summary = "This paper presents a fine-grained automatic failover solution for Azure Cosmos DB that operates at the partition level, minimizing Recovery Time Objective while maintaining consistency and scalability across millions of database partitions and regional outages."
+year = "2025"
+
+[[papers]]
+title = "Understanding Inconsistency in Azure Cosmos DB with TLA+"
+paper_link = "https://arxiv.org/pdf/2210.13661.pdf"
+blog_link = ""
+authors = "Hackett et al."
+summary = "This paper presents a formal TLA+ specification of Azure Cosmos DB's consistency guarantees, revealing documentation bugs and providing precise mathematical definitions of the service's user-facing behaviors that were previously poorly understood."
+year = "2022"
+
 # Template for adding new papers:
 # [[papers]]
 # title = "Paper Title"
