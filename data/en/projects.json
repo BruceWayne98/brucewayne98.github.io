@@ -1,0 +1,48 @@
+{
+  "header": {
+    "title": "Featured Projects & Tools",
+    "subtitle": "Open-source libraries, infrastructure automation toolkits, and full-stack software applications."
+  },
+  "projects": [
+    {
+      "title": "DevOps Automation Toolkit",
+      "description": "A comprehensive automation toolkit for streamlining CI/CD pipelines, Terraform infrastructure provisioning, and monitoring setup.",
+      "tags": ["devops", "automation", "python", "terraform"],
+      "github": "https://github.com/BruceWayne98/devops-toolkit",
+      "demo": "",
+      "link": "/projects/devops-automation-toolkit/"
+    },
+    {
+      "title": "E-Commerce Platform",
+      "description": "A full-stack e-commerce solution with user authentication, catalog management, Stripe payment processing, and responsive UI.",
+      "tags": ["react", "nodejs", "mongodb", "stripe"],
+      "github": "https://github.com/BruceWayne98/ecommerce-platform",
+      "demo": "https://demo.example.com",
+      "link": "/projects/ecommerce-platform/"
+    },
+    {
+      "title": "Machine Learning Model Deployment Platform",
+      "description": "A containerized platform that simplifies deploying, serving, and monitoring machine learning models with FastAPI and Kubernetes.",
+      "tags": ["machine-learning", "python", "kubernetes", "fastapi"],
+      "github": "https://github.com/BruceWayne98/ml-deployment-platform",
+      "demo": "",
+      "link": "/projects/ml-deployment-platform/"
+    },
+    {
+      "title": "Real-time Chat Application",
+      "description": "A high-concurrency real-time messaging application with WebSocket synchronization, channels, and end-to-end event broadcasting.",
+      "tags": ["websockets", "react", "nodejs", "redis"],
+      "github": "https://github.com/BruceWayne98/realtime-chat-application",
+      "demo": "",
+      "link": "/projects/realtime-chat-application/"
+    },
+    {
+      "title": "Task Management API",
+      "description": "A robust, scalable RESTful API built with Go and PostgreSQL, implementing clean architecture, JWT auth, and Docker orchestration.",
+      "tags": ["golang", "postgresql", "api", "docker"],
+      "github": "https://github.com/BruceWayne98/task-management-api",
+      "demo": "",
+      "link": "/projects/task-management-api/"
+    }
+  ]
+}

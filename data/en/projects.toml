@@ -1,6 +1,0 @@
-[[projects]]
-title = "E-Commerce Platform"
-description = "A full-stack e-commerce platform with user authentication, product management, and payment integration."
-link = "/projects/ecommerce-platform"
-image = "https://images.unsplash.com/photo-1557821552-17105176677c?w=1200&h=675&fit=crop"
-tech = "React, Node.js, MongoDB, Stripe"

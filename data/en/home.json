@@ -1,0 +1,61 @@
+{
+  "hero": {
+    "greeting_prefix": "Hi, I'm",
+    "headline": "Senior Software Engineer specializing in distributed microservices, cloud infrastructure, and systems performance.",
+    "bio_summary": "Currently building high-scale healthcare services at Optum Global Solutions using C# .NET 8, Azure, and Cosmos DB. I love diving deep into database internals, tail-latency optimizations, and distributed consensus.",
+    "buttons": {
+      "experience": "Work Experience",
+      "papers": "Reading List",
+      "graph": "Knowledge Graph"
+    }
+  },
+  "impact_stats": [
+    {
+      "value": "850+",
+      "label": "Providers Empowered",
+      "color": "zinc"
+    },
+    {
+      "value": "500k+",
+      "label": "Patients Served / yr",
+      "color": "zinc"
+    },
+    {
+      "value": "37.5%",
+      "label": "Throughput Gain",
+      "color": "emerald"
+    },
+    {
+      "value": "5+",
+      "label": "Years Experience",
+      "color": "zinc"
+    }
+  ],
+  "bento": {
+    "tech_title": "Core Technologies",
+    "tech_badge": "Hands-on Stack",
+    "tech_description": "Production-proven tools and platforms I use daily to design resilient, fault-tolerant backend systems:",
+    "tech_footer_note": "Azure API for FHIR & Healthcare Specs",
+    "tech_footer_link": "View usage in production →",
+    "stats_title": "Engineering Impact",
+    "stats_caption": "Quantified results delivered across mission-critical services at Optum.",
+    "graph_badge": "Interactive",
+    "graph_title": "Knowledge Graph",
+    "graph_description": "Explore interactive DAG-based learning roadmaps across Computer Science, Distributed Systems, AI, and Math.",
+    "graph_button": "Open Interactive Map"
+  },
+  "sections": {
+    "experience_title": "Experience Highlights",
+    "experience_subtitle": "Leading backend architecture and high-throughput systems",
+    "experience_link_text": "Full Timeline",
+    "blogs_title": "Recent Writings",
+    "blogs_subtitle": "Deep dives into software engineering, architecture, and tools",
+    "blogs_link_text": "All Articles"
+  },
+  "cta": {
+    "title": "Let's Build Something Great Together",
+    "description": "Whether you want to discuss distributed database architectures, cloud scalability, or engineering opportunities, my inbox is always open.",
+    "button_email": "Send Me an Email",
+    "button_linkedin": "Connect on LinkedIn"
+  }
+}

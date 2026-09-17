@@ -1,313 +1,287 @@
-# Content Creation Templates
+# Content Management & Editing Guide
 
-## Blog Post Template
+Welcome to your updated, modern website! This repository is organized with a strict separation between **Design (HTML/CSS layouts)** and **Content**:
 
-```markdown
----
-title: "Your Post Title"
-date: 2024-11-04T10:00:00-08:00
-draft: false
-tags: ["tag1", "tag2", "tag3"]
-categories: ["category"]
-description: "A brief description of your post for SEO and previews."
----
-
-# Your Main Heading
-
-Your introduction paragraph goes here...
-
-## Section 1
-
-Content for section 1...
-
-### Code Example
-
-\`\`\`javascript
-// Your code here
-const example = "Hello World";
-console.log(example);
-\`\`\`
-
-## Section 2
-
-More content...
-
-### Lists
-
-- Item 1
-- Item 2
-- Item 3
-
-### Numbered Lists
-
-1. First item
-2. Second item
-3. Third item
-
-## Conclusion
-
-Your conclusion...
-```
-
-## Project Template
-
-```markdown
----
-title: "Project Name"
-date: 2024-11-04T10:00:00-08:00
-draft: false
-tags: ["tech1", "tech2"]
-description: "Brief project description"
-github: "https://github.com/username/repo"  # Optional
-demo: "https://demo-url.com"  # Optional
----
-
-# Project Name
-
-A comprehensive description of your project.
-
-## Features
-
-- Feature 1
-- Feature 2
-- Feature 3
-
-## Tech Stack
-
-- **Frontend**: React, Tailwind CSS
-- **Backend**: Node.js, Express
-- **Database**: PostgreSQL
-- **Hosting**: AWS
-
-## Challenges & Solutions
-
-Describe the main challenges you faced and how you solved them.
-
-## Key Achievements
-
-- Achievement 1
-- Achievement 2
-- Achievement 3
-
-## What I Learned
-
-Share your learning experience from this project.
-```
-
-## Papers Entry Template
-
-To add a paper to your Papers page, edit `data/en/papers.toml`:
-
-```toml
-[[papers]]
-title = "Paper Title"
-paper_link = "https://arxiv.org/abs/xxxx.xxxxx"
-blog_link = "/blogs/my-notes-on-paper"  # Leave empty "" if no blog post
-summary = "Brief description of what the paper is about and why it's interesting."
-authors = "Author Names"
-year = "2024"
-```
-
-**Note**: 
-- `blog_link` can be internal (`/blogs/...`) or external (`https://medium.com/...`)
-- Leave `blog_link = ""` if you don't have notes/blog post yet
-- The Papers page displays **5 papers per page** with automatic pagination
-- Navigate using Previous/Next buttons or page numbers at the bottom
-- To change items per page, edit `$itemsPerPage` in `layouts/_default/papers.html`
-
-## Static Page Template
-
-```markdown
----
-title: "Page Title"
-date: 2024-11-04T10:00:00-08:00
-draft: false
-layout: "single"
----
-
-# Page Heading
-
-Your page content goes here...
-
-## Section
-
-More content...
-```
-
-## About Page Template (with Certifications & Awards)
-
-```markdown
----
-title: "About Me"
-date: 2024-11-04T10:00:00-08:00
-draft: false
-layout: "single"
----
-
-# About Me
-
-Your introduction and background...
-
-## What I Do
-
-Your specializations and skills...
-
-## My Journey
-
-Your career story...
-
-## Beyond Code
-
-Your interests outside of coding...
+1. **Blog Posts & Knowledge Graph**: 100% pure **Markdown (`.md`)** files.
+2. **All Other Site Content**: Clean, structured **JSON (`.json`)** files in `data/en/`.
+3. **Zero Hardcoded HTML**: Every title, subtitle, stat, and text block across your pages is dynamically loaded from data files.
 
 ---
 
-# Certifications
+## Quick Reference: Where to Edit Content
 
-### Certification Name
-**Issuing Organization** | *Year*
-
-Brief description of what this certification validates or demonstrates.
-
-### Another Certification
-**Issuing Organization** | *Year*
-
-Description of the certification and skills demonstrated.
-
----
-
-# Honors and Awards
-
-### Award Name
-**Organization/Event** | *Year*
-
-Description of the achievement and what you were recognized for.
-
-### Another Award
-**Organization/Event** | *Year*
-
-Description of the recognition and impact.
+| To Update... | Edit File | Format |
+| :--- | :--- | :--- |
+| **Author Name, Bio, Social Links, Certifications, Honors** | `data/en/author.json` | JSON |
+| **Homepage Hero, Impact Numbers & Call-to-Action** | `data/en/home.json` | JSON |
+| **Work Experience Timeline & Bullet Points** | `data/en/experience.json` | JSON |
+| **Research Papers & Reading List** | `data/en/papers.json` | JSON |
+| **Projects List (GitHub / Demo links, tags)** | `data/en/projects.json` | JSON |
+| **Skills & Tech Stack Icons (Devicon classes)** | `data/en/tech.json` | JSON |
+| **About Page Story, Focus Areas & Narrative** | `data/en/about.json` | JSON |
+| **Contact Page Text, Form endpoint & Availability** | `data/en/contact.json` | JSON |
+| **Blog Articles (Articles & Tutorials)** | `content/en/blogs/*.md` | Markdown (`.md`) |
+| **Knowledge Graph Topics & Notes** | `learning-graph/src/content/**/*.md` | Markdown (`.md`) |
 
 ---
 
-## Let's Connect
+## 1. JSON Data Files (`data/en/`)
 
-Your call to action for connecting...
-```
+All site sections outside of blogs and the knowledge graph are driven by simple JSON files.
 
-## Markdown Tips
-
-### Images
-```markdown
-![Alt text](/images/image-name.jpg)
-```
-
-### Links
-```markdown
-[Link text](https://example.com)
-```
-
-### Bold and Italic
-```markdown
-**bold text**
-*italic text*
-***bold and italic***
-```
-
-### Blockquotes
-```markdown
-> This is a blockquote
-> It can span multiple lines
-```
-
-### Tables
-```markdown
-| Column 1 | Column 2 | Column 3 |
-|----------|----------|----------|
-| Data 1   | Data 2   | Data 3   |
-| Data 4   | Data 5   | Data 6   |
-```
-
-### Horizontal Rule
-```markdown
----
-```
-
-### Inline Code
-```markdown
-Use `backticks` for inline code
-```
-
-### Code Blocks with Syntax Highlighting
-````markdown
-```python
-def hello_world():
-    print("Hello, World!")
-```
-
-```javascript
-function helloWorld() {
-    console.log("Hello, World!");
+### 👤 Author & Profile (`data/en/author.json`)
+Controls your global profile metadata shown in the header, footer, hero, and sidebar:
+```json
+{
+  "name": "Bharath Kumar",
+  "role": "Senior Software Engineer",
+  "avatar_initials": "BK",
+  "location": "Bengaluru, India",
+  "status": "Available for new opportunities",
+  "bio_short": "Designing fault-tolerant distributed backends...",
+  "socials": {
+    "github": "https://github.com/brucewayne98",
+    "linkedin": "https://linkedin.com/in/bharathkumar",
+    "twitter": "https://twitter.com",
+    "email": "mailto:bharath@example.com"
+  },
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "year": "2023",
+      "credential_url": "https://..."
+    }
+  ],
+  "honors": [
+    {
+      "title": "Engineering Excellence Award",
+      "issuer": "Company Name",
+      "year": "2024",
+      "description": "Recognized for architecting real-time streaming pipeline."
+    }
+  ]
 }
 ```
+
+### 🏠 Homepage Hero & Metrics (`data/en/home.json`)
+Controls the homepage hero heading, subheadings, and quick impact metrics:
+```json
+{
+  "hero": {
+    "greeting": "Hi, I'm Bharath",
+    "tagline": "Architecting resilient, hyper-scale distributed systems.",
+    "description": "Specialized in Golang, Kubernetes, and distributed streaming architectures.",
+    "cta_primary": { "label": "Explore Projects", "url": "/projects/" },
+    "cta_secondary": { "label": "Read Research Notes", "url": "/papers/" }
+  },
+  "impact_stats": [
+    { "metric": "99.99%", "label": "Uptime Maintained" },
+    { "metric": "50M+", "label": "Daily Events Processed" },
+    { "metric": "40%", "label": "Cloud Cost Reduction" },
+    { "metric": "6+", "label": "Years Experience" }
+  ]
+}
+```
+
+### 💼 Experience Timeline (`data/en/experience.json`)
+Controls the timeline cards displayed on `/experience/` and on the homepage:
+```json
+{
+  "timeline": [
+    {
+      "role": "Senior Software Engineer",
+      "company": "Tech Corp",
+      "company_url": "https://example.com",
+      "period": "2022 - Present",
+      "location": "Bengaluru, India",
+      "points": [
+        "Architected event-driven microservices handling 50M+ requests daily.",
+        "Reduced p99 latency from 180ms to 24ms through database connection pooling."
+      ],
+      "skills": ["Go", "Kubernetes", "Kafka", "PostgreSQL", "gRPC"]
+    }
+  ]
+}
+```
+
+### 📄 Research Papers (`data/en/papers.json`)
+Controls the research paper library on `/papers/`:
+```json
+{
+  "papers": [
+    {
+      "title": "Spanner: Google's Globally-Distributed Database",
+      "authors": "Corbett et al.",
+      "year": 2012,
+      "summary": "Google's globally distributed database that provides external consistency using TrueTime API.",
+      "paper_link": "https://research.google/pubs/pub39966/",
+      "blog_link": "/blogs/spanner-notes/"
+    }
+  ]
+}
+```
+*Tip: Set `"blog_link": ""` if you do not have companion notes written yet.*
+
+### 🚀 Projects (`data/en/projects.json`)
+Controls the projects portfolio on `/projects/`:
+```json
+{
+  "projects": [
+    {
+      "title": "Distributed Task Scheduler",
+      "description": "High-throughput priority job orchestrator with leader election.",
+      "tags": ["Go", "Raft", "Redis", "Docker"],
+      "github": "https://github.com/brucewayne98/distributed-scheduler",
+      "demo": "https://demo.example.com",
+      "featured": true
+    }
+  ]
+}
+```
+
+### 🛠️ Tech Stack & Skills (`data/en/tech.json`)
+Controls the skill categories and icons using Devicons:
+```json
+{
+  "categories": [
+    {
+      "name": "Backend & Distributed Systems",
+      "skills": [
+        { "name": "Go", "icon": "devicon-go-plain colored" },
+        { "name": "Python", "icon": "devicon-python-plain colored" }
+      ]
+    }
+  ]
+}
+```
+
+### 📖 About Page (`data/en/about.json`)
+Controls your background story, narrative, and focus areas on `/about/`:
+```json
+{
+  "title": "Engineering at Scale & Crafting Resilient Systems",
+  "intro": "I am a backend and distributed systems engineer...",
+  "story_paragraphs": [
+    "Paragraph 1 about your background...",
+    "Paragraph 2 about your journey..."
+  ],
+  "focus_areas": [
+    {
+      "title": "Distributed Systems",
+      "description": "Consensus algorithms, event-driven architecture, and zero-downtime deployments."
+    }
+  ]
+}
+```
+
+### ✉️ Contact Page (`data/en/contact.json`)
+Controls the copy, location, and form handler on `/contact/`:
+```json
+{
+  "title": "Get in Touch",
+  "subtitle": "Have an engineering challenge or want to talk distributed systems?",
+  "location": "Bengaluru, India (IST / UTC+5:30)",
+  "office_hours": "Monday – Friday: 09:00 - 18:00 IST",
+  "form_action": "https://formspree.io/f/your-id"
+}
+```
+
+---
+
+## 2. Blog Posts (`content/en/blogs/`)
+
+All blog posts are 100% Markdown files.
+
+### Creating a New Blog Post
+Create a new `.md` file in `content/en/blogs/my-post-title.md`:
+
+```markdown
+---
+title: "Designing Event-Driven Microservices with Kafka"
+date: 2024-11-04T10:00:00+05:30
+draft: false
+tags: ["kafka", "microservices", "go", "architecture"]
+categories: ["architecture"]
+description: "A comprehensive guide on event sourcing, outbox pattern, and Kafka partitioning."
+# Optional: If this is an external publication (e.g., Medium, Substack)
+# external_url: "https://medium.com/@username/your-article"
+---
+
+## Introduction
+
+Your Markdown content goes here. You can write code blocks, lists, quotes, and diagrams:
 
 ```go
+package main
+
+import "fmt"
+
 func main() {
-    fmt.Println("Hello, World!")
+    fmt.Println("Clean, fast microservice")
 }
 ```
-````
 
-## Front Matter Fields Explained
+### Key Takeaways
+- Event-driven patterns decouple synchronous RPC chains.
+- The transactional outbox pattern prevents phantom writes.
+```
 
-### Common Fields
+---
 
-- `title`: The page/post title (required)
-- `date`: Publication date in ISO 8601 format (required)
-- `draft`: Set to `false` to publish, `true` to keep as draft
-- `description`: SEO description and preview text
-- `tags`: Array of tags for categorization
-- `categories`: Array of categories
+## 3. Interactive Knowledge Graph (`learning-graph/src/content/`)
 
-### Blog-Specific Fields
+The Knowledge Graph is a visual interactive mind-map of CS, Cloud, and Engineering topics. Every node is backed by a Markdown file.
 
-- `tags`: Help readers find related content
-- `categories`: Organize posts into broader topics
+### Adding or Updating a Topic Note
+Topic guides live in `learning-graph/src/content/<category>/<topic-slug>.md`.
 
-### Project-Specific Fields
+Categories include:
+- `cs/`: Computer Science & Systems (e.g., `gpu-memory-hierarchy.md`)
+- `cloud/`: Cloud Architecture & AWS/GCP
+- `devops/`: CI/CD, Containers & Infrastructure
+- `ai-ml/`: Machine Learning & LLM Systems
+- `architecture/`: Distributed Systems & System Design
 
-- `github`: Link to GitHub repository
-- `demo`: Link to live demo
-- `featured`: Set to `true` to feature on homepage
+Example topic file:
+```markdown
+# GPU Memory Hierarchy
 
-## SEO Best Practices
+Comprehensive guide to High Bandwidth Memory (HBM), Shared Memory, Registers, and coalesced access.
 
-1. Write descriptive titles (50-60 characters)
-2. Add meta descriptions (150-160 characters)
-3. Use relevant tags and categories
-4. Include images with alt text
-5. Use proper heading hierarchy (H1 → H2 → H3)
-6. Write clear, concise URLs (use lowercase, hyphens)
+## Architecture Overview
+- **Registers**: Fastest storage, per thread
+- **Shared Memory / L1**: On-chip memory shared by threads in a Thread Block
+- **L2 Cache**: Shared across all Streaming Multiprocessors (SMs)
+- **HBM / GDDR**: High-capacity global device memory
+```
 
-## Content Tips
+### Rebuilding the Knowledge Graph
+Whenever you add or modify topics in `learning-graph/`:
+```bash
+npm run build:graph
+```
+*(Or simply run `npm run build`, which compiles both Tailwind CSS, the Knowledge Graph, and Hugo together!)*
 
-1. **Start strong**: Hook readers in the first paragraph
-2. **Use headings**: Break content into scannable sections
-3. **Add examples**: Code snippets, screenshots, diagrams
-4. **Be concise**: Get to the point quickly
-5. **Edit ruthlessly**: Remove unnecessary words
-6. **Add value**: Share insights, not just facts
-7. **End with action**: Call to action or conclusion
+---
 
-## Publishing Checklist
+## 4. Local Development & Build Commands
 
-- [ ] Set `draft: false`
-- [ ] Add descriptive title
-- [ ] Include meta description
-- [ ] Add relevant tags
-- [ ] Include images (if applicable)
-- [ ] Proofread for typos
-- [ ] Check code examples
-- [ ] Preview locally with `hugo server -D`
-- [ ] Test on mobile view
-- [ ] Verify all links work
+Run these commands in the root of your project:
+
+| Command | What It Does |
+| :--- | :--- |
+| `npm run dev` | Starts Hugo development server with live reload at `http://localhost:1313` |
+| `npm run build:css` | Compiles Tailwind CSS to `static/css/main.css` |
+| `npm run build:graph` | Builds the interactive Knowledge Graph directly into `static/graph/` |
+| `npm run build` | Full production build: compiles Tailwind CSS, builds the Knowledge Graph, and executes `hugo --minify` |
+
+---
+
+## 5. Automated GitHub Pages Deployment
+
+Your repository is equipped with GitHub Actions (`.github/workflows/deploy.yml`). When you push changes to `main`:
+1. It automatically installs dependencies (`npm ci`).
+2. Builds Tailwind CSS and the Knowledge Graph.
+3. Compiles the Hugo site to `public/`.
+4. Deploys directly to GitHub Pages.

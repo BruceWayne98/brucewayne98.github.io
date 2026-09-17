@@ -31,12 +31,13 @@
             {{ .Title }}
         </h1>
 
+        {{ $author := index site.Data .Language.Lang "author" }}
         <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-mono pt-2">
             <div class="flex items-center gap-2">
                 <div class="w-6 h-6 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[10px] font-bold">
-                    BK
+                    {{ $author.avatar_initials | default "BK" }}
                 </div>
-                <span class="text-zinc-800 dark:text-zinc-200 font-sans font-medium">{{ .Site.Params.name | default "Bharath Kumar" }}</span>
+                <span class="text-zinc-800 dark:text-zinc-200 font-sans font-medium">{{ $author.name | default .Site.Params.name }}</span>
             </div>
             <span>•</span>
             <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "MMMM 2, 2006" }}</time>
@@ -56,12 +57,12 @@
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 p-[1.5px] flex-shrink-0">
                     <div class="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center text-white text-sm font-bold">
-                        BK
+                        {{ $author.avatar_initials | default "BK" }}
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-base font-bold text-zinc-900 dark:text-white">{{ .Site.Params.name | default "Bharath Kumar" }}</h3>
-                    <p class="text-xs text-zinc-500 dark:text-zinc-400">Senior Software Engineer • Distributed Systems & Cloud</p>
+                    <h3 class="text-base font-bold text-zinc-900 dark:text-white">{{ $author.name | default .Site.Params.name }}</h3>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">{{ $author.role }}</p>
                 </div>
             </div>
             <button onclick="navigator.clipboard.writeText(window.location.href); this.innerText = 'URL Copied!';"

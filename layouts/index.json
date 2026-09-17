@@ -1,6 +1,6 @@
 {{- $items := slice -}}
 
-{{/* 1. Add Regular Pages */}}
+{{/* 1. Add Regular Pages & Blogs */}}
 {{- range site.RegularPages -}}
   {{- $type := "Page" -}}
   {{- if eq .Section "blogs" }}{{ $type = "Blog" }}{{ end -}}
@@ -9,22 +9,22 @@
   {{- $items = $items | append $item -}}
 {{- end -}}
 
-{{/* 2. Add Research Papers from Data */}}
+{{/* 2. Add Research Papers from papers.json */}}
 {{- $papersData := index site.Data site.Language.Lang "papers" -}}
 {{- if $papersData -}}
   {{- range $papersData.papers -}}
     {{- $url := .paper_link -}}
     {{- if ne .blog_link "" }}{{ $url = .blog_link }}{{ end -}}
-    {{- $item := dict "title" .title "url" $url "type" "Paper" "description" (.summary | plainify | truncate 150) "tags" (slice "Research" "Paper" .year) -}}
+    {{- $item := dict "title" .title "url" $url "type" "Paper" "description" (.summary | plainify | truncate 150) "tags" (slice "Research" "Paper" .year .category) -}}
     {{- $items = $items | append $item -}}
   {{- end -}}
 {{- end -}}
 
-{{/* 3. Add External Blogs from Data */}}
-{{- $blogsData := index site.Data site.Language.Lang "blogs" -}}
-{{- if $blogsData -}}
-  {{- range $blogsData.blogs -}}
-    {{- $item := dict "title" .title "url" .link "type" "Blog" "description" (.summary | plainify | truncate 150) "tags" .tags -}}
+{{/* 3. Add Projects from projects.json */}}
+{{- $projectsData := index site.Data site.Language.Lang "projects" -}}
+{{- if $projectsData -}}
+  {{- range $projectsData.projects -}}
+    {{- $item := dict "title" .title "url" .link "type" "Project" "description" (.description | plainify | truncate 150) "tags" .tags -}}
     {{- $items = $items | append $item -}}
   {{- end -}}
 {{- end -}}

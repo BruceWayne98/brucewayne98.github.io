@@ -1,40 +1,34 @@
 {{ define "main" }}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-12">
     
+    {{ $exp := index site.Data .Language.Lang "experience" }}
+    {{ $home := index site.Data .Language.Lang "home" }}
+
     <!-- Page Header -->
     <div class="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-6">
         <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-            Work Experience
+            {{ $exp.header.title }}
         </h1>
         <p class="text-base text-zinc-500 dark:text-zinc-400">
-            A chronological timeline of my professional roles, architectural achievements, and technologies.
+            {{ $exp.header.subtitle }}
         </p>
     </div>
 
-    <!-- Stats Summary Row -->
+    <!-- Stats Summary Row (From home.json) -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {{ range $home.impact_stats }}
         <div class="modern-card p-4 text-center">
-            <span class="text-2xl sm:text-3xl font-extrabold text-zinc-900 dark:text-white font-mono">5+</span>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Years Experience</p>
+            <span class="text-2xl sm:text-3xl font-extrabold font-mono {{ if eq .color "emerald" }}text-emerald-600 dark:text-emerald-400{{ else if eq .color "indigo" }}text-indigo-600 dark:text-indigo-400{{ else }}text-zinc-900 dark:text-white{{ end }}">
+                {{ .value }}
+            </span>
+            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{{ .label }}</p>
         </div>
-        <div class="modern-card p-4 text-center">
-            <span class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono">850+</span>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Providers Impacted</p>
-        </div>
-        <div class="modern-card p-4 text-center">
-            <span class="text-2xl sm:text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 font-mono">500k+</span>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Patients / Year</p>
-        </div>
-        <div class="modern-card p-4 text-center">
-            <span class="text-2xl sm:text-3xl font-extrabold text-sky-600 dark:text-sky-400 font-mono">37.5%</span>
-            <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">Throughput Gain</p>
-        </div>
+        {{ end }}
     </div>
 
     <!-- Timeline -->
-    {{ $experienceData := index site.Data .Language.Lang "experience" }}
     <div class="relative border-l-2 border-zinc-200 dark:border-zinc-800 ml-4 sm:ml-6 space-y-12 pl-6 sm:pl-8">
-        {{ range $index, $exp := $experienceData.experience }}
+        {{ range $index, $role := $exp.roles }}
         <div class="relative group">
             
             <!-- Timeline Node Indicator -->

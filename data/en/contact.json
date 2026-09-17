@@ -1,0 +1,13 @@
+{
+  "title": "Let's Connect",
+  "subtitle": "Whether you have questions about distributed systems, cloud scalability, potential collaborations, or just want to say hi — feel free to drop a message.",
+  "cards": {
+    "email_title": "Direct Email",
+    "linkedin_title": "LinkedIn Network",
+    "linkedin_subtitle": "Professional timeline & discussions",
+    "github_title": "GitHub Repositories",
+    "github_subtitle": "Open source code, tools & configs",
+    "location_title": "Current Location",
+    "location_status": "Active in APAC / Global Remote"
+  }
+}

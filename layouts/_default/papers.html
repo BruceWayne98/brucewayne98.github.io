@@ -1,18 +1,20 @@
 {{ define "main" }}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
     
+    {{ $papersData := index site.Data .Language.Lang "papers" }}
+
     <!-- Page Header -->
     <div class="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-6">
         <div class="flex items-center gap-2">
             <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20 font-semibold">
-                Systems & Database Literature
+                {{ $papersData.header.badge }}
             </span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-            Research Papers & Reading List
+            {{ $papersData.header.title }}
         </h1>
         <p class="text-base text-zinc-500 dark:text-zinc-400">
-            Summaries, architectural takeaways, and engineering notes on foundational papers in distributed systems, storage engines, and cloud databases.
+            {{ $papersData.header.subtitle }}
         </p>
     </div>
 
@@ -26,14 +28,14 @@
             </svg>
             <input id="paper-search" 
                    type="text" 
-                   placeholder="Filter papers by title, author, year, or keyword (e.g., Cosmos DB, LSM, tail latency)..."
+                   placeholder="{{ $papersData.header.search_placeholder }}"
                    class="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors shadow-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500" />
         </div>
 
         <!-- Topic Pills -->
         <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-medium" id="topic-filters">
             <button class="topic-btn active px-3 py-1.5 rounded-full bg-indigo-600 text-white transition-colors" data-topic="all">
-                All Papers ({{ len (index site.Data .Language.Lang "papers").papers }})
+                All Papers ({{ len $papersData.papers }})
             </button>
             <button class="topic-btn px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" data-topic="database">
                 Databases & Storage
@@ -48,7 +50,6 @@
     </div>
 
     <!-- Papers List Container -->
-    {{ $papersData := index site.Data .Language.Lang "papers" }}
     <div id="papers-list" class="space-y-4">
         {{ range $index, $paper := $papersData.papers }}
         <div class="paper-card modern-card p-6 space-y-3 transition-all" 
@@ -80,9 +81,9 @@
             </div>
 
             <!-- Title -->
-            <h3 class="text-xl font-bold text-zinc-900 dark:text-white leading-snug">
+            <h2 class="text-xl font-bold text-zinc-900 dark:text-white leading-snug">
                 {{ .title }}
-            </h3>
+            </h2>
 
             <!-- Summary / Takeaways -->
             <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">

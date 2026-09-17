@@ -1,18 +1,18 @@
 {{ define "main" }}
 <div class="max-w-3xl mx-auto px-4 sm:px-6 space-y-10">
     
+    {{ $contact := index site.Data .Language.Lang "contact" }}
+    {{ $author := index site.Data .Language.Lang "author" }}
+
     <!-- Page Header -->
     <div class="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-6 text-center">
         <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-            Let's Connect
+            {{ $contact.title }}
         </h1>
         <p class="text-base text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto">
-            {{ .Content | plainify | default "Feel free to reach out! I'm always open to discussing distributed systems, backend engineering, or new career opportunities." }}
+            {{ $contact.subtitle }}
         </p>
     </div>
-
-    {{ $authorData := index site.Data .Language.Lang "author" }}
-    {{ $author := cond (and $authorData $authorData.author) $authorData.author site.Params }}
 
     <!-- Contact Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -25,7 +25,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-zinc-900 dark:text-white">Direct Email</h3>
+                <h2 class="text-lg font-bold text-zinc-900 dark:text-white">{{ $contact.cards.email_title }}</h2>
                 <p class="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-1">{{ $author.email }}</p>
             </div>
             <div class="pt-3 flex items-center gap-2">
@@ -48,8 +48,8 @@
                         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.6a1.67 1.67 0 1 0 1.67 1.67 1.67 1.67 0 0 0-1.67-1.67z"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-zinc-900 dark:text-white">LinkedIn Network</h3>
-                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Professional timeline & discussions</p>
+                <h2 class="text-lg font-bold text-zinc-900 dark:text-white">{{ $contact.cards.linkedin_title }}</h2>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ $contact.cards.linkedin_subtitle }}</p>
             </div>
             <div class="pt-3">
                 <a href="{{ $author.linkedin }}" target="_blank" rel="noopener noreferrer"
@@ -70,8 +70,8 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-zinc-900 dark:text-white">GitHub Repositories</h3>
-                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Open source code, tools & configs</p>
+                <h2 class="text-lg font-bold text-zinc-900 dark:text-white">{{ $contact.cards.github_title }}</h2>
+                <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ $contact.cards.github_subtitle }}</p>
             </div>
             <div class="pt-3">
                 <a href="{{ $author.github }}" target="_blank" rel="noopener noreferrer"
@@ -93,13 +93,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-zinc-900 dark:text-white">Current Location</h3>
+                <h2 class="text-lg font-bold text-zinc-900 dark:text-white">{{ $contact.cards.location_title }}</h2>
                 <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ $author.location }} (IST / UTC+5:30)</p>
             </div>
             <div class="pt-3">
                 <span class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 status-pulse"></span>
-                    <span>Active in APAC / Global Remote</span>
+                    <span>{{ $contact.cards.location_status }}</span>
                 </span>
             </div>
         </div>

@@ -26,9 +26,10 @@
     <!-- Articles List -->
     <div id="blog-list" class="space-y-4">
         
-        {{/* 1. Internal Markdown Posts */}}
-        {{ $localPosts := where site.RegularPages "Section" "blogs" }}
-        {{ range $localPosts }}
+        {{/* All Blog Posts are pure Markdown files in content/en/blogs/ */}}
+        {{ $posts := where site.RegularPages "Section" "blogs" }}
+        {{ range $posts.ByDate.Reverse }}
+        {{ $isExternal := .Params.external_url }}
         <div class="blog-card modern-card p-6 space-y-3 transition-all"
              data-title="{{ lower .Title }}"
              data-tags="{{ lower (delimit .Params.tags " ") }}"
@@ -39,12 +40,28 @@
                     <span>•</span>
                     <span>{{ .ReadingTime }} min read</span>
                 </div>
+                {{ if $isExternal }}
+                <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20 font-sans font-medium flex items-center gap-1">
+                    <span>External Publication</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                </span>
+                {{ else }}
                 <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-sans font-medium">Article</span>
+                {{ end }}
             </div>
 
-            <a href="{{ .RelPermalink }}" class="block group">
-                <h2 class="text-xl font-bold text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    {{ .Title }}
+            <a href="{{ if $isExternal }}{{ $isExternal }}{{ else }}{{ .RelPermalink }}{{ end }}" 
+               {{ if $isExternal }}target="_blank" rel="noopener noreferrer"{{ end }}
+               class="block group">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-white {{ if $isExternal }}group-hover:text-purple-600 dark:group-hover:text-purple-400{{ else }}group-hover:text-emerald-600 dark:group-hover:text-emerald-400{{ end }} transition-colors flex items-center gap-2">
+                    <span>{{ .Title }}</span>
+                    {{ if $isExternal }}
+                    <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    {{ end }}
                 </h2>
             </a>
 
@@ -60,52 +77,6 @@
                 {{ end }}
             </div>
         </div>
-        {{ end }}
-
-        {{/* 2. External Posts from Data */}}
-        {{ $blogsData := index site.Data .Language.Lang "blogs" }}
-        {{ range $blogsData.blogs }}
-            {{/* Only show if not duplicate of local */}}
-            {{ $isExternal := hasPrefix .link "http" }}
-            {{ if $isExternal }}
-            <div class="blog-card modern-card p-6 space-y-3 transition-all"
-                 data-title="{{ lower .title }}"
-                 data-tags="{{ lower (delimit .tags " ") }}"
-                 data-summary="{{ lower .summary }}">
-                <div class="flex items-center justify-between gap-2 text-xs text-zinc-400 dark:text-zinc-500 font-mono">
-                    <div class="flex items-center gap-2">
-                        <span>{{ .date }}</span>
-                    </div>
-                    <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20 font-sans font-medium flex items-center gap-1">
-                        <span>External Publication</span>
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                        </svg>
-                    </span>
-                </div>
-
-                <a href="{{ .link }}" target="_blank" rel="noopener noreferrer" class="block group">
-                    <h2 class="text-xl font-bold text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center gap-2">
-                        <span>{{ .title }}</span>
-                        <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                        </svg>
-                    </h2>
-                </a>
-
-                <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    {{ .summary }}
-                </p>
-
-                <div class="flex flex-wrap items-center gap-1.5 pt-2">
-                    {{ range .tags }}
-                    <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60">
-                        #{{ . }}
-                    </span>
-                    {{ end }}
-                </div>
-            </div>
-            {{ end }}
         {{ end }}
 
     </div>
