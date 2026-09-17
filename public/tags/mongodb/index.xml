@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mongodb on My Hugo Blog</title>
+    <title>Mongodb on Bharath Kumar</title>
     <link>http://localhost:1313/tags/mongodb/</link>
-    <description>Recent content in Mongodb on My Hugo Blog</description>
+    <description>Recent content in Mongodb on Bharath Kumar</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sun, 20 Oct 2024 10:00:00 -0800</lastBuildDate>

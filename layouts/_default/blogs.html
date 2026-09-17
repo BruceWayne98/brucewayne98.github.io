@@ -1,162 +1,145 @@
 {{ define "main" }}
-<div class="w-full md:w-3/4 lg:w-1/2 mx-auto px-4 py-12">
-    <h1 class="text-5xl font-bold mb-12 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
     
-    <div id="blogs-container" class="space-y-12 max-w-3xl mx-auto">
-        {{ $blogsData := index site.Data .Language.Lang "blogs" }}
-        {{ range $index, $blog := $blogsData.blogs }}
-        <div class="blog-item group" data-index="{{ $index }}">
-            <p class="text-text-secondary-light dark:text-text-secondary-dark text-sm mb-2">{{ .date }}</p>
-            <a href="{{ .link }}" class="block" target="_blank">
-                <h3 class="inline-flex items-center text-xl font-medium text-accent-light dark:text-accent-dark hover:text-text-primary-light dark:hover:text-text-primary-dark transition-colors duration-200 mb-3">
-                    {{ .title }}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2 opacity-70 group-hover:opacity-100 transition-opacity duration-200">
-                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                    </svg>
-                </h3>
+    <!-- Page Header -->
+    <div class="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-6">
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+            Technical Blog & Writings
+        </h1>
+        <p class="text-base text-zinc-500 dark:text-zinc-400">
+            Articles, tutorials, and engineering notes on microservices, cloud patterns, databases, and tooling.
+        </p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="relative">
+        <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" stroke-width="2"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input id="blog-search" 
+               type="text" 
+               placeholder="Search articles by title, topic, or keyword (e.g. Go, Docker, REST, Microservices)..."
+               class="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 transition-colors shadow-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500" />
+    </div>
+
+    <!-- Articles List -->
+    <div id="blog-list" class="space-y-4">
+        
+        {{/* 1. Internal Markdown Posts */}}
+        {{ $localPosts := where site.RegularPages "Section" "blogs" }}
+        {{ range $localPosts }}
+        <div class="blog-card modern-card p-6 space-y-3 transition-all"
+             data-title="{{ lower .Title }}"
+             data-tags="{{ lower (delimit .Params.tags " ") }}"
+             data-summary="{{ lower (.Description | default .Summary) }}">
+            <div class="flex items-center justify-between gap-2 text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+                <div class="flex items-center gap-2">
+                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+                    <span>•</span>
+                    <span>{{ .ReadingTime }} min read</span>
+                </div>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-sans font-medium">Article</span>
+            </div>
+
+            <a href="{{ .RelPermalink }}" class="block group">
+                <h2 class="text-xl font-bold text-zinc-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    {{ .Title }}
+                </h2>
             </a>
-            <p class="text-text-secondary-light dark:text-text-secondary-dark mb-4 prose">{{ .summary }}</p>
-            <div class="flex flex-wrap gap-2">
-                {{ range .tags }}
-                {{ if ne . "" }}
-                <span class="px-2 py-1 text-xs bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-secondary-light dark:text-text-secondary-dark border border-border-primary-light dark:border-border-primary-dark rounded-md transition-all duration-300">{{ . }}</span>
-                {{ end }}
+
+            <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                {{ .Description | default (.Summary | plainify) }}
+            </p>
+
+            <div class="flex flex-wrap items-center gap-1.5 pt-2">
+                {{ range .Params.tags }}
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60">
+                    #{{ . }}
+                </span>
                 {{ end }}
             </div>
         </div>
         {{ end }}
+
+        {{/* 2. External Posts from Data */}}
+        {{ $blogsData := index site.Data .Language.Lang "blogs" }}
+        {{ range $blogsData.blogs }}
+            {{/* Only show if not duplicate of local */}}
+            {{ $isExternal := hasPrefix .link "http" }}
+            {{ if $isExternal }}
+            <div class="blog-card modern-card p-6 space-y-3 transition-all"
+                 data-title="{{ lower .title }}"
+                 data-tags="{{ lower (delimit .tags " ") }}"
+                 data-summary="{{ lower .summary }}">
+                <div class="flex items-center justify-between gap-2 text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+                    <div class="flex items-center gap-2">
+                        <span>{{ .date }}</span>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/10 text-purple-700 dark:text-purple-400 border border-purple-500/20 font-sans font-medium flex items-center gap-1">
+                        <span>External Publication</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </span>
+                </div>
+
+                <a href="{{ .link }}" target="_blank" rel="noopener noreferrer" class="block group">
+                    <h2 class="text-xl font-bold text-zinc-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center gap-2">
+                        <span>{{ .title }}</span>
+                        <svg class="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                        </svg>
+                    </h2>
+                </a>
+
+                <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    {{ .summary }}
+                </p>
+
+                <div class="flex flex-wrap items-center gap-1.5 pt-2">
+                    {{ range .tags }}
+                    <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60">
+                        #{{ . }}
+                    </span>
+                    {{ end }}
+                </div>
+            </div>
+            {{ end }}
+        {{ end }}
+
     </div>
 
-    <!-- Pagination Controls -->
-    <div id="pagination-controls" class="flex items-center justify-between border-t border-border-primary-light dark:border-border-primary-dark pt-6 mt-12 max-w-3xl mx-auto">
-        <!-- Previous Button -->
-        <div>
-            <button id="prev-btn" 
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                Previous
-            </button>
-        </div>
-
-        <!-- Page Numbers -->
-        <div class="flex items-center gap-2">
-            <span id="page-info" class="text-text-secondary-light dark:text-text-secondary-dark">
-                Page 1 of 1
-            </span>
-        </div>
-
-        <!-- Next Button -->
-        <div>
-            <button id="next-btn" 
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                Next
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-        </div>
+    <div id="no-blogs" class="hidden py-12 text-center text-sm text-zinc-400 dark:text-zinc-500">
+        No articles matched your search query.
     </div>
 
-    <!-- Page Number List -->
-    <div id="page-numbers" class="flex justify-center gap-2 mt-4 max-w-3xl mx-auto"></div>
 </div>
 
-<style>
-    .prose {
-        color: #4b5563; 
-    }
-    html.dark .prose {
-        color: #9ca3af; 
-    }
-    .blog-item {
-        display: none;
-    }
-    .blog-item.active {
-        display: block;
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const itemsPerPage = 5;
-        const blogs = document.querySelectorAll('.blog-item');
-        const totalItems = blogs.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        let currentPage = 1;
+    const blogSearch = document.getElementById('blog-search');
+    const blogCards = document.querySelectorAll('.blog-card');
+    const noBlogsEl = document.getElementById('no-blogs');
 
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const pageInfo = document.getElementById('page-info');
-        const pageNumbers = document.getElementById('page-numbers');
+    blogSearch.addEventListener('input', () => {
+        const query = blogSearch.value.trim().toLowerCase();
+        let count = 0;
 
-        function showPage(page) {
-            // Hide all blogs
-            blogs.forEach(blog => blog.classList.remove('active'));
+        blogCards.forEach(card => {
+            const title = card.dataset.title || '';
+            const tags = card.dataset.tags || '';
+            const summary = card.dataset.summary || '';
 
-            // Calculate range
-            const start = (page - 1) * itemsPerPage;
-            const end = Math.min(start + itemsPerPage, totalItems);
-
-            // Show blogs for current page
-            for (let i = start; i < end; i++) {
-                blogs[i].classList.add('active');
-            }
-
-            // Update page info
-            pageInfo.textContent = `Page ${page} of ${totalPages}`;
-
-            // Update buttons
-            prevBtn.disabled = page === 1;
-            nextBtn.disabled = page === totalPages;
-
-            // Scroll to top
-            window.scrollTo({top: 0, behavior: 'smooth'});
-
-            currentPage = page;
-            updatePageNumbers();
-        }
-
-        function updatePageNumbers() {
-            if (totalPages <= 3) {
-                pageNumbers.style.display = 'none';
-                return;
-            }
-
-            pageNumbers.style.display = 'flex';
-            pageNumbers.innerHTML = '';
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = i === currentPage
-                    ? 'px-3 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg font-medium'
-                    : 'px-3 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200';
-                
-                pageBtn.addEventListener('click', () => showPage(i));
-                pageNumbers.appendChild(pageBtn);
-            }
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                showPage(currentPage - 1);
+            const matches = !query || title.includes(query) || tags.includes(query) || summary.includes(query);
+            if (matches) {
+                card.style.display = 'block';
+                count++;
+            } else {
+                card.style.display = 'none';
             }
         });
 
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                showPage(currentPage + 1);
-            }
-        });
-
-        // Initialize
-        if (totalPages === 1) {
-            document.getElementById('pagination-controls').style.display = 'none';
-        }
-        showPage(1);
+        noBlogsEl.style.display = count === 0 ? 'block' : 'none';
     });
 </script>
-
 {{ end }}

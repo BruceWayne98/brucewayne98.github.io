@@ -1,0 +1,32 @@
+{{- $items := slice -}}
+
+{{/* 1. Add Regular Pages */}}
+{{- range site.RegularPages -}}
+  {{- $type := "Page" -}}
+  {{- if eq .Section "blogs" }}{{ $type = "Blog" }}{{ end -}}
+  {{- if eq .Section "projects" }}{{ $type = "Project" }}{{ end -}}
+  {{- $item := dict "title" .Title "url" .RelPermalink "type" $type "description" (.Summary | plainify | truncate 150) "tags" .Params.tags -}}
+  {{- $items = $items | append $item -}}
+{{- end -}}
+
+{{/* 2. Add Research Papers from Data */}}
+{{- $papersData := index site.Data site.Language.Lang "papers" -}}
+{{- if $papersData -}}
+  {{- range $papersData.papers -}}
+    {{- $url := .paper_link -}}
+    {{- if ne .blog_link "" }}{{ $url = .blog_link }}{{ end -}}
+    {{- $item := dict "title" .title "url" $url "type" "Paper" "description" (.summary | plainify | truncate 150) "tags" (slice "Research" "Paper" .year) -}}
+    {{- $items = $items | append $item -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 3. Add External Blogs from Data */}}
+{{- $blogsData := index site.Data site.Language.Lang "blogs" -}}
+{{- if $blogsData -}}
+  {{- range $blogsData.blogs -}}
+    {{- $item := dict "title" .title "url" .link "type" "Blog" "description" (.summary | plainify | truncate 150) "tags" .tags -}}
+    {{- $items = $items | append $item -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $items | jsonify -}}

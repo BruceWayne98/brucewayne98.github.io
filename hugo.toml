@@ -14,8 +14,11 @@ defaultContentLanguageInSubdir = false
 
 [params]
   name = "Bharath Kumar"
-  location = "Bengaluru"
-  description = "A passionate developer and blogger sharing insights on technology, coding, and life."
+  role = "Senior Software Engineer"
+  company = "Optum Global Solutions"
+  location = "Bengaluru, India"
+  description = "Senior Software Engineer specializing in distributed microservices, cloud infrastructure, and systems performance."
+  status = "Available for interesting discussions & collaborations"
   profile_image = "/images/profile.jpg"
   
   # Social links
@@ -47,24 +50,31 @@ defaultContentLanguageInSubdir = false
         weight = 3
       
       [[languages.en.menu.main]]
+        name = "Graph"
+        url = "/graph/"
+        weight = 4
+        [languages.en.menu.main.params]
+          target = "_blank"
+      
+      [[languages.en.menu.main]]
         name = "Projects"
         pageRef = "/projects"
-        weight = 4
+        weight = 5
       
       [[languages.en.menu.main]]
         name = "Experience"
         pageRef = "/experience"
-        weight = 5
+        weight = 6
       
       [[languages.en.menu.main]]
         name = "Papers"
         pageRef = "/papers"
-        weight = 6
+        weight = 7
       
       [[languages.en.menu.main]]
         name = "Contact"
         pageRef = "/contact"
-        weight = 7
+        weight = 8
 
 [markup]
   [markup.goldmark]
@@ -76,4 +86,4 @@ defaultContentLanguageInSubdir = false
     lineNumbersInTable = true
 
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]

@@ -1,206 +1,196 @@
 {{ define "main" }}
-<div class="max-w-4xl mx-auto px-4 py-12">
-    <h1 class="text-5xl font-bold mb-6 text-text-primary-light dark:text-text-primary-dark">{{ .Title }}</h1>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
     
-    <div class="bg-bg-primary-light dark:bg-bg-secondary-dark p-8 rounded-lg mb-8 border border-border-primary-light dark:border-border-primary-dark">
-        <div class="prose prose-invert prose-lg max-w-none">
-            <div class="text-text-secondary-light dark:text-text-secondary-dark text-lg mb-8">
-                {{ .Content }}
-            </div>
+    <!-- Page Header -->
+    <div class="space-y-2 border-b border-zinc-200 dark:border-zinc-800 pb-6">
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-400 border border-indigo-500/20 font-semibold">
+                Systems & Database Literature
+            </span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
+            Research Papers & Reading List
+        </h1>
+        <p class="text-base text-zinc-500 dark:text-zinc-400">
+            Summaries, architectural takeaways, and engineering notes on foundational papers in distributed systems, storage engines, and cloud databases.
+        </p>
+    </div>
+
+    <!-- Search & Filter Controls -->
+    <div class="space-y-4">
+        <!-- Live Search Bar -->
+        <div class="relative">
+            <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input id="paper-search" 
+                   type="text" 
+                   placeholder="Filter papers by title, author, year, or keyword (e.g., Cosmos DB, LSM, tail latency)..."
+                   class="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors shadow-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500" />
+        </div>
+
+        <!-- Topic Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 text-xs font-medium" id="topic-filters">
+            <button class="topic-btn active px-3 py-1.5 rounded-full bg-indigo-600 text-white transition-colors" data-topic="all">
+                All Papers ({{ len (index site.Data .Language.Lang "papers").papers }})
+            </button>
+            <button class="topic-btn px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" data-topic="database">
+                Databases & Storage
+            </button>
+            <button class="topic-btn px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" data-topic="cloud">
+                Cloud & Microservices
+            </button>
+            <button class="topic-btn px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" data-topic="latency">
+                Tail Latency & Concurrency
+            </button>
         </div>
     </div>
 
+    <!-- Papers List Container -->
     {{ $papersData := index site.Data .Language.Lang "papers" }}
-    {{ $papers := $papersData.papers }}
-    
-    <!-- JavaScript-based Pagination -->
-    <div id="papers-container" class="space-y-6 mb-8">
-        {{ range $index, $paper := $papers }}
-        <div class="paper-item bg-bg-primary-light dark:bg-bg-secondary-dark p-6 rounded-lg border border-border-primary-light dark:border-border-primary-dark hover:shadow-lg transition-all duration-300" data-index="{{ $index }}">
-            <div class="flex flex-col gap-3">
-                <!-- Paper Title and Links -->
-                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
-                    <div class="flex-grow">
-                        <h3 class="text-xl md:text-2xl font-semibold text-text-primary-light dark:text-text-primary-dark mb-2">
-                            {{ .title }}
-                        </h3>
-                        <p class="text-sm text-text-secondary-light dark:text-text-secondary-dark">
-                            {{ .authors }} • {{ .year }}
-                        </p>
-                    </div>
+    <div id="papers-list" class="space-y-4">
+        {{ range $index, $paper := $papersData.papers }}
+        <div class="paper-card modern-card p-6 space-y-3 transition-all" 
+             data-title="{{ lower .title }}" 
+             data-authors="{{ lower .authors }}" 
+             data-summary="{{ lower .summary }}"
+             data-year="{{ .year }}">
+            
+            <!-- Meta Bar -->
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="font-mono text-xs px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800/60 font-semibold">
+                        {{ .year }}
+                    </span>
+                    <span class="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+                        {{ .authors }}
+                    </span>
                 </div>
-
-                <!-- Summary -->
-                <p class="text-text-secondary-light dark:text-text-secondary-dark prose">
-                    {{ .summary }}
-                </p>
-
-                <!-- Links -->
-                <div class="flex flex-wrap gap-3 mt-2">
-                    <!-- Paper Link -->
-                    <a href="{{ .paper_link }}" 
-                       target="_blank"
-                       class="inline-flex items-center gap-2 px-4 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg hover:opacity-90 transition-all duration-200 text-sm font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Read Paper
-                    </a>
-
-                    <!-- Blog Link (if exists) -->
-                    {{ if ne .blog_link "" }}
-                    <a href="{{ .blog_link }}" 
-                       {{ if hasPrefix .blog_link "http" }}target="_blank"{{ end }}
-                       class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-tertiary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-secondary-dark transition-all duration-200 text-sm font-medium">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                        My Notes
-                    </a>
-                    {{ end }}
-                </div>
+                
+                <!-- Quick Copy Citation Button -->
+                <button onclick="copyCitation(this, '{{ .authors }} ({{ .year }}). {{ .title }}.')"
+                        class="text-[11px] font-mono text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 flex items-center gap-1 transition-colors"
+                        title="Copy citation to clipboard">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span class="citation-status">Cite</span>
+                </button>
             </div>
+
+            <!-- Title -->
+            <h3 class="text-xl font-bold text-zinc-900 dark:text-white leading-snug">
+                {{ .title }}
+            </h3>
+
+            <!-- Summary / Takeaways -->
+            <p class="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
+                {{ .summary }}
+            </p>
+
+            <!-- Action Links -->
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <a href="{{ .paper_link }}" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-sm transition-all">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>Read Paper (PDF)</span>
+                </a>
+
+                {{ if ne .blog_link "" }}
+                <a href="{{ .blog_link }}" 
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition-all">
+                    <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                    </svg>
+                    <span>My Review Notes</span>
+                </a>
+                {{ end }}
+            </div>
+
         </div>
         {{ end }}
     </div>
 
-    <!-- Pagination Controls -->
-    <div id="pagination-controls" class="flex items-center justify-between border-t border-border-primary-light dark:border-border-primary-dark pt-6">
-        <!-- Previous Button -->
-        <div>
-            <button id="prev-btn" 
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                Previous
-            </button>
-        </div>
-
-        <!-- Page Numbers -->
-        <div class="flex items-center gap-2">
-            <span id="page-info" class="text-text-secondary-light dark:text-text-secondary-dark">
-                Page 1 of 1
-            </span>
-        </div>
-
-        <!-- Next Button -->
-        <div>
-            <button id="next-btn" 
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-                Next
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
-        </div>
+    <div id="no-papers" class="hidden py-12 text-center text-sm text-zinc-400 dark:text-zinc-500">
+        No research papers matched your search filter.
     </div>
 
-    <!-- Page Number List -->
-    <div id="page-numbers" class="flex justify-center gap-2 mt-4"></div>
 </div>
 
-<style>
-    .prose {
-        color: #4b5563;
-    }
-    html.dark .prose {
-        color: #9ca3af;
-    }
-    .prose p {
-        color: #4b5563;
-        line-height: 1.7;
-    }
-    html.dark .prose p {
-        color: #9ca3af;
-    }
-    .paper-item {
-        display: none;
-    }
-    .paper-item.active {
-        display: block;
-    }
-</style>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const itemsPerPage = 5;
-        const papers = document.querySelectorAll('.paper-item');
-        const totalItems = papers.length;
-        const totalPages = Math.ceil(totalItems / itemsPerPage);
-        let currentPage = 1;
+    const searchInput = document.getElementById('paper-search');
+    const paperCards = document.querySelectorAll('.paper-card');
+    const noPapersEl = document.getElementById('no-papers');
+    const topicBtns = document.querySelectorAll('.topic-btn');
+    let currentTopic = 'all';
 
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const pageInfo = document.getElementById('page-info');
-        const pageNumbers = document.getElementById('page-numbers');
+    function filterPapers() {
+        const query = searchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
 
-        function showPage(page) {
-            // Hide all papers
-            papers.forEach(paper => paper.classList.remove('active'));
+        paperCards.forEach(card => {
+            const title = card.dataset.title || '';
+            const authors = card.dataset.authors || '';
+            const summary = card.dataset.summary || '';
+            const year = card.dataset.year || '';
 
-            // Calculate range
-            const start = (page - 1) * itemsPerPage;
-            const end = Math.min(start + itemsPerPage, totalItems);
+            const matchesQuery = !query || 
+                title.includes(query) || 
+                authors.includes(query) || 
+                summary.includes(query) || 
+                year.includes(query);
 
-            // Show papers for current page
-            for (let i = start; i < end; i++) {
-                papers[i].classList.add('active');
+            let matchesTopic = true;
+            if (currentTopic === 'database') {
+                matchesTopic = title.includes('database') || title.includes('stores') || title.includes('b-tree') || title.includes('dynamodb') || title.includes('cosmos') || title.includes('lsm');
+            } else if (currentTopic === 'cloud') {
+                matchesTopic = title.includes('cloud') || title.includes('azure') || title.includes('amazon') || title.includes('dynamodb') || title.includes('cosmos');
+            } else if (currentTopic === 'latency') {
+                matchesTopic = title.includes('latency') || title.includes('tail') || title.includes('thread') || title.includes('parallelism');
             }
 
-            // Update page info
-            pageInfo.textContent = `Page ${page} of ${totalPages}`;
-
-            // Update buttons
-            prevBtn.disabled = page === 1;
-            nextBtn.disabled = page === totalPages;
-
-            // Scroll to top
-            window.scrollTo({top: 0, behavior: 'smooth'});
-
-            currentPage = page;
-            updatePageNumbers();
-        }
-
-        function updatePageNumbers() {
-            if (totalPages <= 3) {
-                pageNumbers.style.display = 'none';
-                return;
-            }
-
-            pageNumbers.style.display = 'flex';
-            pageNumbers.innerHTML = '';
-
-            for (let i = 1; i <= totalPages; i++) {
-                const pageBtn = document.createElement('button');
-                pageBtn.textContent = i;
-                pageBtn.className = i === currentPage
-                    ? 'px-3 py-2 bg-accent-light dark:bg-accent-dark text-white rounded-lg font-medium'
-                    : 'px-3 py-2 bg-bg-primary-light dark:bg-bg-secondary-dark text-text-primary-light dark:text-text-primary-dark border border-border-primary-light dark:border-border-primary-dark rounded-lg hover:bg-bg-secondary-light dark:hover:bg-bg-tertiary-dark transition-all duration-200';
-                
-                pageBtn.addEventListener('click', () => showPage(i));
-                pageNumbers.appendChild(pageBtn);
-            }
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                showPage(currentPage - 1);
+            if (matchesQuery && matchesTopic) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
             }
         });
 
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                showPage(currentPage + 1);
-            }
-        });
+        noPapersEl.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
 
-        // Initialize
-        if (totalPages === 1) {
-            document.getElementById('pagination-controls').style.display = 'none';
-        }
-        showPage(1);
+    searchInput.addEventListener('input', filterPapers);
+
+    topicBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            topicBtns.forEach(b => {
+                b.classList.remove('bg-indigo-600', 'text-white');
+                b.classList.add('bg-zinc-100', 'dark:bg-zinc-800/80', 'text-zinc-600', 'dark:text-zinc-400');
+            });
+            btn.classList.add('bg-indigo-600', 'text-white');
+            btn.classList.remove('bg-zinc-100', 'dark:bg-zinc-800/80', 'text-zinc-600', 'dark:text-zinc-400');
+            currentTopic = btn.dataset.topic;
+            filterPapers();
+        });
     });
-</script>
 
+    async function copyCitation(btn, text) {
+        try {
+            await navigator.clipboard.writeText(text);
+            const status = btn.querySelector('.citation-status');
+            status.textContent = 'Copied!';
+            btn.classList.add('text-emerald-500');
+            setTimeout(() => {
+                status.textContent = 'Cite';
+                btn.classList.remove('text-emerald-500');
+            }, 2000);
+        } catch (e) {
+            console.error('Failed to copy citation:', e);
+        }
+    }
+</script>
 {{ end }}

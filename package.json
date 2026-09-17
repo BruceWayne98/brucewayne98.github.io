@@ -1,0 +1,14 @@
+{
+  "name": "brucewayne98-portfolio",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -i ./assets/css/styles.css -o ./static/css/main.css --minify",
+    "watch:css": "tailwindcss -i ./assets/css/styles.css -o ./static/css/main.css --watch",
+    "build:graph": "cd learning-graph && npm run build",
+    "build": "npm run build:css && hugo --gc --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Es6 on My Hugo Blog</title>
+    <title>Es6 on Bharath Kumar</title>
     <link>http://localhost:1313/tags/es6/</link>
-    <description>Recent content in Es6 on My Hugo Blog</description>
+    <description>Recent content in Es6 on Bharath Kumar</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Tue, 15 Oct 2024 16:00:00 -0800</lastBuildDate>

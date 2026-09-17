@@ -1,0 +1,172 @@
+<div id="search-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-start justify-center pt-16 sm:pt-24 px-4 transition-opacity">
+    <div class="w-full max-w-2xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150 flex flex-col max-h-[80vh]">
+        
+        <!-- Search Input Bar -->
+        <div class="flex items-center px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800 gap-3">
+            <svg class="w-5 h-5 text-zinc-400 dark:text-zinc-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input id="search-input" 
+                   type="text" 
+                   placeholder="Search papers, blog posts, projects, topics..." 
+                   class="w-full bg-transparent text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none"
+                   autocomplete="off" />
+            <button onclick="closeSearchModal()" class="text-xs font-mono text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 bg-zinc-100 dark:bg-zinc-800 px-2 py-1 rounded-md">
+                ESC
+            </button>
+        </div>
+
+        <!-- Filter category tabs -->
+        <div class="flex items-center gap-1 px-4 py-2 bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800/80 text-xs overflow-x-auto">
+            <button class="search-filter-btn px-2.5 py-1 rounded-full font-medium transition-colors bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100" data-filter="all">All</button>
+            <button class="search-filter-btn px-2.5 py-1 rounded-full font-medium transition-colors text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200" data-filter="Paper">Papers</button>
+            <button class="search-filter-btn px-2.5 py-1 rounded-full font-medium transition-colors text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200" data-filter="Blog">Blogs</button>
+            <button class="search-filter-btn px-2.5 py-1 rounded-full font-medium transition-colors text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200" data-filter="Project">Projects</button>
+        </div>
+
+        <!-- Results List -->
+        <div id="search-results" class="overflow-y-auto p-2 space-y-1 flex-grow divide-y divide-zinc-100 dark:divide-zinc-800/50">
+            <div class="py-8 text-center text-xs text-zinc-400 dark:text-zinc-500">
+                Type a query or keyword to search across papers, blogs, and projects.
+            </div>
+        </div>
+
+        <!-- Keyboard hints footer -->
+        <div class="px-4 py-2.5 bg-zinc-50 dark:bg-zinc-950/40 border-t border-zinc-100 dark:border-zinc-800 text-[11px] text-zinc-400 dark:text-zinc-500 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span><kbd class="font-mono bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded">↑</kbd> <kbd class="font-mono bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded">↓</kbd> navigate</span>
+                <span><kbd class="font-mono bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded">↵</kbd> select</span>
+                <span><kbd class="font-mono bg-zinc-200 dark:bg-zinc-800 px-1 py-0.5 rounded">ESC</kbd> close</span>
+            </div>
+            <span>Fast client-side indexing</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    let searchIndex = null;
+    let activeFilter = 'all';
+    let selectedResultIndex = 0;
+
+    async function loadSearchIndex() {
+        if (searchIndex) return;
+        try {
+            const res = await fetch('{{ "index.json" | relURL }}');
+            if (res.ok) {
+                searchIndex = await res.json();
+            }
+        } catch (e) {
+            console.error('Failed to load search index:', e);
+        }
+    }
+
+    function openSearchModal() {
+        const modal = document.getElementById('search-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.getElementById('search-input').focus();
+        loadSearchIndex();
+    }
+
+    function closeSearchModal() {
+        const modal = document.getElementById('search-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    // Global keyboard listener (Cmd+K / Ctrl+K / /)
+    document.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            const modal = document.getElementById('search-modal');
+            if (modal.classList.contains('hidden')) {
+                openSearchModal();
+            } else {
+                closeSearchModal();
+            }
+        } else if (e.key === 'Escape') {
+            closeSearchModal();
+        }
+    });
+
+    // Close on clicking backdrop
+    document.getElementById('search-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'search-modal') {
+            closeSearchModal();
+        }
+    });
+
+    // Handle filter buttons
+    document.querySelectorAll('.search-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.search-filter-btn').forEach(b => {
+                b.classList.remove('bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-900', 'dark:text-zinc-100');
+                b.classList.add('text-zinc-500', 'dark:text-zinc-400');
+            });
+            btn.classList.add('bg-zinc-200', 'dark:bg-zinc-800', 'text-zinc-900', 'dark:text-zinc-100');
+            btn.classList.remove('text-zinc-500', 'dark:text-zinc-400');
+            activeFilter = btn.dataset.filter;
+            runSearch();
+        });
+    });
+
+    // Search input handler
+    document.getElementById('search-input').addEventListener('input', runSearch);
+
+    function runSearch() {
+        const query = document.getElementById('search-input').value.trim().toLowerCase();
+        const container = document.getElementById('search-results');
+
+        if (!searchIndex) {
+            container.innerHTML = `<div class="py-8 text-center text-xs text-zinc-400">Loading index...</div>`;
+            return;
+        }
+
+        if (!query) {
+            container.innerHTML = `<div class="py-8 text-center text-xs text-zinc-400 dark:text-zinc-500">Type a query or keyword to search across papers, blogs, and projects.</div>`;
+            return;
+        }
+
+        const filtered = searchIndex.filter(item => {
+            if (activeFilter !== 'all' && item.type !== activeFilter) return false;
+            const titleMatch = item.title?.toLowerCase().includes(query);
+            const descMatch = item.description?.toLowerCase().includes(query) || item.summary?.toLowerCase().includes(query);
+            const tagMatch = item.tags?.some(t => t.toLowerCase().includes(query));
+            return titleMatch || descMatch || tagMatch;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="py-8 text-center text-xs text-zinc-400 dark:text-zinc-500">No results found for "${query}"</div>`;
+            return;
+        }
+
+        container.innerHTML = filtered.slice(0, 15).map((item, index) => {
+            const badgeColors = {
+                Paper: 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/60',
+                Blog: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60',
+                Project: 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-400 border-amber-200 dark:border-amber-800/60',
+                Page: 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700'
+            };
+            const badgeClass = badgeColors[item.type] || badgeColors.Page;
+
+            return `
+                <a href="${item.url}" class="result-item flex items-center justify-between p-3 rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800/80 transition-colors group cursor-pointer" data-index="${index}">
+                    <div class="flex flex-col gap-0.5 max-w-[85%]">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-medium px-2 py-0.5 rounded-full border ${badgeClass}">${item.type}</span>
+                            <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">${item.title}</span>
+                        </div>
+                        <p class="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-0.5">${item.description || item.summary || ''}</p>
+                    </div>
+                    <svg class="w-4 h-4 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-transform group-hover:translate-x-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            `;
+        }).join('');
+    }
+
+    window.openSearchModal = openSearchModal;
+    window.closeSearchModal = closeSearchModal;
+</script>

@@ -1,0 +1,133 @@
+@import 'katex/dist/katex.min.css';
+@import '@xyflow/react/dist/style.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply m-0 p-0 font-sans antialiased text-slate-800 bg-slate-50 dark:bg-slate-950 dark:text-slate-100 overflow-hidden select-none;
+  }
+}
+
+/* Custom scrollbars for reader and menus */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400 dark:bg-slate-600;
+}
+
+/* KaTeX styling enhancements */
+.katex-display {
+  @apply my-4 p-3 bg-slate-100 dark:bg-slate-900/70 rounded-lg overflow-x-auto text-center border border-slate-200 dark:border-slate-800/80;
+}
+
+.katex {
+  font-size: 1.05em;
+}
+
+/* Custom styles for React Flow Canvas */
+.react-flow__attribution {
+  display: none !important;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background-color: #6366f1;
+  border: 2px solid white;
+  transition: transform 0.2s ease;
+}
+
+.dark .react-flow__handle {
+  border-color: #0f172a;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.3);
+}
+
+/* Prose-like custom styling for Markdown reader */
+.markdown-body {
+  @apply text-slate-700 dark:text-slate-300 leading-relaxed select-text;
+}
+
+.markdown-body h1 {
+  @apply text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mt-6 mb-4 pb-2 border-b border-slate-200 dark:border-slate-800;
+}
+
+.markdown-body h2 {
+  @apply text-xl md:text-2xl font-semibold text-slate-900 dark:text-white mt-6 mb-3;
+}
+
+.markdown-body h3 {
+  @apply text-lg md:text-xl font-semibold text-slate-800 dark:text-slate-100 mt-5 mb-2;
+}
+
+.markdown-body p {
+  @apply mb-4 text-base leading-7;
+}
+
+.markdown-body ul {
+  @apply list-disc list-outside ml-6 mb-4 space-y-1.5;
+}
+
+.markdown-body ol {
+  @apply list-decimal list-outside ml-6 mb-4 space-y-1.5;
+}
+
+.markdown-body li {
+  @apply text-base;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/30 pl-4 py-2 my-4 rounded-r text-slate-600 dark:text-slate-300 italic;
+}
+
+.markdown-body code:not(pre code) {
+  @apply px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-mono text-sm border border-slate-200 dark:border-slate-700/60;
+}
+
+.markdown-body pre {
+  @apply p-4 rounded-xl bg-slate-900 text-slate-100 overflow-x-auto my-4 text-sm font-mono border border-slate-800 shadow-sm relative;
+}
+
+.markdown-body table {
+  @apply w-full text-left border-collapse my-4 text-sm;
+}
+
+.markdown-body th {
+  @apply border-b border-slate-300 dark:border-slate-700 p-2 font-semibold text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800/60;
+}
+
+.markdown-body td {
+  @apply border-b border-slate-200 dark:border-slate-800 p-2;
+}
+
+.markdown-body hr {
+  @apply my-6 border-slate-200 dark:border-slate-800;
+}
+
+.markdown-body a {
+  @apply text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-2;
+}
+
+.markdown-body img {
+  @apply rounded-xl max-w-full h-auto my-4 shadow-md border border-slate-200 dark:border-slate-800;
+}

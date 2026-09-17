@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on My Hugo Blog</title>
+    <title>Kubernetes on Bharath Kumar</title>
     <link>http://localhost:1313/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on My Hugo Blog</description>
+    <description>Recent content in Kubernetes on Bharath Kumar</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sun, 01 Sep 2024 10:00:00 -0800</lastBuildDate>

@@ -1,0 +1,19 @@
+# Node & npm
+node_modules/
+npm-debug.log*
+
+# Hugo
+public/
+resources/_gen/
+.hugo_build.lock
+
+# Learning Graph build output (built into static/graph on build)
+learning-graph/node_modules/
+learning-graph/dist/
+
+# OS and Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

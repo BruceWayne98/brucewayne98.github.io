@@ -1,0 +1,88 @@
+{{ define "main" }}
+<!-- Reading Progress Bar -->
+<div id="reading-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-400 z-50 transition-all duration-75 w-0"></div>
+
+<article class="max-w-3xl mx-auto px-4 sm:px-6 space-y-8">
+    
+    <!-- Back Link -->
+    <div>
+        <a href="{{ if eq .Section "projects" }}{{ "/projects/" | relLangURL }}{{ else }}{{ "/blogs/" | relLangURL }}{{ end }}" 
+           class="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span>Back to {{ if eq .Section "projects" }}Projects{{ else }}Articles{{ end }}</span>
+        </a>
+    </div>
+
+    <!-- Article Header -->
+    <header class="space-y-4 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+        {{ if .Params.tags }}
+        <div class="flex flex-wrap gap-1.5">
+            {{ range .Params.tags }}
+            <span class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+                #{{ . }}
+            </span>
+            {{ end }}
+        </div>
+        {{ end }}
+
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white leading-[1.2]">
+            {{ .Title }}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-mono pt-2">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-zinc-800 text-white flex items-center justify-center text-[10px] font-bold">
+                    BK
+                </div>
+                <span class="text-zinc-800 dark:text-zinc-200 font-sans font-medium">{{ .Site.Params.name | default "Bharath Kumar" }}</span>
+            </div>
+            <span>•</span>
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "MMMM 2, 2006" }}</time>
+            <span>•</span>
+            <span>{{ .ReadingTime }} min read</span>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <div class="prose prose-zinc dark:prose-invert max-w-none text-zinc-800 dark:text-zinc-200 leading-relaxed space-y-6">
+        {{ .Content }}
+    </div>
+
+    <!-- Article Footer / Author Card -->
+    <footer class="pt-10 border-t border-zinc-200 dark:border-zinc-800 space-y-6">
+        <div class="modern-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 p-[1.5px] flex-shrink-0">
+                    <div class="w-full h-full rounded-full bg-zinc-900 flex items-center justify-center text-white text-sm font-bold">
+                        BK
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-zinc-900 dark:text-white">{{ .Site.Params.name | default "Bharath Kumar" }}</h3>
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400">Senior Software Engineer • Distributed Systems & Cloud</p>
+                </div>
+            </div>
+            <button onclick="navigator.clipboard.writeText(window.location.href); this.innerText = 'URL Copied!';"
+                    class="px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-xs font-mono text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700 transition-colors">
+                Share / Copy Link
+            </button>
+        </div>
+    </footer>
+
+</article>
+
+<!-- Reading progress scroll listener -->
+<script>
+    window.addEventListener('scroll', () => {
+        const h = document.documentElement;
+        const b = document.body;
+        const st = 'scrollTop';
+        const sh = 'scrollHeight';
+        const percent = ((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight)) * 100;
+        const bar = document.getElementById('reading-progress');
+        if (bar) bar.style.width = percent + '%';
+    });
+</script>
+{{ end }}

@@ -1,0 +1,67 @@
+<!--
+---
+id: gpu-memory-hierarchy
+title: GPU Memory Hierarchy & Bandwidth
+parent: computer-science
+order: 1
+summary: Deep dive into Register files, Shared Memory/L1, L2 Cache, and HBM memory tiers in modern GPUs.
+tags: [gpu, memory, hardware, cuda]
+color: rose
+format: html
+difficulty: Advanced
+---
+-->
+
+<div class="space-y-6">
+  <div class="p-4 rounded-xl bg-gradient-to-r from-rose-500/10 via-purple-500/10 to-indigo-500/10 border border-rose-200 dark:border-rose-900/50">
+    <h2 class="text-xl font-bold text-rose-600 dark:text-rose-400 mb-1">GPU Memory Subsystem</h2>
+    <p class="text-sm text-slate-600 dark:text-slate-300">
+      Understanding latency and bandwidth disparities across modern GPU compute tiers (NVIDIA Hopper / Blackwell architectures).
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-4 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-semibold text-slate-900 dark:text-white">1. Register File</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-mono">~1 cycle</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Fastest on-chip storage directly adjacent to ALUs.</p>
+      <div class="text-xs font-mono bg-slate-200 dark:bg-slate-800 p-2 rounded">Bandwidth: &gt; 30 TB/s aggregated</div>
+    </div>
+
+    <div class="p-4 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-semibold text-slate-900 dark:text-white">2. Shared Memory / L1</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 font-mono">~20-30 cycles</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Programmer-managed cache per Streaming Multiprocessor (SM).</p>
+      <div class="text-xs font-mono bg-slate-200 dark:bg-slate-800 p-2 rounded">Capacity: ~228 KB per SM</div>
+    </div>
+
+    <div class="p-4 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-semibold text-slate-900 dark:text-white">3. L2 Cache</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 font-mono">~200 cycles</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Shared crossbar cache connecting all SMs.</p>
+      <div class="text-xs font-mono bg-slate-200 dark:bg-slate-800 p-2 rounded">Capacity: 50 MB - 60 MB</div>
+    </div>
+
+    <div class="p-4 rounded-lg bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-semibold text-slate-900 dark:text-white">4. High Bandwidth Memory (HBM3e)</span>
+        <span class="text-xs px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 font-mono">~400-600 cycles</span>
+      </div>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mb-2">Off-chip stacked DRAM connected via silicon interposer.</p>
+      <div class="text-xs font-mono bg-slate-200 dark:bg-slate-800 p-2 rounded">Bandwidth: 3.35 TB/sec</div>
+    </div>
+  </div>
+
+  <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+    <h3 class="font-semibold text-slate-900 dark:text-white mb-2">Why Memory Latency Hiding Matters in CUDA</h3>
+    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+      Because global memory latency is roughly 400 to 600 clock cycles, the CUDA warp scheduler rapidly switches active execution to another ready warp whenever the current warp stalls on a memory fetch. Having sufficient warp occupancy is the primary mechanism for saturating available execution throughput.
+    </p>
+  </div>
+</div>
