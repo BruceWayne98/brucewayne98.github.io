@@ -18,7 +18,6 @@ Welcome to your updated, modern website! This repository is organized with a str
 | **Research Papers & Reading List** | `data/en/papers.json` | JSON |
 | **Projects List (GitHub / Demo links, tags)** | `data/en/projects.json` | JSON |
 | **Skills & Tech Stack Icons (Devicon classes)** | `data/en/tech.json` | JSON |
-| **About Page Story, Focus Areas & Narrative** | `data/en/about.json` | JSON |
 | **Contact Page Text, Form endpoint & Availability** | `data/en/contact.json` | JSON |
 | **Blog Articles (Articles & Tutorials)** | `content/en/blogs/*.md` | Markdown (`.md`) |
 | **Knowledge Graph Topics & Notes** | `learning-graph/src/content/**/*.md` | Markdown (`.md`) |
@@ -151,25 +150,6 @@ Controls the skill categories and icons using Devicons:
         { "name": "Go", "icon": "devicon-go-plain colored" },
         { "name": "Python", "icon": "devicon-python-plain colored" }
       ]
-    }
-  ]
-}
-```
-
-### 📖 About Page (`data/en/about.json`)
-Controls your background story, narrative, and focus areas on `/about/`:
-```json
-{
-  "title": "Engineering at Scale & Crafting Resilient Systems",
-  "intro": "I am a backend and distributed systems engineer...",
-  "story_paragraphs": [
-    "Paragraph 1 about your background...",
-    "Paragraph 2 about your journey..."
-  ],
-  "focus_areas": [
-    {
-      "title": "Distributed Systems",
-      "description": "Consensus algorithms, event-driven architecture, and zero-downtime deployments."
     }
   ]
 }

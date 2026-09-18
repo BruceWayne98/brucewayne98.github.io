@@ -25,9 +25,6 @@
             <a href="{{ "/" | relLangURL }}" class="px-3 py-1.5 rounded-full transition-colors {{ if .IsHome }}bg-zinc-200/80 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold{{ else }}hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/50{{ end }}">
                 Home
             </a>
-            <a href="{{ "/about/" | relLangURL }}" class="px-3 py-1.5 rounded-full transition-colors {{ if eq .RelPermalink "/about/" }}bg-zinc-200/80 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold{{ else }}hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/50{{ end }}">
-                About
-            </a>
             <a href="{{ "/experience/" | relLangURL }}" class="px-3 py-1.5 rounded-full transition-colors {{ if eq .RelPermalink "/experience/" }}bg-zinc-200/80 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-semibold{{ else }}hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-100/80 dark:hover:bg-zinc-800/50{{ end }}">
                 Experience
             </a>
@@ -94,9 +91,6 @@
     <div id="mobile-menu" class="hidden md:hidden max-w-5xl mx-auto mt-2 p-4 glass-nav rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
         <a href="{{ "/" | relLangURL }}" onclick="toggleMobileMenu()" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100">
             Home
-        </a>
-        <a href="{{ "/about/" | relLangURL }}" onclick="toggleMobileMenu()" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100">
-            About
         </a>
         <a href="{{ "/experience/" | relLangURL }}" onclick="toggleMobileMenu()" class="px-3 py-2 rounded-xl text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100">
             Experience
