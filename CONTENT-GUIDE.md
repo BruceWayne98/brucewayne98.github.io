@@ -211,29 +211,66 @@ func main() {
 
 ## 3. Interactive Knowledge Graph (`learning-graph/src/content/`)
 
-The Knowledge Graph is a visual interactive mind-map of CS, Cloud, and Engineering topics. Every node is backed by a Markdown file.
+The Knowledge Graph is a visual, interactive mind-map built with React and `@xyflow/react`. Every node on the canvas is backed by a Markdown file.
 
-### Adding or Updating a Topic Note
-Topic guides live in `learning-graph/src/content/<category>/<topic-slug>.md`.
+### How Topics are Linked (The `parent` Field)
+Topics form a hierarchical directed graph. Vite automatically discovers all `.md` files in `learning-graph/src/content/**/*.md` and builds edges using the **`parent`** frontmatter field:
 
-Categories include:
-- `cs/`: Computer Science & Systems (e.g., `gpu-memory-hierarchy.md`)
-- `cloud/`: Cloud Architecture & AWS/GCP
-- `devops/`: CI/CD, Containers & Infrastructure
-- `ai-ml/`: Machine Learning & LLM Systems
-- `architecture/`: Distributed Systems & System Design
+1. **Root Domain (Top Level)**: Set `parent: null` (or omit it).
+   - *Examples*: `computer-science`, `ai`, `math`.
+2. **Child Topic (Level 1)**: Set `parent: <root-id>`.
+   - *Example*: `deep-learning` with `parent: ai`.
+3. **Sub-Topic (Drill-Down Levels 2+)**: Set `parent: <child-id>`.
+   - *Example*: `transformers` with `parent: deep-learning`, and `attention-mechanism` with `parent: transformers`.
 
-Example topic file:
+### Topic Frontmatter Schema
+
 ```markdown
-# GPU Memory Hierarchy
+---
+id: gpu-memory-hierarchy           # (Optional) Unique slug. Defaults to the filename without .md
+title: GPU Memory Subsystem        # (Required) Node title displayed on the card
+parent: computer-science           # (Required for children) ID of parent node. Set null for root
+order: 1                           # (Optional) Sibling display order (1, 2, 3...)
+summary: "Deep dive into HBM, L2, Shared Memory, and Registers in modern GPUs."
+tags: [gpu, cuda, hardware]        # (Optional) Keyword badges
+color: rose                        # (Optional) indigo, emerald, amber, rose, cyan, purple, blue
+difficulty: Advanced               # (Optional) Beginner, Intermediate, Advanced
+---
+```
 
-Comprehensive guide to High Bandwidth Memory (HBM), Shared Memory, Registers, and coalesced access.
+### Full Example of a Child Topic
+Create a file at `learning-graph/src/content/cs/gpu-memory-hierarchy.md`:
 
-## Architecture Overview
-- **Registers**: Fastest storage, per thread
-- **Shared Memory / L1**: On-chip memory shared by threads in a Thread Block
-- **L2 Cache**: Shared across all Streaming Multiprocessors (SMs)
-- **HBM / GDDR**: High-capacity global device memory
+```markdown
+---
+id: gpu-memory-hierarchy
+title: GPU Memory Hierarchy & Bandwidth
+parent: computer-science
+order: 1
+summary: Deep dive into Register files, Shared Memory/L1, L2 Cache, and HBM memory tiers.
+tags: [gpu, memory, hardware, cuda]
+color: rose
+difficulty: Advanced
+---
+
+# GPU Memory Subsystem
+
+Understanding latency and bandwidth disparities across modern GPU compute tiers.
+
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    SM[Streaming Multiprocessor] --> Regs[Registers: 1 cycle]
+    SM --> L1[Shared Memory / L1: 20 cycles]
+    SM --> L2[L2 Cache: 200 cycles]
+    L2 --> HBM[HBM3e: 400-600 cycles]
+```
+
+## Supported Markdown Features
+- **Mermaid Diagrams**: Fenced blocks with `mermaid` render interactive SVG diagrams.
+- **LaTeX Math**: Inline `$E=mc^2$` and display blocks `$$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$` via KaTeX.
+- **Tables & Code Highlighting**: Full GitHub Flavored Markdown (GFM).
 ```
 
 ### Rebuilding the Knowledge Graph
@@ -241,7 +278,7 @@ Whenever you add or modify topics in `learning-graph/`:
 ```bash
 npm run build:graph
 ```
-*(Or simply run `npm run build`, which compiles both Tailwind CSS, the Knowledge Graph, and Hugo together!)*
+*(Or simply run `npm run build`, which compiles Tailwind CSS, the Knowledge Graph, and Hugo together!)*
 
 ---
 
