@@ -177,23 +177,22 @@ export const TopicNodeCard: React.FC<TopicNodeCardProps> = memo(({ data }) => {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onOpenContent(topic.id);
+                  window.location.href = `/blogs/${topic.id}/`;
                 }}
-                className="inline-flex items-center justify-center gap-1 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm hover:shadow transition-all"
-                title="Read notes and documentation"
+                className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm hover:shadow transition-all"
+                title="Read full blog article"
               >
                 <BookOpen className="w-3.5 h-3.5" />
-                <span>Notes</span>
+                <span>Read More</span>
               </button>
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  const url = `${window.location.origin}${window.location.pathname}?topic=${encodeURIComponent(topic.id)}&view=full`;
-                  window.open(url, '_blank');
+                  window.open(`/blogs/${topic.id}/`, '_blank');
                 }}
                 className="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-300 transition-colors"
-                title="Open notes in a new browser tab"
+                title="Open blog article in new tab"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
               </button>

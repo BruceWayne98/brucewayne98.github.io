@@ -12,22 +12,49 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="relative">
-        <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8" stroke-width="2"/>
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
-        </svg>
-        <input id="blog-search" 
-               type="text" 
-               placeholder="Search articles by title, topic, or keyword (e.g. Go, Docker, REST, Microservices)..."
-               class="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 transition-colors shadow-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500" />
+    {{ $posts := where site.RegularPages "Section" "blogs" }}
+    {{ $allTags := slice }}
+    {{ range $posts }}
+        {{ range .Params.tags }}
+            {{ $allTags = $allTags | append . }}
+        {{ end }}
+    {{ end }}
+    {{ $uniqueTags := $allTags | uniq | sort }}
+
+    <!-- Search & Filter Controls -->
+    <div class="space-y-3">
+        <!-- Search Bar -->
+        <div class="relative">
+            <svg class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8" stroke-width="2"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35"/>
+            </svg>
+            <input id="blog-search" 
+                   type="text" 
+                   placeholder="Search articles by title, topic, or keyword (e.g. AI, GPU, Go, Docker)..."
+                   class="w-full pl-11 pr-4 py-3 text-sm bg-white dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:border-emerald-500 dark:focus:border-emerald-400 transition-colors shadow-sm placeholder:text-zinc-400 dark:placeholder:text-zinc-500" />
+        </div>
+
+        <!-- Tag Filter Chips -->
+        <div class="flex flex-wrap items-center gap-1.5 pt-1">
+            <span class="text-xs font-semibold text-zinc-400 font-mono mr-1">Tags:</span>
+            <button type="button" 
+                    class="tag-pill active px-3 py-1 text-xs font-mono font-semibold rounded-full border transition-all bg-emerald-500 text-white border-emerald-500 shadow-sm"
+                    data-tag="all">
+                All ({{ len $posts }})
+            </button>
+            {{ range $uniqueTags }}
+            <button type="button" 
+                    class="tag-pill px-2.5 py-1 text-xs font-mono rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all"
+                    data-tag="{{ lower . }}">
+                #{{ . }}
+            </button>
+            {{ end }}
+        </div>
     </div>
 
     <!-- Articles List -->
     <div id="blog-list" class="space-y-4">
-        
-        {{/* All Blog Posts are pure Markdown files in content/en/blogs/ */}}
-        {{ $posts := where site.RegularPages "Section" "blogs" }}
         {{ range $posts.ByDate.Reverse }}
         {{ $isExternal := .Params.external_url }}
         <div class="blog-card modern-card p-6 space-y-3 transition-all"
@@ -71,9 +98,11 @@
 
             <div class="flex flex-wrap items-center gap-1.5 pt-2">
                 {{ range .Params.tags }}
-                <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60">
+                <button type="button" 
+                        class="card-tag-btn text-xs font-mono px-2 py-0.5 rounded bg-zinc-100 hover:bg-emerald-50 hover:text-emerald-600 dark:bg-zinc-800/80 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-400 text-zinc-600 dark:text-zinc-400 border border-zinc-200/60 dark:border-zinc-700/60 transition-colors"
+                        data-tag="{{ lower . }}">
                     #{{ . }}
-                </span>
+                </button>
                 {{ end }}
             </div>
         </div>
@@ -81,8 +110,18 @@
 
     </div>
 
+    {{ if eq (len $posts) 0 }}
+    <div class="py-16 text-center modern-card p-8 space-y-3">
+        <div class="text-3xl">✍️</div>
+        <h3 class="text-lg font-bold text-zinc-900 dark:text-white">No Blog Articles Yet</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto">
+            Ready to write? Launch the Markdown Blog & Graph Creator to publish your first article directly into <code>content/en/blogs/</code>.
+        </p>
+    </div>
+    {{ end }}
+
     <div id="no-blogs" class="hidden py-12 text-center text-sm text-zinc-400 dark:text-zinc-500">
-        No articles matched your search query.
+        No articles matched your search query or tag filter.
     </div>
 
 </div>
@@ -90,19 +129,24 @@
 <script>
     const blogSearch = document.getElementById('blog-search');
     const blogCards = document.querySelectorAll('.blog-card');
+    const tagPills = document.querySelectorAll('.tag-pill');
+    const cardTagBtns = document.querySelectorAll('.card-tag-btn');
     const noBlogsEl = document.getElementById('no-blogs');
+    let activeTag = 'all';
 
-    blogSearch.addEventListener('input', () => {
+    function filterBlogs() {
         const query = blogSearch.value.trim().toLowerCase();
         let count = 0;
 
         blogCards.forEach(card => {
             const title = card.dataset.title || '';
-            const tags = card.dataset.tags || '';
+            const tags = (card.dataset.tags || '').split(' ');
             const summary = card.dataset.summary || '';
 
-            const matches = !query || title.includes(query) || tags.includes(query) || summary.includes(query);
-            if (matches) {
+            const matchesQuery = !query || title.includes(query) || tags.some(t => t.includes(query)) || summary.includes(query);
+            const matchesTag = activeTag === 'all' || tags.includes(activeTag);
+
+            if (matchesQuery && matchesTag) {
                 card.style.display = 'block';
                 count++;
             } else {
@@ -111,6 +155,33 @@
         });
 
         noBlogsEl.style.display = count === 0 ? 'block' : 'none';
+    }
+
+    function selectTag(tag) {
+        activeTag = tag;
+        tagPills.forEach(pill => {
+            const isMatch = pill.dataset.tag === tag;
+            pill.classList.toggle('active', isMatch);
+            if (isMatch) {
+                pill.className = 'tag-pill active px-3 py-1 text-xs font-mono font-semibold rounded-full border transition-all bg-emerald-500 text-white border-emerald-500 shadow-sm';
+            } else {
+                pill.className = 'tag-pill px-2.5 py-1 text-xs font-mono rounded-full border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 text-zinc-600 dark:text-zinc-400 hover:border-emerald-500 dark:hover:border-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all';
+            }
+        });
+        filterBlogs();
+    }
+
+    tagPills.forEach(pill => {
+        pill.addEventListener('click', () => selectTag(pill.dataset.tag));
     });
+
+    cardTagBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectTag(btn.dataset.tag);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    blogSearch.addEventListener('input', filterBlogs);
 </script>
 {{ end }}

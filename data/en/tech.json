@@ -3,11 +3,11 @@
     {
       "name": "Backend & Languages",
       "items": [
-        { "name": "C# .NET 8", "icon": "devicon-csharp-plain", "color": "text-purple-500" },
+        { "name": "C#", "icon": "devicon-csharp-plain", "color": "text-purple-500" },
         { "name": ".NET Core", "icon": "devicon-dotnetcore-plain", "color": "text-indigo-500" },
-        { "name": "Go", "icon": "devicon-go-original-wordmark", "color": "text-teal-400" },
         { "name": "Python", "icon": "devicon-python-plain", "color": "text-yellow-500" },
-        { "name": "Java", "icon": "devicon-java-plain", "color": "text-red-500" }
+        { "name": "Java", "icon": "devicon-java-plain", "color": "text-red-500" },
+        { "name": "GraphQL", "icon": "devicon-graphql-plain", "color": "text-pink-500" }
       ]
     },
     {
@@ -23,9 +23,8 @@
       "name": "Databases & Storage",
       "items": [
         { "name": "Azure Cosmos DB", "icon": "devicon-cosmosdb-plain", "color": "text-sky-400" },
-        { "name": "Elasticsearch", "icon": "devicon-elasticsearch-plain", "color": "text-yellow-600" },
-        { "name": "GraphQL", "icon": "devicon-graphql-plain", "color": "text-pink-500" },
-        { "name": "PostgreSQL", "icon": "devicon-postgresql-plain", "color": "text-blue-400" }
+        { "name": "Azure AI Search", "icon": "devicon-azure-plain", "color": "text-blue-500" },
+        { "name": "Elasticsearch", "icon": "devicon-elasticsearch-plain", "color": "text-yellow-600" }
       ]
     },
     {
@@ -33,8 +32,7 @@
       "items": [
         { "name": "Splunk", "icon": "devicon-splunk-original-wordmark", "color": "text-emerald-500" },
         { "name": "Git", "icon": "devicon-git-plain", "color": "text-orange-500" },
-        { "name": "VS Code", "icon": "devicon-vscode-plain", "color": "text-blue-500" },
-        { "name": "React", "icon": "devicon-react-original", "color": "text-cyan-400" }
+        { "name": "VS Code", "icon": "devicon-vscode-plain", "color": "text-blue-500" }
       ]
     }
   ]

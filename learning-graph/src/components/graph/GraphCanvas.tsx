@@ -119,11 +119,28 @@ const GraphCanvasInner: React.FC<GraphCanvasProps> = ({
                   This topic has no further subtopics. Click{' '}
                 </span>
                 <button
-                  onClick={() => onOpenContent(currentTopic.id)}
+                  onClick={() => { window.location.href = `/blogs/${currentTopic.id}/`; }}
                   className="font-semibold text-indigo-600 dark:text-indigo-400 underline underline-offset-2 ml-1"
                 >
-                  Read Notes
+                  Read Blog
                 </button>
+              </div>
+            </div>
+          </Panel>
+        )}
+
+        {/* Empty state overlay when starting from scratch */}
+        {rootTopicIds.length === 0 && (
+          <Panel position="top-center" className="mt-20">
+            <div className="flex flex-col items-center gap-3 px-8 py-8 rounded-2xl bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 shadow-2xl backdrop-blur-md text-center max-w-sm">
+              <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-slate-900 dark:text-white text-base">Knowledge Graph Ready</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  No topics published yet. Launch the Content Creator to write your first article and grow your knowledge graph!
+                </p>
               </div>
             </div>
           </Panel>

@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Content Creator — Knowledge Graph & Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math ($math$ and $$math block$$) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+    <!-- Marked Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/lib/marked.umd.js"></script>
+
+    <!-- Marked KaTeX Extension -->
+    <script src="https://cdn.jsdelivr.net/npm/marked-katex-extension@5.0.2/lib/index.umd.js"></script>
+
+    <!-- Mermaid for State Diagrams, Flowcharts & Mindmaps -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #09090b;
+            --card-bg: #121215;
+            --card-border: #27272a;
+            --input-bg: #18181b;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --indigo: #6366f1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(18, 18, 21, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-title h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .badge-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-weight: 600;
+        }
+
+        .folder-picker-btn {
+            background: #27272a;
+            color: #e4e4e7;
+            border: 1px solid #3f3f46;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.15s ease;
+        }
+
+        .folder-picker-btn:hover {
+            background: #3f3f46;
+            color: #fff;
+        }
+
+        .folder-picker-btn.connected {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #34d399;
+        }
+
+        main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            padding: 1.5rem 2rem;
+            max-width: 1750px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .mode-toggle {
+            display: flex;
+            background: #18181b;
+            padding: 0.25rem;
+            border-radius: 10px;
+            border: 1px solid #27272a;
+            gap: 0.25rem;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+        }
+
+        .mode-btn.active {
+            background: #27272a;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #d4d4d8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        label span.hint {
+            font-weight: 400;
+            color: #71717a;
+            font-size: 0.75rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 0.65rem 0.85rem;
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+        }
+
+        /* Category Root Card */
+        .category-root-card {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s ease;
+        }
+
+        .category-root-card.no-root {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+
+        .root-card-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .root-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #6366f1;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+            flex-shrink: 0;
+        }
+
+        .category-root-card.no-root .root-dot {
+            background: #f59e0b;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.6);
+        }
+
+        .root-label {
+            font-size: 0.72rem;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+
+        .root-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #818cf8;
+        }
+
+        .category-root-card.no-root .root-name {
+            color: #fbbf24;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .btn-root-action {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #e4e4e7;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+
+        .btn-root-action:hover {
+            background: #3f3f46;
+            color: #fff;
+            border-color: #6366f1;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 240px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding-bottom: 0.25rem;
+        }
+
+        .tool-btn {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: #e4e4e7;
+            padding: 0.25rem 0.55rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .tool-btn:hover {
+            background: #3f3f46;
+            color: #fff;
+            border-color: #52525b;
+        }
+
+        /* Action Buttons */
+        .actions-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .btn {
+            padding: 0.8rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            border: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-save:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+        }
+
+        .btn-clear {
+            background: #18181b;
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-clear:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #fca5a5;
+        }
+
+        /* Preview Panel */
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.75rem;
+        }
+
+        .preview-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .preview-tab {
+            padding: 0.35rem 0.75rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .preview-tab.active {
+            background: #27272a;
+            color: #fff;
+        }
+
+        .copy-btn {
+            background: #27272a;
+            color: #e4e4e7;
+            border: 1px solid #3f3f46;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #3f3f46;
+            color: #fff;
+        }
+
+        .preview-content {
+            flex: 1;
+            min-height: 520px;
+            max-height: 750px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: #0e0e11;
+            border: 1px solid #1f1f23;
+            padding: 1.25rem;
+        }
+
+        pre.raw-output {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #a1a1aa;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .rendered-output {
+            color: #e4e4e7;
+            line-height: 1.7;
+        }
+
+        .rendered-output h1, .rendered-output h2, .rendered-output h3 {
+            color: #fff;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rendered-output h1 { font-size: 1.6rem; border-bottom: 1px solid #27272a; padding-bottom: 0.4rem; }
+        .rendered-output h2 { font-size: 1.3rem; }
+        .rendered-output h3 { font-size: 1.1rem; }
+
+        .rendered-output p {
+            margin-bottom: 0.85rem;
+        }
+
+        .rendered-output code {
+            font-family: 'JetBrains Mono', monospace;
+            background: #1f1f23;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #34d399;
+        }
+
+        .rendered-output pre {
+            background: #18181b;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border: 1px solid #27272a;
+        }
+
+        .rendered-output ul, .rendered-output ol {
+            padding-left: 1.5rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .rendered-output table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        .rendered-output th, .rendered-output td {
+            border: 1px solid #27272a;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+
+        .rendered-output th {
+            background: #18181b;
+            color: #6ee7b7;
+        }
+
+        /* Mermaid Diagram Container Styling */
+        .mermaid-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #141418;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.25rem 0;
+            overflow-x: auto;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+        }
+
+        .mermaid-block svg {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        .mermaid-loading {
+            color: #71717a;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mermaid-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: #fca5a5;
+            font-size: 0.8rem;
+            width: 100%;
+        }
+
+        /* KaTeX Math Styling */
+        .katex-display {
+            background: rgba(24, 24, 27, 0.85);
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            padding: 1.1rem;
+            margin: 1.25rem 0 !important;
+            overflow-x: auto;
+            overflow-y: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        .katex {
+            font-size: 1.05em;
+            color: #38bdf8;
+        }
+
+        .katex-display .katex {
+            color: #60a5fa;
+            font-size: 1.15em;
+        }
+
+        .meta-preview {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 0.85rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .meta-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .meta-label {
+            font-weight: 600;
+            color: #6ee7b7;
+            min-width: 110px;
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #18181b;
+            color: #fff;
+            border: 1px solid var(--accent);
+            padding: 0.85rem 1.4rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #toast.error {
+            border-color: var(--danger);
+            color: #fca5a5;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                <path d="M12 20h9"/>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+            <h1>Markdown Blog & Graph Creator</h1>
+            <span class="badge-tag">Blog-First Architecture</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div id="server-status-pill" class="badge-tag" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.35); font-size: 0.75rem; padding: 0.35rem 0.75rem; display: none;">
+                🟢 Auto-Save Server Active
+            </div>
+            <button id="folder-btn" class="folder-picker-btn" onclick="selectWorkspaceFolder()" title="Optionally select the site root directory for live catalog sync and direct 1-click saving">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span id="folder-status">Connect Workspace (Live Sync)</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- LEFT PANEL: FORM -->
+        <section class="panel">
+            <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.25); border-radius: 10px; padding: 0.75rem 1rem;">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.2rem;">✍️</span>
+                    <div>
+                        <div style="font-size: 0.85rem; font-weight: 700; color: #818cf8;">Blog Article & Knowledge Graph Topic</div>
+                        <div style="font-size: 0.73rem; color: #a1a1aa;">Appears on <code>/blogs/</code> and connects interactively in the Knowledge Graph</div>
+                    </div>
+                </div>
+                <span class="badge-tag" style="font-size: 0.7rem;">content/en/blogs/</span>
+            </div>
+
+            <!-- FORM FIELDS -->
+            <form id="content-form" onsubmit="event.preventDefault(); saveContent();">
+
+                <!-- Title & Slug Row -->
+                <div class="form-row">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="title">
+                            Title <span class="hint">Blog article & Knowledge Graph node title</span>
+                        </label>
+                        <input type="text" id="title" placeholder="e.g. Distributed Consensus with Raft" required oninput="onTitleInput()">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="slug">
+                            ID / Filename Slug <span class="hint">e.g. raft-consensus (.md)</span>
+                        </label>
+                        <input type="text" id="slug" placeholder="raft-consensus" required oninput="updatePreview()">
+                    </div>
+
+                    <div class="form-group" id="group-category">
+                        <label for="category">Category Domain</label>
+                        <select id="category" onchange="onCategoryChange()">
+                            <option value="cs" selected>cs (Computer Systems & Architecture)</option>
+                            <option value="ai">ai (Artificial Intelligence & ML)</option>
+                            <option value="math">math (Mathematics & Computing)</option>
+                            <option value="architecture">architecture (Distributed Systems)</option>
+                            <option value="cloud">cloud (Cloud & Storage)</option>
+                            <option value="devops">devops (DevOps & Infrastructure)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Knowledge Graph Specific Fields -->
+                <div id="graph-fields">
+                    
+                    <!-- Category Root Topic Banner -->
+                    <div class="category-root-card" id="category-root-card">
+                        <div class="root-card-info">
+                            <span class="root-dot" id="root-dot"></span>
+                            <div>
+                                <div class="root-label">Root Topic in <strong id="root-cat-label">cs/</strong>:</div>
+                                <div class="root-name" id="root-topic-name">computer-science</div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn-root-action" id="btn-root-action" onclick="setParentToRoot()">
+                            Link to Root
+                        </button>
+                    </div>
+
+                    <!-- Hierarchical Parent Topic Selector -->
+                    <div class="form-group" style="margin-top: 0.5rem;">
+                        <label for="parent-select">
+                            Parent Topic in Knowledge Graph
+                            <span class="hint" id="parent-hierarchy-hint">Hierarchy (Root | Child)</span>
+                        </label>
+                        <select id="parent-select" onchange="onParentSelectChange()">
+                            <!-- Dynamically populated based on selected category -->
+                        </select>
+                        <input type="text" id="parent-custom" placeholder="Type custom parent ID (or cross-category)..." style="display:none; margin-top: 0.35rem;" oninput="updatePreview()">
+                    </div>
+
+                    <div class="form-row" style="margin-top: 0.5rem;">
+                        <div class="form-group">
+                            <label for="date">Publish Date <span class="hint">ISO format</span></label>
+                            <input type="text" id="date" oninput="updatePreview()">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="order">Sibling Order <span class="hint">Sort order in graph</span></label>
+                            <input type="number" id="order" value="1" min="1" max="99" oninput="updatePreview()">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="difficulty">Difficulty Level</label>
+                            <select id="difficulty" onchange="updatePreview()">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate" selected>Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="color">Card Color Theme</label>
+                            <select id="color" onchange="updatePreview()">
+                                <option value="emerald" selected>Emerald (Green)</option>
+                                <option value="indigo">Indigo (Purple-Blue)</option>
+                                <option value="rose">Rose (Red-Pink)</option>
+                                <option value="cyan">Cyan (Teal-Blue)</option>
+                                <option value="amber">Amber (Yellow-Orange)</option>
+                                <option value="purple">Purple</option>
+                                <option value="blue">Blue</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tags">Tags <span class="hint">Filterable chips on /blogs/ (comma-separated)</span></label>
+                        <input type="text" id="tags" placeholder="golang, microservices, architecture" oninput="updatePreview()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="summary">
+                            Summary / Description <span class="hint">1-2 sentences shown on card & blog listing</span>
+                        </label>
+                        <input type="text" id="summary" placeholder="Concise preview of key concepts and architectural tradeoffs..." oninput="updatePreview()">
+                    </div>
+                </div>
+
+                <!-- Markdown Content Editor -->
+                <div class="form-group">
+                    <label for="content">
+                        Markdown Body Content
+                        <span class="hint">Supports LaTeX Math & Mermaid</span>
+                    </label>
+
+                    <div class="toolbar">
+                        <button type="button" class="tool-btn" onclick="insertSnippet('h2')">H2</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('h3')">H3</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('bold')">**Bold**</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('code')">Code Block</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('math-inline')">$Math$</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('math-block')">$$Math Block$$</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('mermaid-flow')">Mermaid Flow</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('mermaid-state')">State Diagram</button>
+                        <button type="button" class="tool-btn" onclick="insertSnippet('table')">Table</button>
+                    </div>
+
+                    <textarea id="content" placeholder="Write your technical explanation, architectural notes, and diagrams here..." oninput="updatePreview()"></textarea>
+                </div>
+
+                <!-- ACTION BUTTONS: SAVE & CLEAR -->
+                <div class="actions-row">
+                    <button type="submit" class="btn btn-save" id="btn-save">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17 21 17 13 7 13 7 21"/>
+                            <polyline points="7 3 7 8 15 8"/>
+                        </svg>
+                        <span>Save Blog Post</span>
+                    </button>
+
+                    <button type="button" class="btn btn-clear" onclick="clearForm()">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        <span>Clear</span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- RIGHT PANEL: LIVE PREVIEW -->
+        <section class="panel">
+            <div class="preview-header">
+                <div class="preview-tabs">
+                    <button type="button" class="preview-tab active" id="tab-rendered" onclick="setPreviewTab('rendered')">Rendered Preview</button>
+                    <button type="button" class="preview-tab" id="tab-raw" onclick="setPreviewTab('raw')">Raw File (.md)</button>
+                </div>
+                <button type="button" class="copy-btn" onclick="copyToClipboard()">Copy Markdown</button>
+            </div>
+
+            <!-- Meta Quick Look -->
+            <div class="meta-preview" id="meta-preview">
+                <div class="meta-row"><span class="meta-label">Target File:</span> <span id="meta-path" style="font-family: monospace; color:#34d399;">content/en/blogs/gpu-memory-hierarchy.md</span></div>
+                <div class="meta-row"><span class="meta-label">Blog Subpage:</span> <span id="meta-url" style="font-family: monospace; color:#38bdf8;">/blogs/gpu-memory-hierarchy/</span></div>
+                <div class="meta-row" id="meta-root-row"><span class="meta-label">Category Root:</span> <span id="meta-cat-root" style="font-family: monospace; color:#818cf8;">computer-science</span></div>
+                <div class="meta-row" id="meta-parent-row"><span class="meta-label">Parent Node:</span> <span id="meta-parent" style="font-family: monospace; color:#60a5fa;">(Root Level Domain)</span></div>
+                <div class="meta-row" style="margin-top: 0.35rem; font-size: 0.74rem; color: #a1a1aa; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 0.35rem;">
+                    <span>🔒 Knowledge Graph hierarchy metadata is kept in frontmatter and automatically hidden from blog readers.</span>
+                </div>
+            </div>
+
+            <!-- Content Displays -->
+            <div class="preview-content">
+                <div class="rendered-output" id="rendered-output"></div>
+                <pre class="raw-output" id="raw-output" style="display: none;"></pre>
+            </div>
+        </section>
+    </main>
+
+    <div id="toast"></div>
+
+    <script>
+        let activeTab = 'rendered';
+        let customSlugEdited = false;
+        let workspaceDirHandle = null;
+        let mermaidRenderTimer = null;
+        let mermaidIdCounter = 0;
+        let currentCategoryRootId = null;
+
+        // In-Memory Topic Catalogue (Populated dynamically from workspace or server)
+        const topicCatalogue = {};
+
+        // 1. Initialize Mermaid
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: 'dark',
+                securityLevel: 'loose',
+                themeVariables: {
+                    darkMode: true,
+                    background: '#141418',
+                    primaryColor: '#6366f1',
+                    primaryTextColor: '#f4f4f5',
+                    primaryBorderColor: '#4f46e5',
+                    lineColor: '#10b981',
+                    secondaryColor: '#10b981',
+                    tertiaryColor: '#27272a',
+                    noteBkgColor: '#27272a',
+                    noteTextColor: '#f4f4f5'
+                }
+            });
+        }
+
+        // 2. Initialize Marked with KaTeX extension
+        if (window.marked && window.markedKatex) {
+            marked.use(markedKatex({
+                throwOnError: false,
+                displayMode: false
+            }));
+        }
+
+        // 3. Custom renderer for Mermaid code blocks
+        if (window.marked) {
+            marked.use({
+                renderer: {
+                    code(args) {
+                        const text = typeof args === 'object' ? args.text : arguments[0];
+                        const lang = typeof args === 'object' ? args.lang : arguments[1];
+                        if (lang === 'mermaid') {
+                            mermaidIdCounter++;
+                            const blockId = `mermaid-block-${mermaidIdCounter}`;
+                            return `<div class="mermaid-block" id="${blockId}" data-mermaid="${encodeURIComponent(text)}">
+                                <span class="mermaid-loading">⏳ Rendering diagram...</span>
+                            </div>`;
+                        }
+                        return `<pre><code class="language-${lang || 'text'}">${text}</code></pre>`;
+                    }
+                }
+            });
+        }
+
+        // Build Hierarchical Tree for a Category
+        function buildCategoryHierarchy(category) {
+            const allInCategory = Object.values(topicCatalogue).filter(t => t.category === category);
+            // Root topics in this category
+            const roots = allInCategory.filter(t => !t.parent || !topicCatalogue[t.parent]);
+            const hierarchy = [];
+
+            function traverse(topic, path) {
+                const currentPath = path ? `${path} | ${topic.id}` : topic.id;
+                hierarchy.push({
+                    id: topic.id,
+                    title: topic.title,
+                    isRoot: !topic.parent,
+                    displayPath: topic.parent ? currentPath : `${topic.id} (Root)`
+                });
+
+                const children = allInCategory.filter(t => t.parent === topic.id);
+                children.sort((a, b) => (a.order || 99) - (b.order || 99));
+                for (const child of children) {
+                    traverse(child, currentPath);
+                }
+            }
+
+            roots.sort((a, b) => (a.order || 99) - (b.order || 99));
+            for (const root of roots) {
+                traverse(root, '');
+            }
+
+            return { roots, hierarchy };
+        }
+
+        // Update the Root Display Banner and Hierarchical Parent Dropdown
+        function updateCategoryHierarchy(selectedParentToPreserve = null) {
+            const category = document.getElementById('category').value;
+            const { roots, hierarchy } = buildCategoryHierarchy(category);
+
+            // 1. Update Root Topic Card
+            const rootCard = document.getElementById('category-root-card');
+            const rootCatLabel = document.getElementById('root-cat-label');
+            const rootTopicName = document.getElementById('root-topic-name');
+            const btnRootAction = document.getElementById('btn-root-action');
+
+            rootCatLabel.textContent = `${category}/`;
+
+            if (roots.length > 0) {
+                currentCategoryRootId = roots[0].id;
+                rootCard.classList.remove('no-root');
+                rootTopicName.textContent = currentCategoryRootId;
+                btnRootAction.style.display = 'inline-block';
+            } else {
+                currentCategoryRootId = null;
+                rootCard.classList.add('no-root');
+                rootTopicName.textContent = `No root topic yet in ${category}/ (This article can be Root!)`;
+                btnRootAction.style.display = 'none';
+            }
+
+            // 2. Populate Hierarchical Parent Select
+            const parentSelect = document.getElementById('parent-select');
+            parentSelect.innerHTML = '';
+
+            // Default Option: None (Root Topic)
+            const optNone = document.createElement('option');
+            optNone.value = '';
+            optNone.textContent = '(None - Make this a Root Topic)';
+            parentSelect.appendChild(optNone);
+
+            // Optgroup for topics in selected category
+            if (hierarchy.length > 0) {
+                const optGroupCat = document.createElement('optgroup');
+                optGroupCat.label = `Topics in ${category}/ (Hierarchical Order)`;
+
+                hierarchy.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.id;
+                    opt.textContent = item.displayPath;
+                    optGroupCat.appendChild(opt);
+                });
+                parentSelect.appendChild(optGroupCat);
+            }
+
+            // Optgroup for other categories
+            const otherTopics = Object.values(topicCatalogue).filter(t => t.category !== category);
+            if (otherTopics.length > 0) {
+                const optGroupOther = document.createElement('optgroup');
+                optGroupOther.label = 'Topics in Other Categories';
+
+                otherTopics.sort((a, b) => a.category.localeCompare(b.category) || a.id.localeCompare(b.id));
+                otherTopics.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.id;
+                    opt.textContent = `[${t.category}] ${t.id} — ${t.title}`;
+                    optGroupOther.appendChild(opt);
+                });
+                parentSelect.appendChild(optGroupOther);
+            }
+
+            // Custom Parent Option
+            const optGroupCustom = document.createElement('optgroup');
+            optGroupCustom.label = 'Custom';
+            const optCustom = document.createElement('option');
+            optCustom.value = '__custom__';
+            optCustom.textContent = 'Enter Custom Parent ID...';
+            optGroupCustom.appendChild(optCustom);
+            parentSelect.appendChild(optGroupCustom);
+
+            // Restore selection or pick default
+            if (selectedParentToPreserve !== null) {
+                const exists = Array.from(parentSelect.options).some(o => o.value === selectedParentToPreserve);
+                if (exists) {
+                    parentSelect.value = selectedParentToPreserve;
+                } else if (selectedParentToPreserve) {
+                    parentSelect.value = '__custom__';
+                    document.getElementById('parent-custom').value = selectedParentToPreserve;
+                }
+            } else if (currentCategoryRootId) {
+                parentSelect.value = currentCategoryRootId;
+            } else {
+                parentSelect.value = '';
+            }
+
+            onParentSelectChange();
+        }
+
+        function onCategoryChange() {
+            updateCategoryHierarchy();
+            updatePreview();
+        }
+
+        function onParentSelectChange() {
+            const parentSelect = document.getElementById('parent-select');
+            const customInput = document.getElementById('parent-custom');
+            if (parentSelect.value === '__custom__') {
+                customInput.style.display = 'block';
+                customInput.focus();
+            } else {
+                customInput.style.display = 'none';
+            }
+            updatePreview();
+        }
+
+        function setParentToRoot() {
+            if (currentCategoryRootId) {
+                const parentSelect = document.getElementById('parent-select');
+                parentSelect.value = currentCategoryRootId;
+                document.getElementById('parent-custom').style.display = 'none';
+                updatePreview();
+                showToast(`Parent set to category root: ${currentCategoryRootId}`);
+            }
+        }
+
+        function getSelectedParentId() {
+            const parentSelect = document.getElementById('parent-select');
+            if (parentSelect.value === '__custom__') {
+                return document.getElementById('parent-custom').value.trim();
+            }
+            return parentSelect.value.trim();
+        }
+
+        function getParentDisplayHierarchy(parentId) {
+            if (!parentId) return '(Root Level Domain - No Parent)';
+            const topic = topicCatalogue[parentId];
+            if (!topic) return parentId;
+
+            const path = [];
+            let curr = topic;
+            const visited = new Set();
+            while (curr && !visited.has(curr.id)) {
+                visited.add(curr.id);
+                path.unshift(curr.id);
+                if (!curr.parent) break;
+                curr = topicCatalogue[curr.parent];
+            }
+            return path.join(' | ');
+        }
+
+        function onTitleInput() {
+            const title = document.getElementById('title').value;
+            if (!customSlugEdited) {
+                const slug = title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
+                document.getElementById('slug').value = slug;
+            }
+            updatePreview();
+        }
+
+        document.getElementById('slug').addEventListener('input', () => {
+            customSlugEdited = true;
+            updatePreview();
+        });
+
+        function parseTags(tagStr) {
+            return tagStr
+                .split(',')
+                .map(t => t.trim().toLowerCase())
+                .filter(t => t.length > 0);
+        }
+
+        function getTargetPath() {
+            const slug = document.getElementById('slug').value.trim() || 'untitled-post';
+            return `content/en/blogs/${slug}.md`;
+        }
+
+        function generateMarkdown() {
+            const title = document.getElementById('title').value || 'Untitled Blog Article';
+            const slug = document.getElementById('slug').value || 'untitled-post';
+            const date = document.getElementById('date').value || (new Date().toISOString().slice(0, 19) + '+05:30');
+            const category = document.getElementById('category').value;
+            const parentVal = getSelectedParentId();
+            const parent = parentVal ? `"${parentVal}"` : 'null';
+            const order = parseInt(document.getElementById('order').value, 10) || 1;
+            const difficulty = document.getElementById('difficulty').value;
+            const color = document.getElementById('color').value;
+            const tags = parseTags(document.getElementById('tags').value);
+            const summary = document.getElementById('summary').value.trim() || title;
+            const content = document.getElementById('content').value || `# ${title}\n\nDeep dive, architectural notes, and technical analysis...`;
+
+            const tagList = tags.length > 0 ? `[${tags.map(t => `"${t}"`).join(', ')}]` : '[]';
+            const escapedSummary = summary.replace(/"/g, '\\"');
+
+            return `---
+title: "${title.replace(/"/g, '\\"')}"
+date: ${date}
+draft: false
+tags: ${tagList}
+categories: ["${category}"]
+summary: "${escapedSummary}"
+description: "${escapedSummary}"
+
+id: ${slug}
+parent: ${parent}
+category: "${category}"
+order: ${order}
+color: "${color}"
+difficulty: "${difficulty}"
+---
+
+${content}
+`;
+        }
+
+        function updatePreview() {
+            const md = generateMarkdown();
+            document.getElementById('raw-output').textContent = md;
+            
+            // Meta updates
+            const path = getTargetPath();
+            const slug = document.getElementById('slug').value.trim() || 'untitled-post';
+            document.getElementById('meta-path').textContent = path;
+            document.getElementById('meta-url').textContent = `/blogs/${slug}/`;
+            document.getElementById('meta-cat-root').textContent = currentCategoryRootId || '(None in this category)';
+            
+            const parentVal = getSelectedParentId();
+            const hierarchyText = getParentDisplayHierarchy(parentVal);
+            document.getElementById('meta-parent').textContent = hierarchyText;
+
+            // Rendered preview with KaTeX and Mermaid
+            if (window.marked) {
+                const bodyOnly = md.replace(/^---[\s\S]*?---\n/, '');
+                const renderedEl = document.getElementById('rendered-output');
+                renderedEl.innerHTML = marked.parse(bodyOnly);
+
+                // KaTeX Auto-Render
+                if (window.renderMathInElement) {
+                    try {
+                        window.renderMathInElement(renderedEl, {
+                            delimiters: [
+                                { left: '$$', right: '$$', display: true },
+                                { left: '$', right: '$', display: false }
+                            ],
+                            throwOnError: false
+                        });
+                    } catch (e) {
+                        console.warn('KaTeX render warning:', e);
+                    }
+                }
+
+                // Debounced Mermaid diagram rendering
+                if (window.mermaid) {
+                    clearTimeout(mermaidRenderTimer);
+                    mermaidRenderTimer = setTimeout(renderMermaidDiagrams, 150);
+                }
+            }
+
+            // Auto save draft in localStorage
+            localStorage.setItem('content_creator_draft', JSON.stringify({
+                title: document.getElementById('title').value,
+                slug: document.getElementById('slug').value,
+                category: document.getElementById('category').value,
+                parentId: getSelectedParentId(),
+                date: document.getElementById('date').value,
+                order: document.getElementById('order').value,
+                difficulty: document.getElementById('difficulty').value,
+                color: document.getElementById('color').value,
+                summary: document.getElementById('summary').value,
+                tags: document.getElementById('tags').value,
+                content: document.getElementById('content').value,
+            }));
+        }
+
+        async function renderMermaidDiagrams() {
+            const blocks = document.querySelectorAll('.mermaid-block');
+            for (let i = 0; i < blocks.length; i++) {
+                const block = blocks[i];
+                const rawCode = decodeURIComponent(block.getAttribute('data-mermaid') || '').trim();
+                if (!rawCode) continue;
+
+                const uniqueId = `mermaid-svg-${Date.now()}-${i}`;
+                try {
+                    const { svg } = await mermaid.render(uniqueId, rawCode);
+                    block.innerHTML = svg;
+                } catch (err) {
+                    const stray = document.getElementById('d' + uniqueId);
+                    if (stray) stray.remove();
+                    block.innerHTML = `<div class="mermaid-error">
+                        <strong>⚠️ Diagram syntax warning:</strong>
+                        <pre style="margin-top: 4px; font-size: 0.75rem;">${err.message || 'Check Mermaid syntax'}</pre>
+                    </div>`;
+                }
+            }
+        }
+
+        function setPreviewTab(tab) {
+            activeTab = tab;
+            document.getElementById('tab-rendered').classList.toggle('active', tab === 'rendered');
+            document.getElementById('tab-raw').classList.toggle('active', tab === 'raw');
+            document.getElementById('rendered-output').style.display = tab === 'rendered' ? 'block' : 'none';
+            document.getElementById('raw-output').style.display = tab === 'raw' ? 'block' : 'none';
+        }
+
+        function insertSnippet(type) {
+            const textarea = document.getElementById('content');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+
+            let snippet = '';
+            switch(type) {
+                case 'h2': 
+                    snippet = '\n## Section Title\n\n'; 
+                    break;
+                case 'h3': 
+                    snippet = '\n### Sub-Section\n\n'; 
+                    break;
+                case 'bold': 
+                    snippet = '**bold text**'; 
+                    break;
+                case 'code': 
+                    snippet = '\n```go\nfunc Example() {\n    // your code here\n}\n```\n\n'; 
+                    break;
+                case 'math-inline': 
+                    snippet = ' $\\mathcal{O}(N \\log N)$ '; 
+                    break;
+                case 'math-block': 
+                    snippet = '\n\n$$\n\\text{Attention}(Q, K, V) = \\text{softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V\n$$\n\n'; 
+                    break;
+                case 'mermaid-flow': 
+                    snippet = '\n\n```mermaid\nflowchart TD\n    A[Client Request] --> B[API Gateway]\n    B --> C[Microservice Cluster]\n    C --> D[(Database Shard)]\n```\n\n'; 
+                    break;
+                case 'mermaid-state': 
+                    snippet = '\n\n```mermaid\nstateDiagram-v2\n    [*] --> Follower\n    Follower --> Candidate : Timeout\n    Candidate --> Leader : Majority Votes\n    Leader --> Follower : Discovers Higher Term\n```\n\n'; 
+                    break;
+                case 'table': 
+                    snippet = '\n\n| Parameter | Latency | Bandwidth |\n|---|---|---|\n| L1 Cache | ~1 ns | 30 TB/s |\n| HBM3e | ~100 ns | 3.35 TB/s |\n\n'; 
+                    break;
+            }
+
+            textarea.value = text.substring(0, start) + snippet + text.substring(end);
+            textarea.focus();
+            textarea.selectionEnd = start + snippet.length;
+            updatePreview();
+        }
+
+        // Live Workspace Scanner: reads existing markdown blog files to update catalogue
+        async function scanWorkspaceBlogs(blogsDirHandle) {
+            try {
+                for await (const [fileName, fileHandle] of blogsDirHandle.entries()) {
+                    if (fileHandle.kind === 'file' && fileName.endsWith('.md') && fileName !== '_index.md') {
+                        try {
+                            const file = await fileHandle.getFile();
+                            const text = await file.text();
+                            const frontmatterMatch = text.match(/^---([\s\S]*?)---/);
+                            if (frontmatterMatch) {
+                                const yml = frontmatterMatch[1];
+                                const idMatch = yml.match(/id:\s*["']?([^"'\n\r]+)["']?/);
+                                const titleMatch = yml.match(/title:\s*["']?([^"'\n\r]+)["']?/);
+                                const parentMatch = yml.match(/parent:\s*["']?([^"'\n\r]+)["']?/);
+                                const orderMatch = yml.match(/order:\s*(\d+)/);
+                                const catMatch = yml.match(/category:\s*["']?([^"'\n\r]+)["']?/);
+
+                                const id = idMatch ? idMatch[1].trim() : fileName.replace('.md', '');
+                                const title = titleMatch ? titleMatch[1].trim() : id;
+                                let parent = parentMatch ? parentMatch[1].trim() : null;
+                                if (parent === 'null' || parent === '' || parent === 'None') parent = null;
+                                const order = orderMatch ? parseInt(orderMatch[1], 10) : 99;
+                                const category = (catMatch ? catMatch[1].trim() : null) || 'cs';
+
+                                topicCatalogue[id] = { id, title, parent, category, order };
+                            }
+                        } catch (e) {
+                            console.warn('Error reading blog topic file:', fileName, e);
+                        }
+                    }
+                }
+                updateCategoryHierarchy(getSelectedParentId());
+                showToast('Synchronized topic catalogue from workspace blogs!');
+            } catch (err) {
+                console.warn('Workspace catalogue scan error:', err);
+            }
+        }
+
+        // IndexedDB Directory Handle Persistence
+        const DB_NAME = 'ContentCreatorDB';
+        const DB_VERSION = 1;
+        const STORE_NAME = 'handles';
+
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const req = indexedDB.open(DB_NAME, DB_VERSION);
+                req.onupgradeneeded = () => req.result.createObjectStore(STORE_NAME);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function storeWorkspaceHandle(handle) {
+            try {
+                const db = await openDB();
+                const tx = db.transaction(STORE_NAME, 'readwrite');
+                tx.objectStore(STORE_NAME).put(handle, 'workspace');
+            } catch (e) {
+                console.warn('Could not store handle in IDB:', e);
+            }
+        }
+
+        async function getStoredWorkspaceHandle() {
+            try {
+                const db = await openDB();
+                return new Promise(resolve => {
+                    const tx = db.transaction(STORE_NAME, 'readonly');
+                    const req = tx.objectStore(STORE_NAME).get('workspace');
+                    req.onsuccess = () => resolve(req.result || null);
+                    req.onerror = () => resolve(null);
+                });
+            } catch (e) {
+                return null;
+            }
+        }
+
+        async function tryScanWorkspaceContent(handle) {
+            try {
+                if (handle.name === 'blogs') {
+                    await scanWorkspaceBlogs(handle);
+                    return;
+                }
+                const contentFolder = await handle.getDirectoryHandle('content', { create: false }).catch(() => null);
+                if (contentFolder) {
+                    const enFolder = await contentFolder.getDirectoryHandle('en', { create: false }).catch(() => null);
+                    if (enFolder) {
+                        const blogsFolder = await enFolder.getDirectoryHandle('blogs', { create: false }).catch(() => null);
+                        if (blogsFolder) {
+                            await scanWorkspaceBlogs(blogsFolder);
+                            return;
+                        }
+                    }
+                }
+            } catch(e) {
+                console.log('Workspace auto-scan skipped:', e);
+            }
+        }
+
+        async function selectWorkspaceFolder() {
+            if (!window.showDirectoryPicker) {
+                showToast('Directory picker not supported in this browser. Use start-creator.bat for direct saving.', true);
+                return;
+            }
+            try {
+                workspaceDirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                await storeWorkspaceHandle(workspaceDirHandle);
+                const btn = document.getElementById('folder-btn');
+                btn.classList.add('connected');
+                document.getElementById('folder-status').textContent = `Connected: ${workspaceDirHandle.name}`;
+                showToast(`Connected to folder: ${workspaceDirHandle.name}`);
+
+                await tryScanWorkspaceContent(workspaceDirHandle);
+            } catch (err) {
+                if (err.name !== 'AbortError') {
+                    console.error(err);
+                    showToast('Failed to connect directory', true);
+                }
+            }
+        }
+
+        let isServerConnected = false;
+
+        async function initSync() {
+            // 1. Try local node creator server
+            try {
+                const serverUrl = (window.location.origin && window.location.origin.includes(':3333'))
+                    ? '/api/topics'
+                    : 'http://localhost:3333/api/topics';
+                const res = await fetch(serverUrl);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success && data.topics) {
+                        Object.assign(topicCatalogue, data.topics);
+                        updateCategoryHierarchy(getSelectedParentId());
+
+                        isServerConnected = true;
+                        const pill = document.getElementById('server-status-pill');
+                        if (pill) {
+                            pill.style.display = 'inline-flex';
+                            pill.textContent = '🟢 Auto-Save Server Active';
+                        }
+                        const folderBtn = document.getElementById('folder-btn');
+                        if (folderBtn) {
+                            folderBtn.style.display = 'none';
+                        }
+                        return;
+                    }
+                }
+            } catch (e) {
+                // Server not running, check IDB handle
+            }
+
+            // 2. Try stored directory handle from IndexedDB
+            try {
+                const storedHandle = await getStoredWorkspaceHandle();
+                if (storedHandle) {
+                    workspaceDirHandle = storedHandle;
+                    const btn = document.getElementById('folder-btn');
+                    if (btn) {
+                        btn.classList.add('connected');
+                        document.getElementById('folder-status').textContent = `📁 Connected: ${workspaceDirHandle.name}`;
+                    }
+                    const perm = await workspaceDirHandle.queryPermission({ mode: 'read' });
+                    if (perm === 'granted') {
+                        await tryScanWorkspaceContent(workspaceDirHandle);
+                    }
+                }
+            } catch (e) {
+                console.warn('Error loading stored folder handle:', e);
+            }
+        }
+
+        async function saveContent() {
+            const title = document.getElementById('title').value.trim();
+            const slug = document.getElementById('slug').value.trim();
+            if (!title || !slug) {
+                showToast('Please enter both Title and ID/Slug', true);
+                return;
+            }
+
+            const markdown = generateMarkdown();
+            const filename = `${slug}.md`;
+            const category = document.getElementById('category').value;
+            const parentId = getSelectedParentId();
+            const targetPath = getTargetPath();
+
+            // Method 1: Local Creator Server (Direct disk save + automatic graph rebuild)
+            try {
+                const serverUrl = (window.location.origin && window.location.origin.includes(':3333'))
+                    ? '/api/save'
+                    : 'http://localhost:3333/api/save';
+                const res = await fetch(serverUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ path: targetPath, content: markdown })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.success) {
+                        topicCatalogue[slug] = {
+                            id: slug,
+                            title: title,
+                            parent: parentId || null,
+                            category: category,
+                            order: parseInt(document.getElementById('order').value, 10) || 1
+                        };
+                        updateCategoryHierarchy(parentId);
+
+                        const extraNote = data.graphRebuilding ? ' — Knowledge Graph rebuilt in background!' : '';
+                        showToast(`✅ Saved automatically to ${data.path}${extraNote}`);
+                        return;
+                    }
+                }
+            } catch (serverErr) {
+                // Server not running, proceed to folder handle
+            }
+
+            // Method 2: Directory Handle (IndexedDB-cached or active session)
+            if (!workspaceDirHandle) {
+                workspaceDirHandle = await getStoredWorkspaceHandle();
+            }
+
+            if (workspaceDirHandle) {
+                try {
+                    let perm = await workspaceDirHandle.queryPermission({ mode: 'readwrite' });
+                    if (perm !== 'granted') {
+                        perm = await workspaceDirHandle.requestPermission({ mode: 'readwrite' });
+                    }
+                    if (perm === 'granted') {
+                        let targetDirHandle = workspaceDirHandle;
+                        
+                        // navigate: content -> en -> blogs
+                        const contentDir = await targetDirHandle.getDirectoryHandle('content', { create: true });
+                        const enDir = await contentDir.getDirectoryHandle('en', { create: true });
+                        targetDirHandle = await enDir.getDirectoryHandle('blogs', { create: true });
+
+                        const fileHandle = await targetDirHandle.getFileHandle(filename, { create: true });
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(markdown);
+                        await writable.close();
+
+                        // Register newly saved topic in in-memory catalogue
+                        topicCatalogue[slug] = {
+                            id: slug,
+                            title: title,
+                            parent: parentId || null,
+                            category: category,
+                            order: parseInt(document.getElementById('order').value, 10) || 1
+                        };
+                        updateCategoryHierarchy(parentId);
+
+                        showToast(`✅ Saved automatically to ${targetPath}`);
+                        return;
+                    }
+                } catch (err) {
+                    console.warn('Direct workspace write failed, falling back:', err);
+                }
+            }
+
+            // Method 3: showSaveFilePicker (Native OS Save Dialog)
+            if (window.showSaveFilePicker) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: filename,
+                        types: [{
+                            description: 'Markdown Blog File (*.md)',
+                            accept: { 'text/markdown': ['.md'] },
+                        }],
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(markdown);
+                    await writable.close();
+
+                    topicCatalogue[slug] = {
+                        id: slug,
+                        title: title,
+                        parent: parentId || null,
+                        category: category,
+                        order: parseInt(document.getElementById('order').value, 10) || 1
+                    };
+                    updateCategoryHierarchy(parentId);
+
+                    showToast(`✅ Saved ${filename} successfully!`);
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') return; // User cancelled
+                    console.warn('showSaveFilePicker error:', err);
+                }
+            }
+
+            // Method 4: Instant Browser Download fallback
+            const blob = new Blob([markdown], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            topicCatalogue[slug] = {
+                id: slug,
+                title: title,
+                parent: parentId || null,
+                category: category,
+                order: parseInt(document.getElementById('order').value, 10) || 1
+            };
+            updateCategoryHierarchy(parentId);
+
+            showToast(`✅ Downloaded ${filename} — move it to ${targetPath}`);
+        }
+
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all fields? Unsaved changes will be lost.')) {
+                document.getElementById('content-form').reset();
+                customSlugEdited = false;
+                document.getElementById('date').value = new Date().toISOString().slice(0, 19) + '+05:30';
+                localStorage.removeItem('content_creator_draft');
+                updateCategoryHierarchy();
+                updatePreview();
+                showToast('Form cleared');
+            }
+        }
+
+        function copyToClipboard() {
+            const md = generateMarkdown();
+            navigator.clipboard.writeText(md).then(() => {
+                showToast('📋 Markdown copied to clipboard!');
+            });
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.toggle('error', isError);
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // Restore draft if available and initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('date').value = new Date().toISOString().slice(0, 19) + '+05:30';
+
+            const saved = localStorage.getItem('content_creator_draft');
+            let preservedParent = null;
+
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    if (data.title) document.getElementById('title').value = data.title;
+                    if (data.slug) {
+                        document.getElementById('slug').value = data.slug;
+                        customSlugEdited = true;
+                    }
+                    if (data.category) document.getElementById('category').value = data.category;
+                    if (data.parentId !== undefined) preservedParent = data.parentId;
+                    if (data.date) document.getElementById('date').value = data.date;
+                    if (data.order) document.getElementById('order').value = data.order;
+                    if (data.difficulty) document.getElementById('difficulty').value = data.difficulty;
+                    if (data.color) document.getElementById('color').value = data.color;
+                    if (data.summary) document.getElementById('summary').value = data.summary;
+                    if (data.tags) document.getElementById('tags').value = data.tags;
+                    if (data.content) document.getElementById('content').value = data.content;
+                } catch(e) {}
+            }
+
+            updateCategoryHierarchy(preservedParent);
+            updatePreview();
+            initSync();
+        });
+    </script>
+</body>
+</html>

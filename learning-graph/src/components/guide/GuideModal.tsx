@@ -32,7 +32,7 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
 
         <div className="p-6 space-y-4 text-sm text-slate-600 dark:text-slate-300">
           <p>
-            This site automatically builds its interactive graph hierarchy directly from markdown or HTML files in the <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-indigo-500 font-mono text-xs">src/content/</code> directory!
+            This site automatically builds its interactive graph hierarchy directly from blog articles in the <code className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-indigo-500 font-mono text-xs">content/en/blogs/</code> directory!
           </p>
 
           <div className="space-y-3">
@@ -41,9 +41,9 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
                 <FolderPlus className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="font-semibold text-slate-900 dark:text-white">1. Create a Markdown or HTML file</h4>
+                <h4 className="font-semibold text-slate-900 dark:text-white">1. Create a Blog Markdown file</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Save a file anywhere inside <code className="font-mono text-xs">src/content/</code> (e.g., <code className="font-mono text-xs">src/content/ai/transformers.md</code>).
+                  Save a file inside <code className="font-mono text-xs">content/en/blogs/</code> or use the companion <code className="font-mono text-xs">content-creator.html</code>.
                 </p>
               </div>
             </div>
@@ -53,20 +53,22 @@ export const GuideModal: React.FC<GuideModalProps> = ({ isOpen, onClose }) => {
                 <FileCode className="w-4 h-4" />
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-slate-900 dark:text-white">2. Add Frontmatter at the top</h4>
+                <h4 className="font-semibold text-slate-900 dark:text-white">2. Include Knowledge Graph Frontmatter</h4>
                 <pre className="mt-1 p-3 rounded-xl bg-slate-950 text-slate-200 text-xs font-mono overflow-x-auto border border-slate-800">
 {`---
+title: "Diffusion Models"
+date: 2024-11-01T12:00:00+05:30
+draft: false
+tags: ["genai", "vision", "diffusion"]
 id: diffusion-models
-title: Diffusion Models
-parent: deep-learning    # Set to parent's ID, or null for root
+parent: deep-learning    # Parent's ID, or null for root
+category: "ai"
 order: 3
-summary: Generative models based on reversing noise diffusion.
-tags: [genai, vision, diffusion]
 color: purple            # indigo, purple, cyan, emerald, rose, amber
 difficulty: Advanced
 ---
 
-# Your notes here with LaTeX $E=mc^2$ & Mermaid diagrams!`}
+# Your blog content with LaTeX $E=mc^2$ & Mermaid diagrams!`}
                 </pre>
               </div>
             </div>
@@ -76,9 +78,9 @@ difficulty: Advanced
                 <CheckCircle className="w-4 h-4 text-emerald-500" />
               </div>
               <div>
-                <h4 className="font-semibold text-slate-900 dark:text-white">3. Instant Hot-Reload</h4>
+                <h4 className="font-semibold text-slate-900 dark:text-white">3. Connected to Blogs & Graph</h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Vite dynamically loads your new file into the tree and renders it instantly in the graph and search bar!
+                  Every node links directly to its full blog post at <code className="font-mono text-xs">/blogs/[id]/</code> while metadata stays neat and hidden from readers!
                 </p>
               </div>
             </div>

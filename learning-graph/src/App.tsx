@@ -4,13 +4,11 @@ import type { BreadcrumbItem, TopicItem } from './types/topic';
 import { Header } from './components/layout/Header';
 import { BreadcrumbNav } from './components/navigation/BreadcrumbNav';
 import { GraphCanvas } from './components/graph/GraphCanvas';
-import { ContentReader } from './components/content/ContentReader';
-import { FullPageReader } from './components/content/FullPageReader';
 import { TopicSearchModal } from './components/search/TopicSearchModal';
 import { GuideModal } from './components/guide/GuideModal';
 
 export function App() {
-  // Load topics from files
+  // Load topics from synced JSON
   const { topicMap, rootTopicIds } = useMemo(() => loadAllTopics(), []);
 
   // Parse initial URL query parameters
@@ -22,15 +20,6 @@ export function App() {
     };
   }, []);
 
-  // View mode state ('graph' or 'full')
-  const [viewMode, setViewMode] = useState<'graph' | 'full'>(() => {
-    return initialParams.view === 'full' && initialParams.topic ? 'full' : 'graph';
-  });
-
-  const [fullPageTopicId, setFullPageTopicId] = useState<string | null>(() => {
-    return initialParams.view === 'full' ? initialParams.topic : null;
-  });
-
   // Hierarchy state
   const [currentTopicId, setCurrentTopicId] = useState<string | null>(() => {
     if (initialParams.topic && topicMap[initialParams.topic]) {
@@ -39,8 +28,6 @@ export function App() {
     return null;
   });
 
-  const [activeContentTopicId, setActiveContentTopicId] = useState<string | null>(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
@@ -60,31 +47,6 @@ export function App() {
       localStorage.setItem('theme', 'light');
     }
   }, [darkMode]);
-
-  // Sync state with browser navigation (Back/Forward buttons)
-  useEffect(() => {
-    const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const topic = params.get('topic');
-      const view = params.get('view');
-
-      if (view === 'full' && topic && topicMap[topic]) {
-        setViewMode('full');
-        setFullPageTopicId(topic);
-      } else {
-        setViewMode('graph');
-        setFullPageTopicId(null);
-        if (topic && topicMap[topic]) {
-          setCurrentTopicId(topicMap[topic].parent);
-          setActiveContentTopicId(topic);
-          setIsDrawerOpen(true);
-        }
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, [topicMap]);
 
   // Global keyboard shortcuts (Ctrl+K for search)
   useEffect(() => {
@@ -120,30 +82,7 @@ export function App() {
   }, []);
 
   const handleOpenContent = useCallback((topicId: string) => {
-    setActiveContentTopicId(topicId);
-    setIsDrawerOpen(true);
-  }, []);
-
-  const handleCloseDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
-  }, []);
-
-  const handleOpenFullPage = useCallback((topicId: string) => {
-    setFullPageTopicId(topicId);
-    setViewMode('full');
-    const newUrl = `${window.location.pathname}?topic=${encodeURIComponent(topicId)}&view=full`;
-    window.history.pushState({ topicId, view: 'full' }, '', newUrl);
-  }, []);
-
-  const handleOpenNewTab = useCallback((topicId: string) => {
-    const newUrl = `${window.location.origin}${window.location.pathname}?topic=${encodeURIComponent(topicId)}&view=full`;
-    window.open(newUrl, '_blank');
-  }, []);
-
-  const handleBackToGraph = useCallback(() => {
-    setViewMode('graph');
-    setFullPageTopicId(null);
-    window.history.pushState(null, '', window.location.pathname);
+    window.location.href = `/blogs/${topicId}/`;
   }, []);
 
   const handleGoBack = useCallback(() => {
@@ -152,31 +91,9 @@ export function App() {
     setCurrentTopicId(parentId);
   }, [currentTopicId, topicMap]);
 
-  const activeContentTopic: TopicItem | null = activeContentTopicId
-    ? topicMap[activeContentTopicId] || null
-    : null;
-
   const currentTopic: TopicItem | null = currentTopicId
     ? topicMap[currentTopicId] || null
     : null;
-
-  const fullPageTopic: TopicItem | null = fullPageTopicId
-    ? topicMap[fullPageTopicId] || null
-    : null;
-
-  // Render dedicated full-page reading mode
-  if (viewMode === 'full' && fullPageTopic) {
-    return (
-      <FullPageReader
-        topic={fullPageTopic}
-        topicMap={topicMap}
-        darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
-        onBackToGraph={handleBackToGraph}
-        onNavigateToTopic={(id) => handleOpenFullPage(id)}
-      />
-    );
-  }
 
   // Render interactive graph view
   return (
@@ -212,26 +129,12 @@ export function App() {
         />
       </main>
 
-      {/* Sliding Content Drawer */}
-      <ContentReader
-        topic={activeContentTopic}
-        isOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
-        onNavigateToTopic={(id) => {
-          handleSelectTopic(id);
-          handleOpenContent(id);
-        }}
-        onOpenFullPage={handleOpenFullPage}
-        onOpenNewTab={handleOpenNewTab}
-      />
-
       {/* Command Palette / Search Modal */}
       <TopicSearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         topicMap={topicMap}
         onSelectTopic={handleSelectTopic}
-        onOpenContent={handleOpenContent}
       />
 
       {/* Guide Modal on how to add markdown notes */}

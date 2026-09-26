@@ -86,4 +86,43 @@
         if (bar) bar.style.width = percent + '%';
     });
 </script>
+
+<!-- KaTeX Styles & Scripts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" 
+        onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});"></script>
+
+<!-- Mermaid Diagram Engine -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.mermaid) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                securityLevel: 'loose'
+            });
+
+            // Convert code.language-mermaid blocks to interactive diagrams
+            const codeBlocks = document.querySelectorAll('code.language-mermaid, pre.chroma code.language-mermaid, pre code.language-mermaid');
+            codeBlocks.forEach((codeEl, idx) => {
+                const preEl = codeEl.closest('pre');
+                const raw = codeEl.innerText.trim();
+                const container = document.createElement('div');
+                container.className = 'mermaid my-6 p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center overflow-x-auto';
+                container.id = `mermaid-${Date.now()}-${idx}`;
+                container.textContent = raw;
+                if (preEl && preEl.parentNode) {
+                    preEl.parentNode.replaceChild(container, preEl);
+                }
+            });
+            try {
+                mermaid.run();
+            } catch (e) {
+                console.warn('Mermaid render error:', e);
+            }
+        }
+    });
+</script>
 {{ end }}

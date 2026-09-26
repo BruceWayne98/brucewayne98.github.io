@@ -7,7 +7,7 @@ interface TopicSearchModalProps {
   onClose: () => void;
   topicMap: TopicMap;
   onSelectTopic: (topicId: string) => void;
-  onOpenContent: (topicId: string) => void;
+  onOpenContent?: (topicId: string) => void;
 }
 
 export const TopicSearchModal: React.FC<TopicSearchModalProps> = ({
@@ -15,7 +15,6 @@ export const TopicSearchModal: React.FC<TopicSearchModalProps> = ({
   onClose,
   topicMap,
   onSelectTopic,
-  onOpenContent,
 }) => {
   const [query, setQuery] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -164,14 +163,13 @@ export const TopicSearchModal: React.FC<TopicSearchModalProps> = ({
                     {topic.hasContent && (
                       <button
                         onClick={() => {
-                          onOpenContent(topic.id);
-                          onClose();
+                          window.location.href = `/blogs/${topic.id}/`;
                         }}
-                        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
-                        title="Read notes"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                        title="Read blog article"
                       >
                         <BookOpen className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">Notes</span>
+                        <span className="hidden sm:inline">Read Blog</span>
                       </button>
                     )}
                   </div>

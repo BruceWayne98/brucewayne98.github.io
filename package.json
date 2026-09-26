@@ -4,8 +4,11 @@
   "scripts": {
     "build:css": "tailwindcss -i ./assets/css/styles.css -o ./static/css/main.css --minify",
     "watch:css": "tailwindcss -i ./assets/css/styles.css -o ./static/css/main.css --watch",
-    "build:graph": "cd learning-graph && npm run build",
-    "build": "npm run build:css && hugo --gc --minify"
+    "sync:topics": "node scripts/sync-graph-topics.js",
+    "build:graph": "node scripts/sync-graph-topics.js && npm --prefix learning-graph run build",
+    "dev": "hugo server -D",
+    "creator": "node creator-server.js",
+    "build": "npm run build:css && npm run build:graph && hugo --gc --minify"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
